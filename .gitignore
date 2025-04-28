@@ -73,3 +73,22 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# visual studio projektkonfigurationsdatei
+.vsconfig
+
+# alle zip archive im projektordner
+*.zip
+
+# spezifische input-/binding dateien 
+RuntimeActionBindings.json
+RuntimeActionBindings.json.meta
+
+# einstellungen für code coverage tools von unity tests
+ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
+
+# dateien, die bei leistungstests von unity entstehen
+PerformanceTestRun*.*
+
+# ignorieren der streaming assets
+StreamingAssets*
