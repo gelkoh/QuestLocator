@@ -13,6 +13,9 @@ public class BarcodeScanFrame : MonoBehaviour
     private bool m_isCapturingPictures = true;
     public PassthroughCameraFrameProvider PassthroughCameraFrameProvider;
     public Camera PassthroughCamera;
+    private OpenFoodFactsClient _openFoodFactsClient;
+    [SerializeField] private GameObject productInfoPrefab;
+
 
     public Renderer LiveDebugRenderer; // z. B. ein kleines Quad darunter
 
@@ -23,6 +26,16 @@ public class BarcodeScanFrame : MonoBehaviour
         LiveDebugRenderer.enabled = false;
         BarcodeAnalyzer = new BarcodeAnalyzer();
 
+        try
+        {
+            _openFoodFactsClient = new OpenFoodFactsClient();
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError("Open Food Facts Client could not be initialised " + exception.Message);
+            _openFoodFactsClient = null;
+        }
+
         // This can probably be improved on
         float time = 1.0f; // Start 1 second from the beginning
         float repeatRate = 1f; // Repeat every second
@@ -31,10 +44,12 @@ public class BarcodeScanFrame : MonoBehaviour
 
     private void Update()
     {
-        var isButtonOnePressed = OVRInput.Get(OVRInput.Button.One);
-        m_isScanning = isButtonOnePressed;
-        ScanFrame.enabled = isButtonOnePressed;
-        LiveDebugRenderer.enabled = isButtonOnePressed;
+        if (OVRInput.GetDown(OVRInput.Button.One))
+        {
+            m_isScanning = !m_isScanning;
+            ScanFrame.enabled = m_isScanning;
+            LiveDebugRenderer.enabled = m_isScanning;
+        }
     }
 
     private void Scan()
@@ -58,9 +73,37 @@ public class BarcodeScanFrame : MonoBehaviour
             }
         }
     
-        CapturePicture(newPixelsFrame.Pixels, newPixelsFrame.Width, newPixelsFrame.Height);
-        BarcodeAnalyzer.Analyze(newPixelsFrame);
+        string ean = BarcodeAnalyzer.Analyze(newPixelsFrame);
+        if (!string.IsNullOrEmpty(ean))
+        {
+            StartCoroutine(_openFoodFactsClient.GetProductByEan(ean,
+                onSuccess: (root) => {
+                    //Debug.LogWarning($"ProduktEAN: {root.product._id}");
+                    //Debug.LogWarning($"ProduktName: {root.product.product_name}");
+                    EndScan();
+                    ShowProductInfo(root);
+                },
+                onError: (err) => Debug.LogError(err)
+            ));
+        }
+        //CapturePicture(newPixelsFrame.Pixels, newPixelsFrame.Width, newPixelsFrame.Height);
+        // var couldAnalyze = BarcodeAnalyzer.Analyze(newPixelsFrame);
+        // if (couldAnalyze == true)
+        // {
+        //     EndScan();
+        // }
     }
+
+    public void EndScan()
+    {
+        if (m_isScanning)
+        {
+            m_isScanning = false;
+            ScanFrame.enabled = m_isScanning;
+            LiveDebugRenderer.enabled = m_isScanning;
+        }
+    }
+
 
   
     // private Frame GetSubFrameFromQuad(Frame currentFrame)
@@ -333,5 +376,25 @@ public class BarcodeScanFrame : MonoBehaviour
         var currentDate = DateTime.Now;
         var formattedDateTime = currentDate.ToString("yyyy-MM-dd_HH:mm:ss");
         System.IO.File.WriteAllBytes(Application.persistentDataPath + "/" + formattedDateTime + ".png", currentPicture.EncodeToPNG());
+    }
+
+    // void ShowProductInfo(Root root)
+    // {
+    //     var panel = GetComponent<ProductInfoPanel>();
+    //     panel.SetData(root.product.product_name);
+    // }
+
+    void ShowProductInfo(Root root)
+    {
+        var panel = productInfoPrefab.GetComponent<ProductInfoPanel>();
+        
+        if (panel == null)
+        {
+            Debug.LogError("ProductInfoPanel component not found on the specified GameObject.");
+            return;
+        }
+
+        Debug.Log("ProductInfoPanel found, updating data.");
+        panel.SetData(root.product.product_name);
     }
 }

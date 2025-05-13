@@ -1,11 +1,10 @@
 using UnityEngine;
 using ZXing;
-using System.Collections.Generic;
 using System;
 
-public class BarcodeAnalyzer
+public class BarcodeAnalyzer : MonoBehaviour
 {
-    public OpenFoodFactsAPI openFoodFactsApi;
+    //public OpenFoo openFoodFactsApi;
     private BarcodeReader m_barcodeReader;
 
     public BarcodeAnalyzer()
@@ -33,26 +32,53 @@ public class BarcodeAnalyzer
         }
     }
 
-    public void Analyze(Frame barcodeFrame)
+    public string Analyze(Frame barcodeFrame)
     {
-        // If EAN could not be found, analysing should start again...
-        try
+        try 
         {
             var result = m_barcodeReader.Decode(barcodeFrame.Pixels, barcodeFrame.Width, barcodeFrame.Height);
-
-            if (result != null)
-            {
-                Debug.LogWarning("✅ Barcode read successfully: " + result.Text);
-                //openFoodFactsApi.MakeAPICall(result.Text);
-            }
-            else
-            {
-                Debug.LogWarning("🚫 Barcode could not be read");
-            }
+            return result?.Text;
         }
-        catch (System.Exception ex)
+        catch (Exception exception)
         {
-            Debug.LogError("❌ Error while scanning: " + ex);
+            Debug.LogError("❌ Error while scanning: " + exception);
+            return null;
         }
     }
+    // public bool Analyze(Frame barcodeFrame)
+    // {
+    //     // If EAN could not be found, analysing should start again...
+    //     try
+    //     {
+    //         var ean = m_barcodeReader.Decode(barcodeFrame.Pixels, barcodeFrame.Width, barcodeFrame.Height);
+
+    //         if (ean != null)
+    //         {
+    //             Debug.LogWarning("✅ Barcode read successfully: " + ean.Text);
+                
+    //             StartCoroutine(_openFoodFactsClient.GetProductByEan(ean.Text,
+    //                 onSuccess: (root) =>
+    //                 {
+    //                     Debug.Log($"Produkt-ID: {root.product._id}");
+    //                     Debug.Log($"Keywords: {string.Join(", ", root.product._keywords)}");
+    //                 },
+    //                 onError: (error) =>
+    //                 {
+    //                     Debug.LogError($"Fehler beim Abruf: {error}");
+    //                 }));
+
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             Debug.LogWarning("🚫 Barcode could not be read");
+    //         }
+    //     }
+    //     catch (System.Exception ex)
+    //     {
+    //         Debug.LogError("❌ Error while scanning: " + ex);
+    //     }
+
+    //     return false;
+    // }
 }
