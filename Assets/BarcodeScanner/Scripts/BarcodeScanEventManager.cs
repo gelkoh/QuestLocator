@@ -1,7 +1,6 @@
 public static class BarcodeScanEventManager
 {
     public delegate void StartScanningDelegate(BarcodeScannerType type);
-
     public static event StartScanningDelegate OnStartScanning;
 
     public delegate void StopScanningDelegate(BarcodeScannerType type);
