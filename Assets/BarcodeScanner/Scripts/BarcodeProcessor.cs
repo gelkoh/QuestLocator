@@ -63,7 +63,7 @@ public class BarcodeProcessor : MonoBehaviour
         StartCoroutine(GetProductData(barcode));
     }
 
-    private IEnumerator GetProductData(string barcode)
+    public IEnumerator GetProductData(string barcode)
     {
         yield return new WaitForSeconds(0.25f);
 
@@ -72,14 +72,14 @@ public class BarcodeProcessor : MonoBehaviour
         StartCoroutine(_openFoodFactsClient.GetProductByEan(barcode,
             onSuccess: (root) =>
             {
-                if (root != null && root.product != null && root.status == 1)
+                if (root != null && root.Product != null && root.Status == 1)
                 {
-                    Debug.LogWarning($"Produkt gefunden: {root.product.product_name}");
-                    OnProductProcessed?.Invoke(true, root.product.product_name, root);
+                    Debug.LogWarning($"Produkt gefunden: {root.Product.ProductName}");
+                    OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
                 }
                 else
                 {
-                    string errorMessage = root != null ? root.status_verbose : "Unbekannter API-Fehler";
+                    string errorMessage = root != null ? root.StatusVerbose : "Unbekannter API-Fehler";
                     Debug.LogError($"Produkt nicht gefunden für EAN {barcode}: {errorMessage}");
                     OnProductProcessed?.Invoke(false, errorMessage, null);
                 }

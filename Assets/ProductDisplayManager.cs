@@ -10,7 +10,7 @@ public class ProductDisplayManager : MonoBehaviour
 
     private Camera mainCamera;
 
-    /*private void Awake()
+    private void Awake()
     {
         mainCamera = Camera.main;
 
@@ -43,6 +43,7 @@ public class ProductDisplayManager : MonoBehaviour
 
     private void HandleProductProcessed(bool success, string productNameOrError, Root productRoot)
     {
+        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAA----------------");
         if (success)
         {
             Debug.Log($"Displaying product: {productNameOrError}");
@@ -78,26 +79,26 @@ public class ProductDisplayManager : MonoBehaviour
        
         spawnRotation = mainCamera.transform.rotation;
 
-        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation);
+        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform); //instance: object, position , rotaion , parent
         
-        if (productRoot != null && productRoot.product != null && !string.IsNullOrEmpty(productRoot.product.product_name))
+        if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
         {
-            newProductGO.name = $"ProductDisplay_{productRoot.product.product_name.Replace(" ", "_").Replace("/", "_")}";
+            newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
         }
         else
         {
             newProductGO.name = $"ProductDisplay_Unknown";
         }
 
-        ProductDisplay productDisplayScript = newProductGO.GetComponent<ProductDisplay>();
+        ProductScript productDisplayScript = newProductGO.GetComponent<ProductScript>();
 
         if (productDisplayScript != null)
         {
-            productDisplayScript.SetProductData(productRoot);
+            productDisplayScript.setProductData(productRoot);
         }
         else
         {
             Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
         }
-    }*/
+    }
 }
