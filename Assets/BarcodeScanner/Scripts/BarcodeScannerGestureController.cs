@@ -26,4 +26,9 @@ public class BarcodeScannerGestureController : MonoBehaviour
             }
         }
     }
+
+    // void OnManualScanGestureDetected()
+    // {
+        
+    // }
 }
