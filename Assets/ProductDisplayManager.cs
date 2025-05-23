@@ -3,6 +3,7 @@ using UnityEngine;
 public class ProductDisplayManager : MonoBehaviour
 {
     [SerializeField] private GameObject productPrefab;
+    [SerializeField] private Transform productPrefabParent;
     
     [Header("Product Display Positioning")]
     [SerializeField] private float distanceFromCamera = 2.0f; 
@@ -10,7 +11,7 @@ public class ProductDisplayManager : MonoBehaviour
 
     private Camera mainCamera;
 
-    /*private void Awake()
+    private void Awake()
     {
         mainCamera = Camera.main;
 
@@ -78,7 +79,7 @@ public class ProductDisplayManager : MonoBehaviour
        
         spawnRotation = mainCamera.transform.rotation;
 
-        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation);
+        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, productPrefabParent);
         
         if (productRoot != null && productRoot.product != null && !string.IsNullOrEmpty(productRoot.product.product_name))
         {
@@ -99,5 +100,5 @@ public class ProductDisplayManager : MonoBehaviour
         {
             Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
         }
-    }*/
+    }
 }
