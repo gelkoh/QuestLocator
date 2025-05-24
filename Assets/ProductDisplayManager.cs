@@ -44,7 +44,6 @@ public class ProductDisplayManager : MonoBehaviour
 
     private void HandleProductProcessed(bool success, string productNameOrError, Root productRoot)
     {
-        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAA----------------");
         if (success)
         {
             Debug.Log($"Displaying product: {productNameOrError}");
@@ -68,21 +67,22 @@ public class ProductDisplayManager : MonoBehaviour
             Debug.LogError("Main Camera is null! Cannot spawn product prefab.");
             return;
         }
-        Debug.Log("instance");
-        GameObject newProductGO = Instantiate(productPrefab, transform);
-        
-        /* Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
+
+        Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
 
         spawnPosition += mainCamera.transform.right * displayOffset.x;
         spawnPosition += mainCamera.transform.up * displayOffset.y;
         spawnPosition += mainCamera.transform.forward * displayOffset.z;
 
         Quaternion spawnRotation = Quaternion.LookRotation(mainCamera.transform.position - spawnPosition);
-       
+
         spawnRotation = mainCamera.transform.rotation;
 
-        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);  //change
-        Debug.Log("CubeInstanced");
+        //GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);  //change
+        GameObject newProductGO = new GameObject("NewProduct");  // Create a new empty GameObject
+        newProductGO.transform.SetPositionAndRotation(spawnPosition, spawnRotation);  // Set position and rotation
+        newProductGO.transform.SetParent(transform);  // Set parent (optional: false means keep world position)
+
         if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
         {
             newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
@@ -92,15 +92,20 @@ public class ProductDisplayManager : MonoBehaviour
             newProductGO.name = $"ProductDisplay_Unknown";
         }
 
-        ProductScript productDisplayScript = newProductGO.GetComponent<ProductScript>();
+        ProductScript productDisplayScript = newProductGO.AddComponent<ProductScript>();
+        //ProductScript productDisplayScript = newProductGO.GetComponent<ProductScript>();
 
         if (productDisplayScript != null)
         {
+            Debug.Log("+");
             productDisplayScript.setProductData(productRoot);
+            Debug.Log("+");
         }
         else
         {
             Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-        } */
+        } 
+        Debug.Log("child count: " + transform.childCount);
+        //Debug.Log("instanced");
     }
 }

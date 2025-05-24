@@ -14,13 +14,18 @@ public class ProductScript : MonoBehaviour
     }
     public void createUI()
     {
-        myItem = Resources.Load("Cube") as GameObject;
-        GameObject newObject = Instantiate(myItem, transform);
+        
         name = productData.Product.ProductName;
         Debug.Log("end");
     }
     public void setProductData(Root productRoot)
     {
-        this.productData = productRoot;
+        productData = productRoot;
+        Debug.Log(productData.Product.ProductName);
+        Debug.Log("InstanceCube::");
+        myItem = Resources.Load("Cube") as GameObject;
+        Debug.Log(myItem);
+        GameObject pannel = Instantiate(myItem,transform.position, transform.rotation,  transform);
+        
     }
 }
