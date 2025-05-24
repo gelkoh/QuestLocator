@@ -1,54 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
 public class debugDisplay : MonoBehaviour
 {
-    Dictionary<string, string> debugLogs = new Dictionary<string, string>();
     public TextMeshProUGUI display;
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI errorText;
+    public int maxLines = 15; // Max number of lines to show
 
-    void Update() {
-        Debug.Log("Time" + Time.time);
-        Debug.Log(gameObject.name);
+    private Queue<string> logQueue = new Queue<string>();
+    private Queue<string> errorQueue = new Queue<string>();
+    void Update()
+    {
+        timeText.text = Time.time.ToString("0.00"); 
     }
+
     void OnEnable()
     {
         Application.logMessageReceived += HandleLog;
     }
+
     void OnDisable()
     {
         Application.logMessageReceived -= HandleLog;
     }
+
     void HandleLog(string logString, string stackTrace, LogType type)
     {
-        if (type == LogType.Log)
-        {
-            string[] splitString = logString.Split(char.Parse(":"));
-            string debugKey = splitString[0];
-            string debugValue = splitString.Length > 1 ? splitString[1] : "";
-            if (debugLogs.ContainsKey(debugKey))
-            {
-                debugLogs[debugKey] = debugValue;
-            }
-            else
-            {
-                debugLogs.Add(debugKey, debugValue);
-            }
+        if (type != LogType.Log && type != LogType.Error) return;
 
-        }
-        string displayText = "";
-        foreach (KeyValuePair<string, string> log in debugLogs)
+        // Add log to the queue
+        if (logQueue.Count >= maxLines)
         {
-            if (log.Value == "")
-            {
-                displayText += log.Key + "\n";
-            }
-            else
-            {
-                displayText += log.Key + ": " + log.Value + "\n";
-            }
-            display.text = displayText;
+            logQueue.Dequeue(); // Remove oldest log
         }
+        if (errorQueue.Count >= maxLines)
+        {
+            errorQueue.Dequeue(); // Remove oldest log
+        }
+
+        if (type == LogType.Log) {
+            logString = "[" + timeText.text + "]: " + logString;
+            logQueue.Enqueue(logString);
+            display.text = string.Join("\n", logQueue.ToArray());
+        }
+        else if (type == LogType.Error) {
+            errorQueue.Enqueue(logString);
+            errorText.text = string.Join("\n", errorQueue.ToArray());
+        }
+        // Rebuild display text
+
     }
 }

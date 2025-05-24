@@ -68,9 +68,10 @@ public class ProductDisplayManager : MonoBehaviour
             Debug.LogError("Main Camera is null! Cannot spawn product prefab.");
             return;
         }
-
+        Debug.Log("instance");
+        GameObject newProductGO = Instantiate(productPrefab, transform);
         
-        Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
+        /* Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
 
         spawnPosition += mainCamera.transform.right * displayOffset.x;
         spawnPosition += mainCamera.transform.up * displayOffset.y;
@@ -80,8 +81,8 @@ public class ProductDisplayManager : MonoBehaviour
        
         spawnRotation = mainCamera.transform.rotation;
 
-        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, productPrefabParent);  //change
-        
+        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);  //change
+        Debug.Log("CubeInstanced");
         if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
         {
             newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
@@ -100,6 +101,6 @@ public class ProductDisplayManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-        }
+        } */
     }
 }

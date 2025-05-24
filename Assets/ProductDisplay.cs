@@ -6,9 +6,10 @@ public class ProductDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _productNameTextMeshPro;
 
     public void SetProductData(Root root)
+    
     {
         Debug.LogError("Setting product data");
-        _productNameTextMeshPro.text = root.product.product_name;
+        _productNameTextMeshPro.text = root.Product.ProductName;
 
         // if (_productNameTextMeshPro == null)
         // {
