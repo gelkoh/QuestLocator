@@ -76,6 +76,7 @@ public class BarcodeProcessor : MonoBehaviour
                 {
                     Debug.LogWarning($"Produkt gefunden: {root.Product.ProductName}");
                     OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
+                    BarcodeScanEventManager.StopScanning(BarcodeScanEventManager.BarcodeScannerType.AUTO);
                 }
                 else
                 {

@@ -3,6 +3,7 @@ using UnityEngine;
 public class ProductDisplayManager : MonoBehaviour
 {
     [SerializeField] private GameObject productPrefab;
+    [SerializeField] private Transform productPrefabParent;
     
     [Header("Product Display Positioning")]
     [SerializeField] private float distanceFromCamera = 2.0f; 
@@ -79,7 +80,7 @@ public class ProductDisplayManager : MonoBehaviour
        
         spawnRotation = mainCamera.transform.rotation;
 
-        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform); //instance: object, position , rotaion , parent
+        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, productPrefabParent);  //change
         
         if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
         {

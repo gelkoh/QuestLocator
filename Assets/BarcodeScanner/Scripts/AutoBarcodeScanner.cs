@@ -8,10 +8,12 @@ using static BarcodeScanEventManager;
 
 public class AutoBarcodeScanner : MonoBehaviour, IBarcodeScanner
 {
+
     [SerializeField] private WebCamTextureManager _webCamTextureManager;
     private BarcodeReader _barcodeReader;
     private Coroutine _scanCoroutine;
 
+    // Das hier muss glaube ich ersetzt werden. der Scanstatus darf nur ueber den GestureController gehandled werden?!
     public bool IsScanning { get; private set; }
     private string _lastProcessedBarcode = "";
     private float _lastProcessedTime = -Mathf.Infinity;
