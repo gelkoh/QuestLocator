@@ -37,8 +37,6 @@ public class BarcodeProcessor : MonoBehaviour
 
     public void ProcessBarcode(string barcode)
     {
-        Debug.LogError("INSIDE PROCESS BARCODE");
-
         if (_isProcessing)
         {
             Debug.LogWarning("Barcode-Verarbeitung läuft bereits. Barcode wird ignoriert: " + barcode);
@@ -65,7 +63,7 @@ public class BarcodeProcessor : MonoBehaviour
 
     public IEnumerator GetProductData(string barcode)
     {
-        Debug.LogError("InGetProductData");
+        Debug.LogError("InGetProductData---");
         yield return new WaitForSeconds(0.25f);
 
         Debug.Log($"Anfrage an OpenFoodFacts für EAN: {barcode}");

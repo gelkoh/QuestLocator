@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ProductDisplayManager : MonoBehaviour
@@ -57,6 +58,7 @@ public class ProductDisplayManager : MonoBehaviour
 
     private void InstantiateAndFillProductPrefab(Root productRoot)
     {
+        Debug.LogError("inInstancingAndFill---");
         if (productPrefab == null)
         {
             Debug.LogError("Product Prefab is not assigned in the Inspector of ProductDisplayManager!");
@@ -77,32 +79,39 @@ public class ProductDisplayManager : MonoBehaviour
         Quaternion spawnRotation = Quaternion.LookRotation(mainCamera.transform.position - spawnPosition);
 
         spawnRotation = mainCamera.transform.rotation;
-
-        //GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);  //change
-        GameObject newProductGO = new GameObject("NewProduct");  // Create a new empty GameObject
-        newProductGO.transform.SetPositionAndRotation(spawnPosition, spawnRotation);  // Set position and rotation
-        newProductGO.transform.SetParent(transform);  // Set parent (optional: false means keep world position)
-
-        if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
+        try
         {
-            newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
+            GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);
+            if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
+            {
+                newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
+            }
+            else
+            {
+                newProductGO.name = $"ProductDisplay_Unknown";
+            }
+            ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
+
+        
+            if (productDisplayScript != null)
+            {
+                productDisplayScript.SetProductData(productRoot);
+            }
+            else
+            {
+                Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
+            } 
         }
-        else
+        catch (Exception ex)
         {
-            newProductGO.name = $"ProductDisplay_Unknown";
+            Debug.LogError("Error Instancing Parent::" + ex.Message);
         }
+        
+        
 
-        ProductScript productDisplayScript = newProductGO.AddComponent<ProductScript>();
-        //ProductScript productDisplayScript = newProductGO.GetComponent<ProductScript>();
+        
 
-        if (productDisplayScript != null)
-        {
-            productDisplayScript.setProductData(productRoot);
-        }
-        else
-        {
-            Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-        } 
+         
         //Debug.Log("child count: " + transform.childCount);
         //Debug.Log("instanced");
     }
