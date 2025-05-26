@@ -65,6 +65,7 @@ public class BarcodeProcessor : MonoBehaviour
 
     public IEnumerator GetProductData(string barcode)
     {
+        Debug.LogError("InGetProductData");
         yield return new WaitForSeconds(0.25f);
 
         Debug.Log($"Anfrage an OpenFoodFacts für EAN: {barcode}");

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProductDisplayManager : MonoBehaviour
 {
     [SerializeField] private GameObject productPrefab;
-    [SerializeField] private Transform productPrefabParent;
+    //[SerializeField] private Transform productPrefabParent;
     
     [Header("Product Display Positioning")]
     [SerializeField] private float distanceFromCamera = 2.0f; 
@@ -97,15 +97,13 @@ public class ProductDisplayManager : MonoBehaviour
 
         if (productDisplayScript != null)
         {
-            Debug.Log("+");
             productDisplayScript.setProductData(productRoot);
-            Debug.Log("+");
         }
         else
         {
             Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
         } 
-        Debug.Log("child count: " + transform.childCount);
+        //Debug.Log("child count: " + transform.childCount);
         //Debug.Log("instanced");
     }
 }
