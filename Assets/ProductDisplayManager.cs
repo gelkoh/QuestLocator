@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 public class ProductDisplayManager : MonoBehaviour
 {
     [SerializeField] private GameObject productPrefab;
-    [SerializeField] private Transform productPrefabParent;
+    //[SerializeField] private Transform productPrefabParent;
     
     [Header("Product Display Positioning")]
     [SerializeField] private float distanceFromCamera = 2.0f; 
@@ -57,6 +58,7 @@ public class ProductDisplayManager : MonoBehaviour
 
     private void InstantiateAndFillProductPrefab(Root productRoot)
     {
+        Debug.LogError("inInstancingAndFill---");
         if (productPrefab == null)
         {
             Debug.LogError("Product Prefab is not assigned in the Inspector of ProductDisplayManager!");
@@ -68,7 +70,6 @@ public class ProductDisplayManager : MonoBehaviour
             return;
         }
 
-        
         Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
 
         spawnPosition += mainCamera.transform.right * displayOffset.x;
@@ -76,29 +77,42 @@ public class ProductDisplayManager : MonoBehaviour
         spawnPosition += mainCamera.transform.forward * displayOffset.z;
 
         Quaternion spawnRotation = Quaternion.LookRotation(mainCamera.transform.position - spawnPosition);
-       
+
         spawnRotation = mainCamera.transform.rotation;
+        try
+        {
+            GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);
+            if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
+            {
+                newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
+            }
+            else
+            {
+                newProductGO.name = $"ProductDisplay_Unknown";
+            }
+            ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
 
-        GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, productPrefabParent);
         
-        if (productRoot != null && productRoot.product != null && !string.IsNullOrEmpty(productRoot.product.product_name))
-        {
-            newProductGO.name = $"ProductDisplay_{productRoot.product.product_name.Replace(" ", "_").Replace("/", "_")}";
+            if (productDisplayScript != null)
+            {
+                productDisplayScript.SetProductData(productRoot);
+            }
+            else
+            {
+                Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
+            } 
         }
-        else
+        catch (Exception ex)
         {
-            newProductGO.name = $"ProductDisplay_Unknown";
+            Debug.LogError("Error Instancing Parent::" + ex.Message);
         }
+        
+        
 
-        ProductDisplay productDisplayScript = newProductGO.GetComponent<ProductDisplay>();
+        
 
-        if (productDisplayScript != null)
-        {
-            productDisplayScript.SetProductData(productRoot);
-        }
-        else
-        {
-            Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-        }
+         
+        //Debug.Log("child count: " + transform.childCount);
+        //Debug.Log("instanced");
     }
 }
