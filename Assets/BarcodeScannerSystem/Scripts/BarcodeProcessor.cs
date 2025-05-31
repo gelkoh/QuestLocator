@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using static BarcodeScannerStatusManager;
+using static SoundFeedbackManager;
 
 public class BarcodeProcessor : MonoBehaviour
 {
@@ -63,6 +64,7 @@ public class BarcodeProcessor : MonoBehaviour
                     Debug.LogWarning($"Produkt gefunden: {root.Product.ProductName}");
                     OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
                     BarcodeScannerEventManager.StopScanning(BarcodeScannerStatusManagerInstance.ActiveScannerType);
+                    SoundFeedbackManagerInstance.PlaySuccess();
                 }
                 else
                 {
