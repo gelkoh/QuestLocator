@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static BarcodeProcessor;
 
 public class ProductDisplayManager : MonoBehaviour
 {
@@ -24,9 +25,9 @@ public class ProductDisplayManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (BarcodeProcessor.Instance != null)
+        if (BarcodeProcessorInstance != null)
         {
-            BarcodeProcessor.Instance.OnProductProcessed += HandleProductProcessed;
+            BarcodeProcessorInstance.OnProductProcessed += HandleProductProcessed;
             Debug.Log("ProductDisplayManager subscribed to BarcodeProcessor.OnProductProcessed.");
         }
         else
@@ -37,9 +38,9 @@ public class ProductDisplayManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if (BarcodeProcessor.Instance != null)
+        if (BarcodeProcessorInstance != null)
         {
-            BarcodeProcessor.Instance.OnProductProcessed -= HandleProductProcessed;
+            BarcodeProcessorInstance.OnProductProcessed -= HandleProductProcessed;
         }
     }
 
@@ -106,13 +107,5 @@ public class ProductDisplayManager : MonoBehaviour
         {
             Debug.LogError("Error Instancing Parent::" + ex.Message);
         }
-        
-        
-
-        
-
-         
-        //Debug.Log("child count: " + transform.childCount);
-        //Debug.Log("instanced");
     }
 }

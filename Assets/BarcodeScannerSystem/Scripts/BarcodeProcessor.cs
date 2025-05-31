@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static BarcodeScannerStatusManager;
 
 public class BarcodeProcessor : MonoBehaviour
 {
-    public static BarcodeProcessor Instance { get; private set; }
+    public static BarcodeProcessor BarcodeProcessorInstance { get; private set; }
 
     public event Action<bool, string, Root> OnProductProcessed;
 
@@ -13,10 +14,10 @@ public class BarcodeProcessor : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (BarcodeProcessorInstance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Optional: if you want the processor to persist across scenes
+            BarcodeProcessorInstance = this;
+            // DontDestroyOnLoad(gameObject); // Optional: if you want the processor to persist across scenes
         }
         else
         {
@@ -26,7 +27,7 @@ public class BarcodeProcessor : MonoBehaviour
 
     private IEnumerator Start()
     {
-        while (Instance == null)
+        while (BarcodeProcessorInstance == null)
         {
             Debug.Log("Waiting for BarcodeProcessor to initialize...");
             yield return null;
@@ -40,20 +41,6 @@ public class BarcodeProcessor : MonoBehaviour
         if (_isProcessing)
         {
             Debug.LogWarning("Barcode-Verarbeitung läuft bereits. Barcode wird ignoriert: " + barcode);
-            return;
-        }
-
-        if (barcode.Length != 13) 
-        {
-            Debug.LogError($"Ungültige EAN-Länge '{barcode}' ({barcode.Length} Ziffern). Erwartet: 13.");
-            OnProductProcessed?.Invoke(false, "Invalid EAN length", null);
-            return;
-        }
-
-        if (!System.Text.RegularExpressions.Regex.IsMatch(barcode, @"^\d+$"))
-        {
-            Debug.LogError($"Barcode '{barcode}' enthält nicht-numerische Zeichen. Erwartet nur Ziffern.");
-            OnProductProcessed?.Invoke(false, "Non-numeric barcode", null);
             return;
         }
 
@@ -75,7 +62,7 @@ public class BarcodeProcessor : MonoBehaviour
                 {
                     Debug.LogWarning($"Produkt gefunden: {root.Product.ProductName}");
                     OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
-                    BarcodeScanEventManager.StopScanning(BarcodeScanEventManager.BarcodeScannerType.AUTO);
+                    BarcodeScannerEventManager.StopScanning(BarcodeScannerStatusManagerInstance.ActiveScannerType);
                 }
                 else
                 {
