@@ -10,6 +10,9 @@ using static BarcodeProcessor;
 
 public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
 {
+    // Singleton
+    public static BarcodeManualScanner BarcodeManualScannerInstance { get; private set; }
+
     [SerializeField] private WebCamTextureManager _webCamTextureManager;
     [SerializeField] private BarcodeManualScannerScanFrameExtractor _barcodeManualScannerScanFrameExtractor;
     [SerializeField] private float _scanFrequency = 1f;

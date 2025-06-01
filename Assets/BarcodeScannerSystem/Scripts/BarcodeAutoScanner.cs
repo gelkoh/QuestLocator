@@ -10,6 +10,9 @@ using static BarcodeProcessor;
 
 public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
 {
+    // Singleton
+    public static BarcodeAutoScanner BarcodeAutoScannerInstance { get; private set; }
+
     [Header("Passthrough Camera Texture")]
     [SerializeField] private WebCamTextureManager _webCamTextureManager;
 

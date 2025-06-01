@@ -4402,6 +4402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 1084791979}
   _successSound: {fileID: 8300000, guid: 557b48d0fbd95456a867e20a1c21ee16, type: 3}
+  _failedSound: {fileID: 8300000, guid: 201b22d6989f245cc8daef1c9116617d, type: 3}
 --- !u!1 &364156292
 GameObject:
   m_ObjectHideFlags: 0
@@ -19984,8 +19985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac00a5bed6a0d4ef7a0b466bd4e95473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _barcodeAutoScanner: {fileID: 610396442}
-  _barcodeManualScanner: {fileID: 1922266234}
 --- !u!1 &1486362477
 GameObject:
   m_ObjectHideFlags: 0
