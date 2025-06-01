@@ -1,20 +1,18 @@
 using UnityEngine;
+using static BarcodeManualScanner;
+using static BarcodeAutoScanner;
 using static BarcodeScannerEventManager;
 using static BarcodeScannerStatusManager;
 
 public class BarcodeScannerGestureController : MonoBehaviour
 {
-    [Header("Barcode Scanner Types")]
-    [SerializeField] private BarcodeAutoScanner _barcodeAutoScanner;
-    [SerializeField] private BarcodeManualScanner _barcodeManualScanner;
-
     public void OnManualScannerGesturePerformed()
     {
         if (!IsBarcodeScannerStatusManagerInstanceAvailable()) return;
         
         if (!BarcodeScannerStatusManagerInstance.IsScannerActive)
         {
-            _barcodeManualScanner?.StartScanning();
+            BarcodeManualScannerInstance?.StartScanning();
             Debug.Log("BarcodeScannerGestureController: BarcodeManualScanner started.");
         }
         else
@@ -29,7 +27,7 @@ public class BarcodeScannerGestureController : MonoBehaviour
 
         if (BarcodeScannerStatusManagerInstance.ActiveScannerType == BarcodeScannerType.MANUAL)
         {
-            _barcodeManualScanner?.StopScanning();
+            BarcodeManualScannerInstance?.StopScanning();
             Debug.Log("BarcodeScannerGestureController: BarcodeManualScanner stopped.");
         }
         else
@@ -44,12 +42,12 @@ public class BarcodeScannerGestureController : MonoBehaviour
 
         if (!BarcodeScannerStatusManagerInstance.IsScannerActive)
         {
-            _barcodeAutoScanner?.StartScanning();
+            BarcodeAutoScannerInstance?.StartScanning();
             Debug.Log("BarcodeScannerGestureController: BarcodeAutoScanner started.");
         }
         else if (BarcodeScannerStatusManagerInstance.ActiveScannerType == BarcodeScannerType.AUTO)
         {
-            _barcodeAutoScanner?.StopScanning();
+            BarcodeAutoScannerInstance?.StopScanning();
             Debug.Log("BarcodeScannerGestureController: BarcodeAutoScanner stopped.");
         }
         else
