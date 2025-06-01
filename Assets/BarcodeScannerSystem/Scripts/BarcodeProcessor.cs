@@ -64,13 +64,14 @@ public class BarcodeProcessor : MonoBehaviour
                     Debug.LogWarning($"Produkt gefunden: {root.Product.ProductName}");
                     OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
                     BarcodeScannerEventManager.StopScanning(BarcodeScannerStatusManagerInstance.ActiveScannerType);
-                    SoundFeedbackManagerInstance.PlaySuccess();
+                    SoundFeedbackManagerInstance.PlayScanSuccess();
                 }
                 else
                 {
                     string errorMessage = root != null ? root.StatusVerbose : "Unbekannter API-Fehler";
                     Debug.LogError($"Produkt nicht gefunden für EAN {barcode}: {errorMessage}");
                     OnProductProcessed?.Invoke(false, errorMessage, null);
+                    SoundFeedbackManagerInstance.PlayScanFailed();
                 }
                 _isProcessing = false;
             },
@@ -79,6 +80,7 @@ public class BarcodeProcessor : MonoBehaviour
                 Debug.LogError($"Fehler bei OpenFoodFacts Anfrage für EAN {barcode}: {err}");
                 OnProductProcessed?.Invoke(false, $"API Error: {err}", null);
                 _isProcessing = false;
+                SoundFeedbackManagerInstance.PlayScanFailed();
             }
         ));
     }
