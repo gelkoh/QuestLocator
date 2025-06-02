@@ -92,6 +92,15 @@ public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
         {
             Debug.LogError("BarcodeAutoScanner: Barcode reader could not be initialized: " + ex.Message);
         }
+
+        if (BarcodeManualScannerInstance == null)
+        {
+            BarcodeManualScannerInstance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnEnable()
