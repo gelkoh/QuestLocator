@@ -17,7 +17,7 @@ public class BarcodeScannerUIController : MonoBehaviour
         if (BarcodeScannerStatusManagerInstance != null)
         {
             BarcodeScannerStatusManagerInstance.OnScannerStatusChanged += HandleScannerStatusChanged;
-            BarcodeProcessorInstance.OnProductProcessed += HandleBarcodeProcessed;
+            // BarcodeProcessorInstance.OnProductProcessed += HandleBarcodeProcessed;
         }
         else
         {
@@ -30,7 +30,7 @@ public class BarcodeScannerUIController : MonoBehaviour
         if (BarcodeScannerStatusManagerInstance != null)
         {
             BarcodeScannerStatusManagerInstance.OnScannerStatusChanged -= HandleScannerStatusChanged;
-            BarcodeProcessorInstance.OnProductProcessed -= HandleBarcodeProcessed;
+            // BarcodeProcessorInstance.OnProductProcessed -= HandleBarcodeProcessed;
         }
     }
 
@@ -56,9 +56,9 @@ public class BarcodeScannerUIController : MonoBehaviour
         }
     }
 
-    private void HandleBarcodeProcessed(bool b, string s, Root productData)
-    {
-        // ALSO CLOSE UI HERE
-        Debug.Log($"UI: Scanned product: {productData.Product.ProductName}");
-    }
+    // private void HandleBarcodeProcessed(bool b, string s, Root productData)
+    // {
+    //     // ALSO CLOSE UI HERE
+    //     Debug.Log($"UI: Scanned product: {productData.Product.ProductName}");
+    // }
 }

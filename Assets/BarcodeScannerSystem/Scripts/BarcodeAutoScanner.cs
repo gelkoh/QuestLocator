@@ -198,7 +198,7 @@ public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
                     {
                         if (result.Text != _lastProcessedBarcode || _now >= _lastProcessedTime + _rescanCooldown)
                         {
-                            Debug.LogWarning("BarcodeAutoScanner: Barcode found: " + result.Text);
+                            Debug.Log("BarcodeAutoScanner: Barcode found: " + result.Text);
 
                             _lastProcessedBarcode = result.Text;
                             _lastProcessedTime = _now;
@@ -212,7 +212,7 @@ public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
                     }
                     else
                     {
-                        Debug.LogWarning("BarcodeAutoScanner: No barcode found.");
+                        Debug.Log("BarcodeAutoScanner: No barcode found.");
                     }
                 }
             }

@@ -3,9 +3,11 @@ using System.Collections;
 using UnityEngine;
 using static BarcodeScannerStatusManager;
 using static SoundFeedbackManager;
+using static ProductHistoryManager;
 
 public class BarcodeProcessor : MonoBehaviour
 {
+    // Singleton
     public static BarcodeProcessor BarcodeProcessorInstance { get; private set; }
 
     public event Action<bool, string, Root> OnProductProcessed;
@@ -18,7 +20,6 @@ public class BarcodeProcessor : MonoBehaviour
         if (BarcodeProcessorInstance == null)
         {
             BarcodeProcessorInstance = this;
-            // DontDestroyOnLoad(gameObject); // Optional: if you want the processor to persist across scenes
         }
         else
         {
@@ -65,6 +66,8 @@ public class BarcodeProcessor : MonoBehaviour
                     OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
                     BarcodeScannerEventManager.StopScanning(BarcodeScannerStatusManagerInstance.ActiveScannerType);
                     SoundFeedbackManagerInstance.PlayScanSuccess();
+
+                    ProductHistoryManagerInstance.AddProductAndSave(root.Product);
                 }
                 else
                 {
