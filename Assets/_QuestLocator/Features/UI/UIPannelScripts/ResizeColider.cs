@@ -35,7 +35,7 @@ public class ColliderResizer : MonoBehaviour
 
         selfRect = GetComponent<RectTransform>();
 
-        /* // Create a UI Image as a "cube"
+        // Create a UI Image as a "cube"
         GameObject cube = new GameObject("UICube");
         cube.transform.SetParent(transform, false);  // Maintain local position
 
@@ -60,7 +60,7 @@ public class ColliderResizer : MonoBehaviour
 
         cube2Rect = cube2.GetComponent<RectTransform>();
         cube2Rect.sizeDelta = new Vector2(50f, 50f); // Small square
-        cube2Rect.anchoredPosition = Vector2.zero;   // Place at (0,0) of parent */
+        cube2Rect.anchoredPosition = Vector2.zero;   // Place at (0,0) of parent 
 
         //UpdateCollider();
     }
@@ -68,15 +68,17 @@ public class ColliderResizer : MonoBehaviour
     void Update()
     {
 
-        if (a == 50)
-        {
-            UpdateCollider();
-            UpdateCanvas();
-        }
-        else
+        if (a < 50)
         {
             a++;
         }
+        else if (a == 50)
+        {
+            UpdateCollider();
+            UpdateCanvas();
+            a++;
+        }
+
 
     }
 
@@ -119,13 +121,12 @@ public class ColliderResizer : MonoBehaviour
 
         Debug.Log("Collider size: " + boxCollider.size + ", center: " + boxCollider.center);
     }
+    
     public void UpdateCanvas()
     {
-        Vector2 size = rectTransform.rect.size;
-        selfRect.sizeDelta = new Vector2(size.x, size.y);
-
-        //cube2Rect.anchoredPosition = new Vector2(size.x,size.y);
-
+        Vector2 childSize = rectTransform.rect.size;
+        selfRect.sizeDelta = new Vector2(childSize.x, childSize.y);
     }
+
 
 }
