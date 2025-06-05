@@ -41,9 +41,10 @@ public class ProductParent : MonoBehaviour
     }
     private void SetUpIngredientPanel()
     {
+        Vector3 offset = new Vector3(0.2f, 0f, 0f);
         try
         {
-            IngredientPannel = Instantiate(IngredientPannel, transform.position, transform.rotation, transform);
+            IngredientPannel = Instantiate(IngredientPannel, transform.position+ offset, transform.rotation, transform);
         }
         catch (Exception ex)
         {
