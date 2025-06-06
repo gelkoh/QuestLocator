@@ -9,6 +9,7 @@ public class IngredientPannel : MonoBehaviour
     private ProductParent productDisplayScript;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] GameObject IngredientsSection;
+    [SerializeField] Image vLable;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

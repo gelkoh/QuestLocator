@@ -41,10 +41,10 @@ public class ProductParent : MonoBehaviour
     }
     private void SetUpIngredientPanel()
     {
-        Vector3 offset = new Vector3(0.2f, 0f, 0f);
+        Vector3 offset = new Vector3(0.4f, 0f, 0f);
         try
         {
-            IngredientPannel = Instantiate(IngredientPannel, transform.position+ offset, transform.rotation, transform);
+            IngredientPannel = Instantiate(IngredientPannel, transform.position+offset, transform.rotation, transform);
         }
         catch (Exception ex)
         {
@@ -53,9 +53,10 @@ public class ProductParent : MonoBehaviour
     }
     private void SetUpNutritionPanel()
     {
+        Vector3 offset = new Vector3(0.8f, 0f, 0f);
         try
         {
-            NutritionPannel  = Instantiate(NutritionPannel, transform.position, transform.rotation, transform);
+            NutritionPannel = Instantiate(NutritionPannel, transform.position+offset, transform.rotation, transform);
         }
         catch (Exception ex)
         {
@@ -64,9 +65,10 @@ public class ProductParent : MonoBehaviour
     }
     private void SetUpFootprintPanel()
     {
+        Vector3 offset = new Vector3(1.2f, 0f, 0f);
         try
         {
-            FootprintPannel  = Instantiate(FootprintPannel, transform.position, transform.rotation, transform);
+            FootprintPannel = Instantiate(FootprintPannel, transform.position+ offset, transform.rotation, transform);
         }
         catch (Exception ex)
         {
