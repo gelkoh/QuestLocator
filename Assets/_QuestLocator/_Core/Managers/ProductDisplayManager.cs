@@ -5,7 +5,7 @@ using static BarcodeProcessor;
 public class ProductDisplayManager : MonoBehaviour
 {
     [SerializeField] private GameObject productPrefab;
-    //[SerializeField] private Transform productPrefabParent;
+    [SerializeField] private Transform productPrefabParent;
     
     [Header("Product Display Positioning")]
     [SerializeField] private float distanceFromCamera = 2.0f; 
@@ -82,7 +82,7 @@ public class ProductDisplayManager : MonoBehaviour
         spawnRotation = mainCamera.transform.rotation;
         try
         {
-            GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, transform);
+            GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, productPrefabParent);
             if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
             {
                 newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
