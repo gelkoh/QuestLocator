@@ -29,10 +29,10 @@ public class ProductParent : MonoBehaviour
     [SerializeField] Transform footprintSpawn;
     GameObject footprintPannelInstance = null;
 
-    
-    
-    
-    
+
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -68,6 +68,10 @@ public class ProductParent : MonoBehaviour
         }
 
     }
+    public GameObject GetZutantenPanel()
+    {
+        return ingredientPannelInstance;
+    }
     private void SetUpTitlePannel()
     {
         try
@@ -80,6 +84,10 @@ public class ProductParent : MonoBehaviour
             Debug.LogError("Error instancing TitlePannel: " + ex.Message);
         }
 
+    }
+    public GameObject GetZTitlePanel()
+    {
+        return titlePanelInstance;
     }
 
     public void SetUpGeminiPannel(string prompt, string response)
@@ -107,6 +115,10 @@ public class ProductParent : MonoBehaviour
         }
 
     }
+    public GameObject GetGeminiPanel()
+    {
+        return gemininPanelPrefab;
+    }
     private void SetUpNutritionPanel()
     {
         Vector3 offset = new Vector3(0.8f, 0f, 0f);
@@ -120,7 +132,11 @@ public class ProductParent : MonoBehaviour
             Debug.LogError("Error instancing TestPanel: " + ex.Message);
         }
     }
-    
+    public GameObject GetNutriPanel()
+    {
+        return nutritionPannelInstance;
+    }
+
     private void SetUpFootprintPanel()
     {
         try
@@ -132,6 +148,10 @@ public class ProductParent : MonoBehaviour
         {
             Debug.LogError("Error instancing TestPanel: " + ex.Message);
         }
+    }
+    public GameObject GetUmweltPanel()
+    {
+        return footprintPannelInstance;
     }
 
 }

@@ -19952,11 +19952,6 @@ Transform:
   - {fileID: 682593309}
   m_Father: {fileID: 409408728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1450211280 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6125702343883164350, guid: af4a9bd156dbea34ea30b97bb8e7d8c9, type: 3}
-  m_PrefabInstance: {fileID: 7159440201016137751}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1451112404
 GameObject:
   m_ObjectHideFlags: 0
@@ -39232,22 +39227,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: productParentPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 6651945790601395429, guid: af4a9bd156dbea34ea30b97bb8e7d8c9, type: 3}
-      propertyPath: NutritionSpawn
-      value: 
-      objectReference: {fileID: 1450211280}
-    - target: {fileID: 6651945790601395429, guid: af4a9bd156dbea34ea30b97bb8e7d8c9, type: 3}
-      propertyPath: footprintPannelPrefab
-      value: 
-      objectReference: {fileID: 7067976688229630100, guid: cdb56d89801cd194ba56cfbee0e1d31d, type: 3}
-    - target: {fileID: 6651945790601395429, guid: af4a9bd156dbea34ea30b97bb8e7d8c9, type: 3}
-      propertyPath: nutritionPannelPrefab
-      value: 
-      objectReference: {fileID: 7067976688229630100, guid: c34c4038eabbd1543acc5f9e00ff4658, type: 3}
-    - target: {fileID: 6651945790601395429, guid: af4a9bd156dbea34ea30b97bb8e7d8c9, type: 3}
-      propertyPath: ingredientPannelPrefab
-      value: 
-      objectReference: {fileID: 7067976688229630100, guid: 6477ae311a4101d48b443d6ffbd1966f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
