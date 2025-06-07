@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Panel : MonoBehaviour
 {
-    [SerializeField]private ProductParent productparent;
+    private ProductParent productparent;
 
     public void DestroyObj()
     {

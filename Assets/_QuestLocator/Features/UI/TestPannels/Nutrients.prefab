@@ -924,6 +924,7 @@ GameObject:
   - component: {fileID: 8740528133259627666}
   - component: {fileID: 9051797206899110117}
   - component: {fileID: 554208227640392626}
+  - component: {fileID: -2822485243139740789}
   m_Layer: 0
   m_Name: Nutrients
   m_TagString: Untagged
@@ -1309,6 +1310,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   productName: {fileID: 4224623493768864115}
   NutrientSection: {fileID: 3473941324627857825}
+--- !u!114 &-2822485243139740789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067976688229630100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8e005ed944c37498cd7d4e5128cef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productparent: {fileID: 0}
 --- !u!1 &7187480740074051295
 GameObject:
   m_ObjectHideFlags: 0

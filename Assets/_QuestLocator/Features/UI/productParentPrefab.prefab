@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5493099860857654334}
   m_Layer: 0
-  m_Name: Umweltauswirkungen_spawn
+  m_Name: Zutaten_spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6125702343883164350}
   m_Layer: 0
-  m_Name: Zutaten_spawn
+  m_Name: Nutri_spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1337024393135432713}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0351, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0351, y: 0.088, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -126,6 +126,7 @@ Transform:
   - {fileID: 5036558245787251282}
   - {fileID: 5493099860857654334}
   - {fileID: 6125702343883164350}
+  - {fileID: 8517286476306180082}
   - {fileID: 8519469398987827826}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -141,13 +142,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 658a45b95c5104f4ca2eba5ced46f033, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPannelPrefab: {fileID: 2000620342377611139, guid: d2b55f9ebb5ce4947b22e58893e69cd7, type: 3}
+  basePannelPrefab: {fileID: 7067976688229630100, guid: df526ac5511ea224a80e40ee838d339e, type: 3}
   titlePanelPrefab: {fileID: 3295770102117027696, guid: 34177e9893026614da894abecd555649, type: 3}
-  gemininPanelPrefab: {fileID: 2000620342377611139, guid: 43cbed83bb0537b48b8772403f28ca84, type: 3}
   titleSpawn: {fileID: 5036558245787251282}
-  umweltauswirkungenSpawn: {fileID: 5493099860857654334}
-  zutatenSpawn: {fileID: 6125702343883164350}
+  gemininPanelPrefab: {fileID: 2000620342377611139, guid: 43cbed83bb0537b48b8772403f28ca84, type: 3}
   geminiSpawn: {fileID: 8519469398987827826}
+  ingredientPannelPrefab: {fileID: 7067976688229630100, guid: 6477ae311a4101d48b443d6ffbd1966f, type: 3}
+  ingredientsSpawn: {fileID: 6125702343883164350}
+  nutritionPannelPrefab: {fileID: 7067976688229630100, guid: c34c4038eabbd1543acc5f9e00ff4658, type: 3}
+  nutritionSpawn: {fileID: 6125702343883164350}
+  footprintPannelPrefab: {fileID: 7067976688229630100, guid: cdb56d89801cd194ba56cfbee0e1d31d, type: 3}
+  footprintSpawn: {fileID: 8517286476306180082}
 --- !u!1 &5956984580629540859
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +179,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.3001, y: -0.224, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1384398270379032763}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6200894331436688706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8517286476306180082}
+  m_Layer: 0
+  m_Name: Umwelt_spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8517286476306180082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200894331436688706}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0351, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

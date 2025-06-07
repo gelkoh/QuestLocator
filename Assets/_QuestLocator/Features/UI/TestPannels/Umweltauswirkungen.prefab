@@ -961,6 +961,7 @@ GameObject:
   - component: {fileID: 8740528133259627666}
   - component: {fileID: 9051797206899110117}
   - component: {fileID: 6806281362673190764}
+  - component: {fileID: 3281879663074021919}
   m_Layer: 0
   m_Name: Umweltauswirkungen
   m_TagString: Untagged
@@ -1344,6 +1345,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a3ea91cb95770468f571a0be1057a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3281879663074021919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067976688229630100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8e005ed944c37498cd7d4e5128cef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productparent: {fileID: 0}
 --- !u!1 &7237420445550243314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,11 +2147,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760563340199940535, guid: 7b4b3ab309753d842ba0a79751aa1fb8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760563340199940535, guid: 7b4b3ab309753d842ba0a79751aa1fb8, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760563340199940535, guid: 7b4b3ab309753d842ba0a79751aa1fb8, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2149,11 +2163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760563340199940535, guid: 7b4b3ab309753d842ba0a79751aa1fb8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760563340199940535, guid: 7b4b3ab309753d842ba0a79751aa1fb8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3231536881615811833, guid: 7b4b3ab309753d842ba0a79751aa1fb8, type: 3}
       propertyPath: m_AnchorMax.y

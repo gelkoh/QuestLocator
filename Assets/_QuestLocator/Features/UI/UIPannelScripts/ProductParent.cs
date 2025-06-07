@@ -8,8 +8,6 @@ public class ProductParent : MonoBehaviour
 {
     public Root productData;
     string productName;
-    [SerializeField] GameObject basePannelPrefab;
-    GameObject basePannelInstance;
 
     [SerializeField] GameObject titlePanelPrefab;
     [SerializeField] Transform titleSpawn;
@@ -19,17 +17,17 @@ public class ProductParent : MonoBehaviour
     [SerializeField] Transform geminiSpawn;
     GameObject geminiPanelInstance = null;
 
-    [SerializeField] GameObject IngredientPannelPrefab;
+    [SerializeField] GameObject ingredientPannelPrefab;
     [SerializeField] Transform ingredientsSpawn;
-    GameObject IngredientPannelInstance = null;
+    GameObject ingredientPannelInstance = null;
 
-    [SerializeField] GameObject NutritionPannel;
-    [SerializeField] Transform NutritionSpawn;
-    GameObject NutritionPannelInstance = null;
+    [SerializeField] GameObject nutritionPannelPrefab;
+    [SerializeField] Transform nutritionSpawn;
+    GameObject nutritionPannelInstance = null;
 
-    [SerializeField] GameObject FootprintPannelPrefab;
-    [SerializeField] Transform FootprintSpawn;
-    GameObject FootprintPannelInstance = null;
+    [SerializeField] GameObject footprintPannelPrefab;
+    [SerializeField] Transform footprintSpawn;
+    GameObject footprintPannelInstance = null;
 
     
     
@@ -52,7 +50,6 @@ public class ProductParent : MonoBehaviour
         Debug.LogError("SetData");
         productData = productRoot;
         SetUpZutatenPanel();
-        SetUpIngredientPanel();
         SetUpNutritionPanel();
         SetUpFootprintPanel();
 
@@ -62,8 +59,8 @@ public class ProductParent : MonoBehaviour
     {
         try
         {
-            basePannelInstance = Instantiate(basePannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
-            basePannelInstance.GetComponent<Panel>().SetProductParent(this);
+            ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
+            ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
         }
         catch (Exception ex)
         {
@@ -110,26 +107,13 @@ public class ProductParent : MonoBehaviour
         }
 
     }
-
-    private void SetUpIngredientPanel()
-    {
-        Vector3 offset = new Vector3(0.4f, 0f, 0f);
-        try
-        {
-            IngredientPannelPrefab = Instantiate(IngredientPannelPrefab, transform.position+offset, transform.rotation, transform);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Error instancing TestPanel: " + ex.Message);
-        }
-    }
-    
     private void SetUpNutritionPanel()
     {
         Vector3 offset = new Vector3(0.8f, 0f, 0f);
         try
         {
-            NutritionPannel = Instantiate(NutritionPannel, transform.position + offset, transform.rotation, transform);
+            nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
+            nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
         }
         catch (Exception ex)
         {
@@ -139,10 +123,10 @@ public class ProductParent : MonoBehaviour
     
     private void SetUpFootprintPanel()
     {
-        Vector3 offset = new Vector3(1.2f, 0f, 0f);
         try
         {
-            FootprintPannelPrefab = Instantiate(FootprintPannelPrefab, transform.position + offset, transform.rotation, transform);
+            footprintPannelPrefab = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
+            footprintPannelPrefab.GetComponent<Panel>().SetProductParent(this);
         }
         catch (Exception ex)
         {
