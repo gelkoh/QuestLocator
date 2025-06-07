@@ -4,8 +4,9 @@ using UnityEngine;
 public class WordButton : MonoBehaviour
 {
     APIManager aPI_Manager;
-    [SerializeField] GameObject aiHelperPrefab;
-    [SerializeField] TextMeshProUGUI prompt;    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    Panel parentPanel;
+    string promptWord;
+    string promptSentence;
     void Start()
     {
         aPI_Manager = GameObject.FindWithTag("API_Manager").GetComponent<APIManager>();
@@ -13,13 +14,25 @@ public class WordButton : MonoBehaviour
 
     public void SendPrompt()
     {
-        aPI_Manager.GetAiResponse(prompt.text,(response) =>
+        aPI_Manager.GetAiResponse(promptWord, promptSentence,(response) =>
         {
-            Transform contentRoot = GameObject.FindWithTag("ContentRoot").GetComponent<Transform>();
-            GameObject responseDisplayInstance = Instantiate(aiHelperPrefab, contentRoot);
-            responseDisplayInstance.GetComponent<AIHelperPanel>().GetTextSection().text = response;
-            responseDisplayInstance.GetComponent<AIHelperPanel>().GetTitle().text = prompt.text + " Explained";
+            parentPanel.GetProductParent().SetUpGeminiPannel(promptWord, response);
         });
-       
+
+    }
+
+    public void SetParentPanel(Panel parentPanel)
+    {
+        this.parentPanel = parentPanel;
+    }
+
+    public void setPromt(string promptWord)
+    {
+        this.promptWord = promptWord;
+    }
+
+    public void setPromptSentence(string promptSentence)
+    {
+        this.promptSentence = promptSentence;
     }
 }

@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 6523297376139106950}
   - component: {fileID: 3268134869482448469}
   m_Layer: 5
-  m_Name: Vertical (1)
+  m_Name: ContentArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -603,6 +603,7 @@ GameObject:
   - component: {fileID: 749014866294816791}
   - component: {fileID: 8359538350379066730}
   - component: {fileID: 7392150356021291176}
+  - component: {fileID: -7646657719064660693}
   m_Layer: 0
   m_Name: BasePanelMitWortListe
   m_TagString: Untagged
@@ -974,6 +975,19 @@ MonoBehaviour:
   _whenUnselectedEmpty:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-7646657719064660693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000620342377611139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8e005ed944c37498cd7d4e5128cef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productparent: {fileID: 0}
 --- !u!1 &2042007628586883743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,7 +1959,7 @@ GameObject:
   - component: {fileID: 1340430819777960786}
   - component: {fileID: 5967128549609663200}
   m_Layer: 5
-  m_Name: Vertical
+  m_Name: WordListe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2014,6 +2028,7 @@ MonoBehaviour:
   - {fileID: 6027915254456707471}
   wordButtonPrefab: {fileID: 3865857422416177524, guid: efab4d03a3e1b7344a67612b560117a3, type: 3}
   contentTransform: {fileID: 604891557904075222}
+  parentPanel: {fileID: -7646657719064660693}
 --- !u!1 &7434175821680443868
 GameObject:
   m_ObjectHideFlags: 0

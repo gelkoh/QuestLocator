@@ -10,6 +10,7 @@ public class WordList : MonoBehaviour
     [SerializeField] List<TextMeshProUGUI> contentSections;
     [SerializeField] GameObject wordButtonPrefab;
     [SerializeField] Transform contentTransform;
+    [SerializeField] Panel parentPanel;
     List<GameObject> wordButtonList = new List<GameObject>();
 
     
@@ -31,6 +32,9 @@ public class WordList : MonoBehaviour
                 {
                 GameObject wordButtonInstance = Instantiate(wordButtonPrefab, contentTransform);
                 wordButtonInstance.GetComponentInChildren<TextMeshProUGUI>().text = word;
+                wordButtonInstance.GetComponent<WordButton>().SetParentPanel(parentPanel);
+                wordButtonInstance.GetComponent<WordButton>().setPromt(word);
+                wordButtonInstance.GetComponent<WordButton>().setPromptSentence( " auf einfache, kurze aber präzise Weise, sodass jeder die grundlegende Funktion oder Bedeutung versteht.");
                 wordButtonList.Add(wordButtonInstance);
                 }
 
