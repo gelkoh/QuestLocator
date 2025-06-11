@@ -4,12 +4,14 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System;
 
-public class ProductHistoryManager : MonoBehaviour
+public class ScanHistoryManager : MonoBehaviour
 {
     // Singleton
-    public static ProductHistoryManager ProductHistoryManagerInstance { get; private set; }
+    public static ScanHistoryManager ScanHistoryManagerInstance { get; private set; }
 
-    [SerializeField] private int _maxSavedProductsAmount = 30;
+    public event Action OnHistoryChanged;
+
+    [SerializeField] private int _maxSavedProductsAmount = 100;
 
     private SavedProductsData _savedProductsData = new SavedProductsData();
 
@@ -17,9 +19,9 @@ public class ProductHistoryManager : MonoBehaviour
 
     void Awake()
     {
-        if (ProductHistoryManagerInstance == null)
+        if (ScanHistoryManagerInstance == null)
         {
-            ProductHistoryManagerInstance = this;
+            ScanHistoryManagerInstance = this;
         }
         else
         {
@@ -27,20 +29,29 @@ public class ProductHistoryManager : MonoBehaviour
         }
 
         _saveFilePath = Path.Combine(Application.persistentDataPath, "scanned-products.json");
+        Debug.Log($"ScanHistoryManager: Save File Path: {_saveFilePath}");
         LoadProducts();   
     }
 
-    public void AddProductAndSave(Product product)
+    public void AddProductAndSave(Root productRoot)
     {
-        _savedProductsData.Products.Insert(0, product);
+        _savedProductsData.ProductsRoots.Insert(0, productRoot);
 
-        if (_savedProductsData.Products.Count > _maxSavedProductsAmount)
+        if (_savedProductsData.ProductsRoots.Count > _maxSavedProductsAmount)
         {
-            _savedProductsData.Products.RemoveAt(_savedProductsData.Products.Count - 1);
+            _savedProductsData.ProductsRoots.RemoveAt(_savedProductsData.ProductsRoots.Count - 1);
         }
 
         SaveProducts();
+        OnHistoryChanged?.Invoke();
         Debug.Log("ProductHistoryManager: Added a product and saved.");
+    }
+
+    public void RemoveProductAndSave(Root productRoot)
+    {
+        _savedProductsData.ProductsRoots.Remove(productRoot);
+        SaveProducts();
+        Debug.Log("ProductHistoryManager: Removed a product and saved.");
     }
 
     private void SaveProducts()
@@ -74,7 +85,7 @@ public class ProductHistoryManager : MonoBehaviour
                     Debug.LogWarning("ProductHistoryManager: Loaded data was null, initializing new SavedProductsData.");
                 }
 
-                Debug.Log($"ProductHistoryManager: {_savedProductsData.Products.Count} products loaded from " + _saveFilePath);
+                Debug.Log($"ProductHistoryManager: {_savedProductsData.ProductsRoots.Count} products loaded from " + _saveFilePath);
             }
             catch (Exception ex)
             {
@@ -89,15 +100,16 @@ public class ProductHistoryManager : MonoBehaviour
         }
     }
 
-    public List<Product> GetSavedProducts()
+    public List<Root> GetSavedProducts()
     {
-        return _savedProductsData.Products;
+        return _savedProductsData.ProductsRoots;
     }
 
     public void ClearSavedProducts()
     {
         _savedProductsData = new SavedProductsData();
         SaveProducts();
+        // OnHistoryChanged?.Invoke();
         Debug.Log("ProductHistoryManager: All saved products cleared.");
     }
 }
