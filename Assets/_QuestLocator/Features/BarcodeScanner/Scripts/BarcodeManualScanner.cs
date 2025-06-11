@@ -136,7 +136,8 @@ public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
 
                 lock (_pixelLock)
                 {
-                    _latestPixels = _webCamTextureManager.WebCamTexture.GetPixels32();
+                     _latestPixels = _webCamTextureManager.WebCamTexture.GetPixels32();
+    
                     _latestWidth = _webCamTextureManager.WebCamTexture.width;
                     _latestHeight = _webCamTextureManager.WebCamTexture.height;
                 }
@@ -193,10 +194,10 @@ public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
         {
             try
             {
-                if (!_waitingForProcessorResponse)
+                if (!_waitingForProcessorResponse && _latestPixels != null && _latestWidth > 0 && _latestHeight > 0)
                 {
                     var result = _barcodeReader.Decode(_latestPixels, _latestWidth, _latestHeight);
-                    
+
                     if (result != null)
                     {
                         if (result.Text != _lastProcessedBarcode || _now >= _lastProcessedTime + _rescanCooldown)
@@ -231,7 +232,7 @@ public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
     private void HandleProductProcessed(bool success, string productNameOrError, Root product)
     {
         _waitingForProcessorResponse = false;
-        
+
         if (success)
         {
             UnityMainThreadDispatcher.Enqueue(StopScanning);

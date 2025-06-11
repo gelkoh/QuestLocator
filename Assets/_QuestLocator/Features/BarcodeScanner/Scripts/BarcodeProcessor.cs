@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using static BarcodeScannerStatusManager;
 using static SoundFeedbackManager;
-using static ScanHistoryManager;
+using static ProductHistoryManager;
 
 public class BarcodeProcessor : MonoBehaviour
 {
@@ -58,20 +58,20 @@ public class BarcodeProcessor : MonoBehaviour
         Debug.Log($"Anfrage an OpenFoodFacts für EAN: {barcode}");
 
         StartCoroutine(_openFoodFactsClient.GetProductByEan(barcode,
-            onSuccess: (productRoot) =>
+            onSuccess: (root) =>
             {
-                if (productRoot != null && productRoot.Product != null && productRoot.Status == 1)
+                if (root != null && root.Product != null && root.Status == 1)
                 {
-                    Debug.LogWarning($"Produkt gefunden: {productRoot.Product.ProductName}");
-                    OnProductProcessed?.Invoke(true, productRoot.Product.ProductName, productRoot);
+                    Debug.LogWarning($"Produkt gefunden: {root.Product.ProductName}");
+                    OnProductProcessed?.Invoke(true, root.Product.ProductName, root);
                     BarcodeScannerEventManager.StopScanning(BarcodeScannerStatusManagerInstance.ActiveScannerType);
                     SoundFeedbackManagerInstance.PlayScanSuccess();
 
-                    ScanHistoryManagerInstance.AddProductAndSave(productRoot);
+                    ProductHistoryManagerInstance.AddProductAndSave(root.Product);
                 }
                 else
                 {
-                    string errorMessage = productRoot != null ? productRoot.StatusVerbose : "Unbekannter API-Fehler";
+                    string errorMessage = root != null ? root.StatusVerbose : "Unbekannter API-Fehler";
                     Debug.LogError($"Produkt nicht gefunden für EAN {barcode}: {errorMessage}");
                     OnProductProcessed?.Invoke(false, errorMessage, null);
                     SoundFeedbackManagerInstance.PlayScanFailed();

@@ -13,7 +13,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-public class Root
+public partial class Root
 {
     [JsonProperty("code")]
     public string Code { get; set; }
@@ -44,6 +44,9 @@ public partial class Product
 
     [JsonProperty("ingredients_analysis_tags")]
     public string[] IngredientsAnalysisTags { get; set; }
+
+    [JsonProperty("nutriments")]
+    public Nutriments Nutriments { get; set; }
 
     [JsonProperty("nutriscore_grade")]
     public string NutriscoreGrade { get; set; }
@@ -103,28 +106,148 @@ public partial class Ingredient
     public string FromPalmOil { get; set; }
 }
 
-/* public partial class Root
+public partial class Nutriments
 {
-    public static Root FromJson(string json) => JsonConvert.DeserializeObject<Root>(json, QuickType.Converter.Settings);
-}  */
+    [JsonProperty("carbohydrates")]
+    public double Carbohydrates { get; set; }
 
-/* public static class Serialize
-{
-    public static string ToJson(this Root self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+    [JsonProperty("carbohydrates_100g")]
+    public double Carbohydrates100G { get; set; }
+
+    [JsonProperty("carbohydrates_unit")]
+    public string CarbohydratesUnit { get; set; }
+
+    [JsonProperty("carbohydrates_value")]
+    public double CarbohydratesValue { get; set; }
+
+    [JsonProperty("energy")]
+    public long Energy { get; set; }
+
+    [JsonProperty("energy-kcal")]
+    public long EnergyKcal { get; set; }
+
+    [JsonProperty("energy-kcal_100g")]
+    public long EnergyKcal100G { get; set; }
+
+    [JsonProperty("energy-kcal_unit")]
+    public string EnergyKcalUnit { get; set; }
+
+    [JsonProperty("energy-kcal_value")]
+    public long EnergyKcalValue { get; set; }
+
+    [JsonProperty("energy-kcal_value_computed")]
+    public double EnergyKcalValueComputed { get; set; }
+
+    [JsonProperty("energy_100g")]
+    public long Energy100G { get; set; }
+
+    [JsonProperty("energy_unit")]
+    public string EnergyUnit { get; set; }
+
+    [JsonProperty("energy_value")]
+    public long EnergyValue { get; set; }
+
+    [JsonProperty("fat")]
+    public double Fat { get; set; }
+
+    [JsonProperty("fat_100g")]
+    public double Fat100G { get; set; }
+
+    [JsonProperty("fat_unit")]
+    public string FatUnit { get; set; }
+
+    [JsonProperty("fat_value")]
+    public double FatValue { get; set; }
+
+    [JsonProperty("fruits-vegetables-legumes-estimate-from-ingredients_100g")]
+    public long FruitsVegetablesLegumesEstimateFromIngredients100G { get; set; }
+
+    [JsonProperty("fruits-vegetables-legumes-estimate-from-ingredients_serving")]
+    public long FruitsVegetablesLegumesEstimateFromIngredientsServing { get; set; }
+
+    [JsonProperty("fruits-vegetables-nuts-estimate-from-ingredients_100g")]
+    public double FruitsVegetablesNutsEstimateFromIngredients100G { get; set; }
+
+    [JsonProperty("fruits-vegetables-nuts-estimate-from-ingredients_serving")]
+    public double FruitsVegetablesNutsEstimateFromIngredientsServing { get; set; }
+
+    [JsonProperty("nova-group")]
+    public long NovaGroup { get; set; }
+
+    [JsonProperty("nova-group_100g")]
+    public long NovaGroup100G { get; set; }
+
+    [JsonProperty("nova-group_serving")]
+    public long NovaGroupServing { get; set; }
+
+    [JsonProperty("nutrition-score-fr")]
+    public long NutritionScoreFr { get; set; }
+
+    [JsonProperty("nutrition-score-fr_100g")]
+    public long NutritionScoreFr100G { get; set; }
+
+    [JsonProperty("proteins")]
+    public double Proteins { get; set; }
+
+    [JsonProperty("proteins_100g")]
+    public double Proteins100G { get; set; }
+
+    [JsonProperty("proteins_unit")]
+    public string ProteinsUnit { get; set; }
+
+    [JsonProperty("proteins_value")]
+    public double ProteinsValue { get; set; }
+
+    [JsonProperty("salt")]
+    public double Salt { get; set; }
+
+    [JsonProperty("salt_100g")]
+    public double Salt100G { get; set; }
+
+    [JsonProperty("salt_unit")]
+    public string SaltUnit { get; set; }
+
+    [JsonProperty("salt_value")]
+    public double SaltValue { get; set; }
+
+    [JsonProperty("saturated-fat")]
+    public double SaturatedFat { get; set; }
+
+    [JsonProperty("saturated-fat_100g")]
+    public double SaturatedFat100G { get; set; }
+
+    [JsonProperty("saturated-fat_unit")]
+    public string SaturatedFatUnit { get; set; }
+
+    [JsonProperty("saturated-fat_value")]
+    public double SaturatedFatValue { get; set; }
+
+    [JsonProperty("sodium")]
+    public double Sodium { get; set; }
+
+    [JsonProperty("sodium_100g")]
+    public double Sodium100G { get; set; }
+
+    [JsonProperty("sodium_unit")]
+    public string SodiumUnit { get; set; }
+
+    [JsonProperty("sodium_value")]
+    public double SodiumValue { get; set; }
+
+    [JsonProperty("sugars")]
+    public double Sugars { get; set; }
+
+    [JsonProperty("sugars_100g")]
+    public double Sugars100G { get; set; }
+
+    [JsonProperty("sugars_unit")]
+    public string SugarsUnit { get; set; }
+
+    [JsonProperty("sugars_value")]
+    public double SugarsValue { get; set; }
 }
 
-internal static class Converter
-{
-    public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-    {
-        MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-        DateParseHandling = DateParseHandling.None,
-        Converters =
-        {
-            new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-        },
-    };
-} */
+
 
 internal class ParseStringConverter : JsonConverter
 {
