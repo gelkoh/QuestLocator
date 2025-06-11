@@ -85,7 +85,7 @@ public class ProductParent : MonoBehaviour
         }
 
     }
-    public GameObject GetZTitlePanel()
+    public GameObject GetTitlePanel()
     {
         return titlePanelInstance;
     }
