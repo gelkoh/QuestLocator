@@ -31,6 +31,6 @@ public class ProductParent : MonoBehaviour
         {
             Debug.LogError("Error instancing TestPanel: " + ex.Message);
         }
-        
+
     }
 }
