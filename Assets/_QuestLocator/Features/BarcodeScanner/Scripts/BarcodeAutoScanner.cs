@@ -10,6 +10,7 @@ using static BarcodeProcessor;
 
 public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
 {
+
     // Singleton
     public static BarcodeAutoScanner BarcodeAutoScannerInstance { get; private set; }
 
@@ -24,7 +25,7 @@ public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
     [SerializeField] private bool _tryInverted = false;
     [SerializeField] private bool _autoRotate = true;
     [SerializeField] private string[] _possibleFormatStrings = new string[] { "EAN_13", "CODE_128" };
-    [SerializeField] private int[] _allowedLengths = new int[] { 13 };    
+    [SerializeField] private int[] _allowedLengths = new int[] { 13 };
 
     private BarcodeReader _barcodeReader;
     private List<BarcodeFormat> _possibleFormats;
@@ -133,6 +134,7 @@ public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
                 lock (_pixelLock)
                 {
                     _latestPixels = _webCamTextureManager.WebCamTexture.GetPixels32();
+    
                     _latestWidth = _webCamTextureManager.WebCamTexture.width;
                     _latestHeight = _webCamTextureManager.WebCamTexture.height;
                 }
