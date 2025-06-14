@@ -7,6 +7,13 @@ public class HandMenuController : MonoBehaviour
 
     public bool isMenuVisible = false;
 
+    [SerializeField] private GameObject _settingsPanel;
+
+    void OnEnable()
+    {
+        _settingsPanel.SetActive(false);
+    }
+
     void Start()
     {
         if (menuUI != null)
@@ -46,5 +53,17 @@ public class HandMenuController : MonoBehaviour
         if (menuUI == null) return;
 
         menuUI.SetActive(false);
+    }
+
+    public void ToggleSettingsVisible()
+    {
+        if (_settingsPanel.activeSelf)
+        {
+            _settingsPanel.SetActive(false);
+        }
+        else
+        {
+            _settingsPanel.SetActive(true);
+        }
     }
 }
