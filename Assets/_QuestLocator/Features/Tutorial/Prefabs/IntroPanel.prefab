@@ -2199,7 +2199,6 @@ GameObject:
   - component: {fileID: 9053655564185662061}
   - component: {fileID: 505712892429167459}
   - component: {fileID: 7691510991048486494}
-  - component: {fileID: 3954036342518071361}
   - component: {fileID: 1921758836723835023}
   m_Layer: 0
   m_Name: IntroPanel
@@ -2572,18 +2571,6 @@ MonoBehaviour:
   _whenUnselectedEmpty:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3954036342518071361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6547273156711153860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db8e005ed944c37498cd7d4e5128cef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1921758836723835023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2601,6 +2588,8 @@ MonoBehaviour:
   autoAdvanceDelay: 3
   startButton: {fileID: 4031200827112389623}
   skipButton: {fileID: 1351420354805701923}
+  introText: Welcome to the tutorial!
+  ttsSpeaker: {fileID: 0}
 --- !u!1 &6684087020601619016
 GameObject:
   m_ObjectHideFlags: 0
@@ -3523,8 +3512,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5007894472286412672}
   - {fileID: 5434360972543874664}
+  - {fileID: 5007894472286412672}
   m_Father: {fileID: 2543352689448011179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3553,7 +3542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: d6e192b5359c267428b5fe9a29ea1010, type: 2}
-  m_Color: {r: 0.10980392, g: 0.16862746, b: 0.2, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
