@@ -27,6 +27,11 @@ public class IntroManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            // Ensure this GameObject is a root object before calling DontDestroyOnLoad
+            if (transform.parent != null)
+            {
+                transform.SetParent(null);
+            }
             DontDestroyOnLoad(gameObject);
         }
         else

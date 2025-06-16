@@ -9,7 +9,7 @@ public class IntrolPanel : BaseTutorialPanel
     [SerializeField] private Button startButton;
     [SerializeField] private Button skipButton;
     [Header("TTS")]
-    [SerializeField] private string introText = "Welcome to the tutorial!";
+    [SerializeField] private string TTSText = "Welcome to the tutorial!";
 
     // Reference to the TTSSpeaker component in this panel
     [SerializeField] private TTSSpeaker ttsSpeaker;
@@ -22,7 +22,7 @@ public class IntrolPanel : BaseTutorialPanel
 
         if (ttsSpeaker != null)
         {
-            ttsSpeaker.Speak(introText);
+            ttsSpeaker.Speak(TTSText);
         }
         else
         {
