@@ -42,6 +42,7 @@ public class IntroManager : MonoBehaviour
 
         // Get reference to tutorial state manager
         tutorialStateManager = TutorialStateManager.Instance;
+        Debug.Log($"[IntroManager] tutorialStateManager is {(tutorialStateManager == null ? "null" : "assigned")}");
     }
 
     private void Start()

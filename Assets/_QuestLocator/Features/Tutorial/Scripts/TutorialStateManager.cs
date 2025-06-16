@@ -25,9 +25,14 @@ public class TutorialStateManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("[TutorialStateManager] Awake called.");
         if (Instance == null)
         {
             Instance = this;
+            if (transform.parent != null)
+            {
+                transform.SetParent(null);
+            }
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -41,28 +46,36 @@ public class TutorialStateManager : MonoBehaviour
 
     private void InitializePanels()
     {
+        Debug.Log($"[TutorialStateManager] Initializing {tutorialPanels.Length} panels.");
         // Hide all panels initially and set up their callbacks
         for (int i = 0; i < tutorialPanels.Length; i++)
         {
             if (tutorialPanels[i] != null)
             {
+                Debug.Log($"[TutorialStateManager] Hiding and initializing panel {i}: {tutorialPanels[i].gameObject.name}");
                 tutorialPanels[i].gameObject.SetActive(false);
                 tutorialPanels[i].Initialize(this, i);
+            }
+            else
+            {
+                Debug.LogWarning($"[TutorialStateManager] tutorialPanels[{i}] is null!");
             }
         }
     }
 
     public void StartTutorial()
     {
+        Debug.Log("[TutorialStateManager] StartTutorial called.");
         if (tutorialPanels.Length == 0)
         {
-            Debug.LogWarning("No tutorial panels configured!");
+            Debug.LogWarning("[TutorialStateManager] No tutorial panels configured!");
             return;
         }
 
         isTutorialActive = true;
         currentPanelIndex = 0;
 
+        Debug.Log("[TutorialStateManager] Invoking OnTutorialStart event.");
         OnTutorialStart?.Invoke();
         ShowCurrentPanel();
     }
@@ -134,13 +147,23 @@ public class TutorialStateManager : MonoBehaviour
 
     private void ShowCurrentPanel()
     {
-        if (currentPanelIndex < 0 || currentPanelIndex >= tutorialPanels.Length) return;
+        Debug.Log($"[TutorialStateManager] ShowCurrentPanel called. currentPanelIndex={currentPanelIndex}, totalPanels={tutorialPanels.Length}");
+        if (currentPanelIndex < 0 || currentPanelIndex >= tutorialPanels.Length)
+        {
+            Debug.LogWarning("[TutorialStateManager] currentPanelIndex out of range.");
+            return;
+        }
 
         currentPanel = tutorialPanels[currentPanelIndex];
         if (currentPanel != null)
         {
+            Debug.Log($"[TutorialStateManager] Showing panel {currentPanelIndex}: {currentPanel.gameObject.name}");
             currentPanel.gameObject.SetActive(true);
             currentPanel.OnPanelShow();
+        }
+        else
+        {
+            Debug.LogWarning($"[TutorialStateManager] currentPanel at index {currentPanelIndex} is null!");
         }
     }
 
