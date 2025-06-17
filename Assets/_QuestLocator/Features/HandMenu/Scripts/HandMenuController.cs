@@ -12,7 +12,7 @@ public class HandMenuController : MonoBehaviour
 
     void Awake()
     {
-        _settingsPanelPositioner = _settingsPanel.GetComponent<PanelPositioner>();   
+        _settingsPanelPositioner = _settingsPanel.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
     }
 
     void OnEnable()

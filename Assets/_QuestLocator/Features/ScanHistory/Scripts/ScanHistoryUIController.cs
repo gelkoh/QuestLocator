@@ -47,7 +47,7 @@ public class ProductHistoryUIController : MonoBehaviour
             Debug.LogError("ScanHistoryUIController: Clear button is not assigned in the inspector.");
         }
 
-        _scanHistoryPanelPositioner = _scanHistoryPanel.GetComponent<PanelPositioner>();
+        _scanHistoryPanelPositioner = _scanHistoryPanel.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
     }
 
     void Start()
