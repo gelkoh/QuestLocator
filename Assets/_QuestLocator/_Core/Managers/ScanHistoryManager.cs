@@ -109,7 +109,6 @@ public class ScanHistoryManager : MonoBehaviour
     {
         _savedProductsData = new SavedProductsData();
         SaveProducts();
-        // OnHistoryChanged?.Invoke();
         Debug.Log("ProductHistoryManager: All saved products cleared.");
     }
 }
