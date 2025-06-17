@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using static BarcodeScannerStatusManager;
 using static SoundFeedbackManager;
-using static ProductHistoryManager;
+using static ScanHistoryManager;
 
 public class BarcodeProcessor : MonoBehaviour
 {
@@ -67,7 +67,7 @@ public class BarcodeProcessor : MonoBehaviour
                     BarcodeScannerEventManager.StopScanning(BarcodeScannerStatusManagerInstance.ActiveScannerType);
                     SoundFeedbackManagerInstance.PlayScanSuccess();
 
-                    ProductHistoryManagerInstance.AddProductAndSave(root.Product);
+                    ScanHistoryManagerInstance.AddProductAndSave(root);
                 }
                 else
                 {
