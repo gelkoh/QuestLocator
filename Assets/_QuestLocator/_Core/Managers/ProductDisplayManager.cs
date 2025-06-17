@@ -13,8 +13,20 @@ public class ProductDisplayManager : MonoBehaviour
 
     private Camera mainCamera;
 
+    // Singleton
+    public static ProductDisplayManager ProductDisplayManagerInstance { get; private set; }
+
     private void Awake()
     {
+        if (ProductDisplayManagerInstance == null)
+        {
+            ProductDisplayManagerInstance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         mainCamera = Camera.main;
 
         if (mainCamera == null)
@@ -57,7 +69,7 @@ public class ProductDisplayManager : MonoBehaviour
         }
     }
 
-    private void InstantiateAndFillProductPrefab(Root productRoot)
+    public void InstantiateAndFillProductPrefab(Root productRoot)
     {
         Debug.LogError("inInstancingAndFill---");
         if (productPrefab == null)
