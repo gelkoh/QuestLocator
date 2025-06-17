@@ -8,6 +8,12 @@ public class HandMenuController : MonoBehaviour
     public bool isMenuVisible = false;
 
     [SerializeField] private GameObject _settingsPanel;
+    private PanelPositioner _settingsPanelPositioner;
+
+    void Awake()
+    {
+        _settingsPanelPositioner = _settingsPanel.GetComponent<PanelPositioner>();   
+    }
 
     void OnEnable()
     {
@@ -64,6 +70,7 @@ public class HandMenuController : MonoBehaviour
         else
         {
             _settingsPanel.SetActive(true);
+            _settingsPanelPositioner.PositionPanelInFrontOfCamera();
         }
     }
 }

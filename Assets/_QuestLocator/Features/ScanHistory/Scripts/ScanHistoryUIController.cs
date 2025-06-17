@@ -14,6 +14,8 @@ public class ProductHistoryUIController : MonoBehaviour
     [SerializeField] private Button _clearAllButton;
 
     private Camera mainCamera;
+    private PanelPositioner _scanHistoryPanelPositioner;
+
 
     void OnEnable()
     {
@@ -44,6 +46,8 @@ public class ProductHistoryUIController : MonoBehaviour
         {
             Debug.LogError("ScanHistoryUIController: Clear button is not assigned in the inspector.");
         }
+
+        _scanHistoryPanelPositioner = _scanHistoryPanel.GetComponent<PanelPositioner>();
     }
 
     void Start()
@@ -133,6 +137,13 @@ public class ProductHistoryUIController : MonoBehaviour
         {
             Debug.Log("ScanHistoryUIController: Show scan history panel");
             _scanHistoryPanel.SetActive(true);
+
+            if (_scanHistoryPanelPositioner == null)
+            {
+                Debug.LogWarning("ScanHistoryUIController: Scan history panel positioner is null");
+            }
+
+            _scanHistoryPanelPositioner.PositionPanelInFrontOfCamera();
         }
     }
 }
