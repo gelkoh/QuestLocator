@@ -1,35 +1,83 @@
-using System;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using System.Collections;
+
 public class NutrientsPannelScript : MonoBehaviour
 {
-    private ProductParent productDisplayScript;
-    [SerializeField] TextMeshProUGUI productName;
-    [SerializeField] GameObject NutrientSection;
-    void Start()
+    [Header("Manuelle EAN Eingabe")]
+    [SerializeField] private string ean = "3017620422003"; // z. B. Nutella
+    [SerializeField] private NutrientBarFiller nutrientBarFiller;
+    [SerializeField] private TextMeshProUGUI productName;
+
+    private Root productData;
+
+    private void Start()
     {
-        productDisplayScript = GetComponentInParent<ProductParent>();
-        FillInfo();
+        StartCoroutine(OpenFoodFactsClientCall());
     }
 
-    private void FillInfo()
+    private IEnumerator OpenFoodFactsClientCall()
     {
-        productName.text = productDisplayScript.productData.Product.ProductName;
+        var client = new OpenFoodFactsClient();
+        yield return client.GetProductByEan(ean,
+            onSuccess: (root) =>
+            {
+                if (root?.Product == null)
+                {
+                    Debug.LogError("❌ Produktdaten fehlen – EAN ungültig?");
+                    return;
+                }
 
-        createText(NutrientSection, productDisplayScript.productData.Product.Nutriments.EnergyKcal100G.ToString());
-        createText(NutrientSection, productDisplayScript.productData.Product.Nutriments.Fat100G.ToString());
-        createText(NutrientSection, productDisplayScript.productData.Product.Nutriments.Proteins100G.ToString());
+                if (root.Product.Nutriments == null)
+                {
+                    Debug.LogError("❌ Nährwertdaten fehlen – Produkt ist in der API nicht vollständig.");
+                    return;
+                }
+
+                productData = root;
+                productName.text = root.Product.ProductName;
+
+                TryFillBars();
+            },
+            onError: (err) =>
+            {
+                Debug.LogError("API Fehler: " + err);
+            });
     }
-    private void createText(GameObject parent, string name)
+
+    private void TryFillBars()
     {
-        GameObject textObj = new GameObject("IngredientText");
-        textObj.transform.SetParent(NutrientSection.transform, false); // 'false' keeps local scale
+        if (nutrientBarFiller == null)
+        {
+            Debug.LogError("❌ nutrientBarFiller ist nicht zugewiesen! Bitte das GameObject mit dem Script (z. B. col1) im Inspector eintragen.");
+            return;
+        }
 
-        // Add TextMeshProUGUI component
-        var tmp = textObj.AddComponent<TextMeshProUGUI>();
-        tmp.text = name;
-        tmp.fontSize = 30;
+        if (productData?.Product?.Nutriments == null)
+        {
+            Debug.LogWarning("⚠️ Keine Nährwertdaten verfügbar.");
+            return;
+        }
+
+        Debug.Log("📊 FillBars() wird aufgerufen...");
+    
+        var calc = NutritionCalculator.NutritionCalculatorInstance;
+
+        // Standardwerte setzen (damit Berechnung funktioniert)
+        calc.OnAgeSliderValueChanged(calc.defaultAge);
+        calc.OnSexDropdownValueChanged(1); // 1 = Männlich
+        calc.OnWeightSliderValueChanged(calc.defaultWeight);
+        calc.OnPALSliderValueChanged(calc.defaultPAL * 10f); // Slider erwartet *10
+
+        // Event-Callback registrieren
+        calc.OnNutritionRecommendationCalculated = null;
+        calc.OnNutritionRecommendationCalculated += (recommendation) =>
+        {
+            Debug.Log($"➡️ FillBars gestartet – Energie: {productData.Product.Nutriments?.EnergyKcal100G}, Empfohlen: {recommendation?.energyKcal}");
+            nutrientBarFiller.FillBars(productData.Product.Nutriments, recommendation);
+        };
+
+        // Falls nicht schon intern berechnet wurde
+        calc.UpdateNutritionRecommendation();
     }
-
 }

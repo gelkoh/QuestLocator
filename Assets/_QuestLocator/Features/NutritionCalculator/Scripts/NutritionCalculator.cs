@@ -1,118 +1,98 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class NutritionCalculator : MonoBehaviour
 {
-    // Singleton
     public static NutritionCalculator NutritionCalculatorInstance { get; private set; }
     public Action<NutritionRecommendation> OnNutritionRecommendationCalculated;
 
+    [Header("CSV mit Richtwerten")]
     [SerializeField] private TextAsset _nutritionDataCSV;
 
-    private int _age = -1;
-    private string _sex = null;
-    private int _weight = -1;
-    private float _pal = -1.0f;
+    [Header("Default-Werte bei Szenenstart")]
+    public int defaultAge = 25;
+    public string defaultSex = "Männlich";
+    public int defaultWeight = 70;
+    public float defaultPAL = 1.5f;
 
-    // Stores the parsed nutrition data
+    private int _age;
+    private string _sex;
+    private int _weight;
+    private float _pal;
+
     private readonly List<NutritionData> nutritionDataList = new();
 
     void Awake()
     {
         if (NutritionCalculatorInstance == null)
-        {
             NutritionCalculatorInstance = this;
-        }
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         LoadNutritionData();
+
+        _age = defaultAge;
+        _sex = defaultSex;
+        _weight = defaultWeight;
+        _pal = defaultPAL;
+
+        UpdateNutritionRecommendation();
     }
 
-    private NutritionData FindMatchingData()
+    private void LoadNutritionData()
     {
-        Debug.Log("NutritionCalculator: Finding matching data.");
-
-        foreach (var data in nutritionDataList)
+        if (_nutritionDataCSV == null)
         {
-            Debug.Log($"NutritionCalculator: data.ageGroup: {data.ageGroup}, data.set: {data.sex} ");
-            // Check if this data matches our age group and sex
-            if (IsInAgeGroup(data.ageGroup) && data.sex == _sex)
-            {
-                // Found a match for age group and sex
-                Debug.Log("NutritionCalculator: Found matching data.");
-                return data;
-            }
+            Debug.LogError("❌ NutritionCalculator: Keine CSV zugewiesen.");
+            return;
         }
 
-        Debug.LogWarning("NutritionCalculator: Couldn't find matching data.");
-        return null;
+        string[] lines = _nutritionDataCSV.text.Split('\n');
+        Debug.Log($"📥 NutritionCalculator: CSV-Zeilen geladen: {lines.Length}");
+
+        for (int i = 1; i < lines.Length; i++) // Header überspringen
+        {
+            string line = lines[i].Trim();
+            if (string.IsNullOrEmpty(line)) continue;
+
+            string[] values = line.Split(',');
+            if (values.Length < 9) continue;
+
+            NutritionData data = new NutritionData
+            {
+                ageGroup = values[0].Trim(),
+                sex = values[1].Trim(),
+                pal = ParseFloat(values[2]),
+                energyKcal = ParseFloat(values[3]),
+                proteinGPerKg = ParseFloat(values[4]), // ✅ z. B. 0.8 → nicht 8
+                fatG = ParseFloat(values[5]),
+                satFatG = ParseFloat(values[6]),
+                carbsG = ParseFloat(values[7]),
+                sugarG = ParseFloat(values[8])
+            };
+
+            nutritionDataList.Add(data);
+        }
     }
 
-    private bool IsInAgeGroup(string ageGroup)
+    private float ParseFloat(string value)
     {
-        if (string.IsNullOrEmpty(ageGroup)) return false;
-
-        if (ageGroup.EndsWith("+"))
-        {
-            string ageString = ageGroup.TrimEnd('+');
-            if (int.TryParse(ageString, out int minAge))
-            {
-                return _age >= minAge;
-            }
-        }
-        else
-        {
-            string[] range = ageGroup.Split('-');
-            if (range.Length == 2)
-            {
-                if (int.TryParse(range[0], out int min) && int.TryParse(range[1], out int max))
-                {
-                    return _age >= min && _age <= max;
-                }
-            }
-        }
-        
-        Debug.LogWarning($"NutritionCalculator: Could not parse age group '{ageGroup}'. Returning false.");
-        return false;
-    }
-
-    private NutritionRecommendation CalculateRecommendation(NutritionData data)
-    {
-        float palAdjustment = _pal / data.pal;
-
-        NutritionRecommendation recommendation = new()
-        {
-            energyKcal = data.energyKcal * palAdjustment,
-            proteinG = data.proteinGPerKg * _weight,
-            fatG = data.fatG * palAdjustment,
-            satFatG = data.satFatG * palAdjustment,
-            carbsG = data.carbsG * palAdjustment,
-            sugarG = data.sugarG * palAdjustment
-        };
-
-        return recommendation;
+        value = value.Replace(",", "."); // für Komma statt Punkt
+        return float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float result) ? result : 0f;
     }
 
     public void OnSexDropdownValueChanged(int newIndex)
-    {        
-        if (newIndex == 1)
+    {
+        _sex = newIndex switch
         {
-            _sex = "Männlich";
-        }
-        else if (newIndex == 2)
-        {
-            _sex = "Weiblich";
-        }
-        else
-        {
-            _sex = null;
-        }
-
+            1 => "Männlich",
+            2 => "Weiblich",
+            _ => null
+        };
         UpdateNutritionRecommendation();
     }
 
@@ -130,67 +110,100 @@ public class NutritionCalculator : MonoBehaviour
 
     public void OnPALSliderValueChanged(float pal)
     {
-        _pal = pal / 10;
+        _pal = pal / 10f;
         UpdateNutritionRecommendation();
     }
 
-    private void UpdateNutritionRecommendation()
+    public void UpdateNutritionRecommendation()
     {
-        Debug.Log("NutritionCalculator: Updating nutrition recommendation.");
+        Debug.Log("🔁 NutritionCalculator: Updating nutrition recommendation.");
         NutritionData matchedData = FindMatchingData();
 
-        if (matchedData != null && _weight != -1 && _pal != -1.0f)
+        if (matchedData != null && _weight > 0 && _pal > 0)
         {
-            NutritionRecommendation nutritionRecommendation = CalculateRecommendation(matchedData);
-            OnNutritionRecommendationCalculated?.Invoke(nutritionRecommendation);
+            NutritionRecommendation recommendation = CalculateRecommendation(matchedData);
+            Debug.Log($"✅ Tagesbedarf berechnet – kcal: {recommendation.energyKcal}, Protein: {recommendation.proteinG}, Fett: {recommendation.fatG}, Zucker: {recommendation.sugarG}, KH: {recommendation.carbsG}");
+            OnNutritionRecommendationCalculated?.Invoke(recommendation);
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ NutritionCalculator: Keine gültige Grundlage zur Berechnung.");
         }
     }
 
-    private void LoadNutritionData()
+    private NutritionData FindMatchingData()
     {
-        if (_nutritionDataCSV == null)
+        foreach (var data in nutritionDataList)
         {
-            Debug.LogError("NutritionCalculator: Nutrition CSV file is not assigned in the inspector!");
-            return;
-        }
-
-        string[] lines = _nutritionDataCSV.text.Split('\n');
-        Debug.Log($"lines: {lines}");
-
-        // Skip the header
-        for (int i = 1; i < lines.Length; i++)
-        {
-            string line = lines[i].Trim();
-            if (string.IsNullOrEmpty(line)) continue;
-
-            string[] values = line.Split(',');
-            
-            if (values.Length < 9) continue;
-
-            NutritionData data = new()
+            if (IsInAgeGroup(data.ageGroup) && data.sex == _sex && Mathf.Approximately(data.pal, _pal))
             {
-                ageGroup = values[0].Trim(),
-                sex = values[1].Trim(),
-                pal = ParseFloat(values[2]),
-                energyKcal = ParseFloat(values[3]),
-                proteinGPerKg = ParseFloat(values[4]),
-                fatG = ParseFloat(values[5]),
-                satFatG = ParseFloat(values[6]),
-                carbsG = ParseFloat(values[7]),
-                sugarG = ParseFloat(values[8])
-            };
-
-            nutritionDataList.Add(data);
+                Debug.Log("🎯 Exakte Daten gefunden.");
+                return data;
+            }
         }
+
+        foreach (var data in nutritionDataList)
+        {
+            if (IsInAgeGroup(data.ageGroup) && data.sex == _sex)
+            {
+                Debug.Log("✅ Passende Daten gefunden (PAL abweichend).");
+                return data;
+            }
+        }
+
+        var fallback = nutritionDataList.Find(d =>
+            d.ageGroup.Trim().Equals("Default", StringComparison.OrdinalIgnoreCase)
+        );
+
+        if (fallback != null)
+        {
+            Debug.LogWarning("⚠️ Kein exakter Treffer – Default-Werte werden verwendet.");
+            return fallback;
+        }
+
+        Debug.LogError("❌ Kein Default-Eintrag in CSV gefunden.");
+        return null;
     }
 
-    private float ParseFloat(string value)
+    private bool IsInAgeGroup(string ageGroup)
     {
-        if (float.TryParse(value, out float result))
+        if (string.IsNullOrWhiteSpace(ageGroup)) return false;
+
+        if (ageGroup.Trim().Equals("Default", StringComparison.OrdinalIgnoreCase)) return false;
+
+        if (ageGroup.EndsWith("+"))
         {
-            return result;
+            string ageString = ageGroup.TrimEnd('+');
+            if (int.TryParse(ageString, out int minAge))
+                return _age >= minAge;
+        }
+        else
+        {
+            string[] range = ageGroup.Split('-');
+            if (range.Length == 2 &&
+                int.TryParse(range[0], out int min) &&
+                int.TryParse(range[1], out int max))
+            {
+                return _age >= min && _age <= max;
+            }
         }
 
-        return 0f;
+        Debug.LogWarning($"⚠️ Altersgruppe '{ageGroup}' konnte nicht geparst werden.");
+        return false;
+    }
+
+    private NutritionRecommendation CalculateRecommendation(NutritionData data)
+    {
+        float palAdjustment = _pal / data.pal;
+
+        return new NutritionRecommendation
+        {
+            energyKcal = data.energyKcal * palAdjustment,
+            proteinG = data.proteinGPerKg * _weight, // z. B. 0.8 * 70 = 56g
+            fatG = data.fatG * palAdjustment,
+            satFatG = data.satFatG * palAdjustment,
+            carbsG = data.carbsG * palAdjustment,
+            sugarG = data.sugarG * palAdjustment
+        };
     }
 }
