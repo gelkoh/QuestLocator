@@ -9,7 +9,7 @@ public class BarcodeScannerGestureController : MonoBehaviour
     public void OnManualScannerGesturePerformed()
     {
         if (!IsBarcodeScannerStatusManagerInstanceAvailable()) return;
-        
+
         if (!BarcodeScannerStatusManagerInstance.IsScannerActive)
         {
             BarcodeManualScannerInstance?.StartScanning();
