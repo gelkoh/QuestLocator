@@ -1,4 +1,5 @@
 // Modified IntroManager to work with TutorialStateManager
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -41,7 +42,7 @@ public class IntroManager : MonoBehaviour
         }
 
         // Get reference to tutorial state manager
-        tutorialStateManager = TutorialStateManager.Instance;
+        tutorialStateManager = TutorialStateManager.TutorialStateManagerInstance;
         Debug.Log($"[IntroManager] tutorialStateManager is {(tutorialStateManager == null ? "null" : "assigned")}");
     }
 
@@ -54,6 +55,14 @@ public class IntroManager : MonoBehaviour
             tutorialStateManager.OnTutorialComplete.AddListener(OnTutorialCompleted);
             tutorialStateManager.OnTutorialSkipped.AddListener(OnTutorialSkipped);
         }
+
+        StartCoroutine(DelayedStartIntro()); 
+        // CheckAndStartIntro();
+    }
+
+    private IEnumerator DelayedStartIntro()
+    {
+        yield return new WaitForSeconds(1f);
 
         CheckAndStartIntro();
     }
