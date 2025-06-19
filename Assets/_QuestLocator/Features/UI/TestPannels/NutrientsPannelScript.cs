@@ -11,12 +11,16 @@ public class NutrientsPannelScript : MonoBehaviour
 
     private Root productData;
 
+    private ProductParent productDisplayScript;
+
     private void Start()
     {
-        StartCoroutine(OpenFoodFactsClientCall());
+        //StartCoroutine(OpenFoodFactsClientCall());
+        productDisplayScript = GetComponentInParent<ProductParent>();
+        TryFillBars();
     }
 
-    private IEnumerator OpenFoodFactsClientCall()
+    /* private IEnumerator OpenFoodFactsClientCall()
     {
         var client = new OpenFoodFactsClient();
         yield return client.GetProductByEan(ean,
@@ -43,7 +47,7 @@ public class NutrientsPannelScript : MonoBehaviour
             {
                 Debug.LogError("API Fehler: " + err);
             });
-    }
+    } */
 
     private void TryFillBars()
     {
@@ -53,7 +57,12 @@ public class NutrientsPannelScript : MonoBehaviour
             return;
         }
 
-        if (productData?.Product?.Nutriments == null)
+        /* if (productData?.Product?.Nutriments == null)
+        {
+            Debug.LogWarning("⚠️ Keine Nährwertdaten verfügbar.");
+            return;
+        } */
+        if (productDisplayScript.productData.Product.Nutriments == null)
         {
             Debug.LogWarning("⚠️ Keine Nährwertdaten verfügbar.");
             return;
@@ -73,8 +82,8 @@ public class NutrientsPannelScript : MonoBehaviour
         calc.OnNutritionRecommendationCalculated = null;
         calc.OnNutritionRecommendationCalculated += (recommendation) =>
         {
-            Debug.Log($"➡️ FillBars gestartet – Energie: {productData.Product.Nutriments?.EnergyKcal100G}, Empfohlen: {recommendation?.energyKcal}");
-            nutrientBarFiller.FillBars(productData.Product.Nutriments, recommendation);
+            Debug.Log($"➡️ FillBars gestartet Energie: {productData.Product.Nutriments?.EnergyKcal100G}, Empfohlen: {recommendation?.energyKcal}");
+            nutrientBarFiller.FillBars(productDisplayScript.productData.Product.Nutriments, recommendation);
         };
 
         // Falls nicht schon intern berechnet wurde
