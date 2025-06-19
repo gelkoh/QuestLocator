@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseAllPanels()
     {
+        // Set "persistant" panels inactive instead of destroying them (because they will never exist multiple times in the scene anyways)
         if (_persitantPanels != null)
         {
             foreach (var panel in _persitantPanels)
@@ -30,13 +31,13 @@ public class UIManager : MonoBehaviour
                 {
                     panel.SetActive(false);
                 }
-            }    
+            }
         }
         
-
+        // Really destroy product related panels because there might be many at some point and maybe use up a lot of memory
         if (_contentRoot != null)
         {
-            Debug.Log($"Closing all instantiated panels under: {_contentRoot.name}");
+            Debug.Log($"Destroying all instantiated panels under: {_contentRoot.name}");
 
             Transform[] allChildren = _contentRoot.GetComponentsInChildren<Transform>();
 
@@ -48,8 +49,9 @@ public class UIManager : MonoBehaviour
                 }
                 else if (childTransform.gameObject.activeSelf)
                 {
-                    childTransform.gameObject.SetActive(false);
-                    Debug.Log($"Closed product panel: {childTransform.name}");
+                    // childTransform.gameObject.SetActive(false);
+                    Destroy(childTransform.gameObject);
+                    Debug.Log($"Destroyed product panel: {childTransform.name}");
                 }
             }
         }

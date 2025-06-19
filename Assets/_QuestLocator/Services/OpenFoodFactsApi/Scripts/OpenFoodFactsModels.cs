@@ -29,41 +29,298 @@ public partial class Root
 }
 
 public partial class Product
-{
-    [JsonProperty("_id")]
-    public string Id { get; set; }
+    {
+        [JsonProperty("_id")]
+        public string Id { get; set; }
 
-    [JsonProperty("brands_tags")]
-    public string[] BrandsTags { get; set; }
+        [JsonProperty("brands_tags")]
+        public string[] BrandsTags { get; set; }
 
-    [JsonProperty("ecoscore_grade")]
-    public string EcoscoreGrade { get; set; }
+        [JsonProperty("ecoscore_data")]
+        public EcoscoreData EcoscoreData { get; set; }
 
-    [JsonProperty("ingredients")]
-    public Ingredient[] Ingredients { get; set; }
+        /* [JsonProperty("ecoscore_grade")]
+        public Grade EcoscoreGrade { get; set; }
 
-    [JsonProperty("ingredients_analysis_tags")]
-    public string[] IngredientsAnalysisTags { get; set; }
+        [JsonProperty("ecoscore_score")]
+        public long EcoscoreScore { get; set; } */
 
-    [JsonProperty("nutriments")]
-    public Nutriments Nutriments { get; set; }
+        [JsonProperty("ingredients")]
+        public Ingredient[] Ingredients { get; set; }
 
-    [JsonProperty("nutriscore_grade")]
-    public string NutriscoreGrade { get; set; }
+        [JsonProperty("ingredients_analysis_tags")]
+        public string[] IngredientsAnalysisTags { get; set; }
 
-    [JsonProperty("product_name")]
-    public string ProductName { get; set; }
+        [JsonProperty("nutriments")]
+        public Nutriments Nutriments { get; set; }
 
-    [JsonProperty("product_quantity")]
-    [JsonConverter(typeof(ParseStringConverter))]
-    public long ProductQuantity { get; set; }
+        [JsonProperty("nutriscore_grade")]
+        public string NutriscoreGrade { get; set; }
 
-    [JsonProperty("product_quantity_unit")]
-    public string ProductQuantityUnit { get; set; }
+        [JsonProperty("product_name")]
+        public string ProductName { get; set; }
 
-    [JsonProperty("schema_version")]
-    public long SchemaVersion { get; set; }
-}
+        [JsonProperty("product_quantity")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long ProductQuantity { get; set; }
+
+        [JsonProperty("product_quantity_unit")]
+        public string ProductQuantityUnit { get; set; }
+    }
+
+    public partial class EcoscoreData
+    {
+        [JsonProperty("adjustments")]
+        public Adjustments Adjustments { get; set; }
+
+        [JsonProperty("agribalyse")]
+        public Agribalyse Agribalyse { get; set; }
+
+        [JsonProperty("grade")]
+        public string Grade { get; set; }
+
+        [JsonProperty("grades")]
+        public Dictionary<string, string> Grades { get; set; }
+
+        [JsonProperty("missing")]
+        public Missing Missing { get; set; }
+
+        [JsonProperty("missing_data_warning")]
+        public long MissingDataWarning { get; set; }
+
+        [JsonProperty("score")]
+        public long? Score { get; set; }
+
+        [JsonProperty("scores")]
+        public Dictionary<string, long> Scores { get; set; }
+
+        [JsonProperty("status")]
+        public string Status { get; set; }
+    }
+
+    public partial class Adjustments
+    {
+        [JsonProperty("origins_of_ingredients")]
+        public OriginsOfIngredients OriginsOfIngredients { get; set; }
+
+        [JsonProperty("packaging")]
+        public AdjustmentsPackaging Packaging { get; set; }
+
+        [JsonProperty("production_system")]
+        public ProductionSystem ProductionSystem { get; set; }
+
+        [JsonProperty("threatened_species")]
+        public ThreatenedSpecies ThreatenedSpecies { get; set; }
+    }
+
+    public partial class OriginsOfIngredients
+    {
+        [JsonProperty("aggregated_origins")]
+        public AggregatedOrigin[] AggregatedOrigins { get; set; }
+
+        [JsonProperty("epi_score")]
+        public long EpiScore { get; set; }
+
+        [JsonProperty("epi_value")]
+        public long EpiValue { get; set; }
+
+        [JsonProperty("origins_from_categories")]
+        public string[] OriginsFromCategories { get; set; }
+
+        [JsonProperty("origins_from_origins_field")]
+        public string[] OriginsFromOriginsField { get; set; }
+
+        [JsonProperty("transportation_score")]
+        public long TransportationScore { get; set; }
+
+        [JsonProperty("transportation_scores")]
+        public Dictionary<string, long> TransportationScores { get; set; }
+
+        [JsonProperty("transportation_value")]
+        public long TransportationValue { get; set; }
+
+        [JsonProperty("transportation_values")]
+        public Dictionary<string, long> TransportationValues { get; set; }
+
+        [JsonProperty("value")]
+        public long Value { get; set; }
+
+        [JsonProperty("values")]
+        public Dictionary<string, long> Values { get; set; }
+
+        [JsonProperty("warning")]
+        public string Warning { get; set; }
+    }
+
+    public partial class AggregatedOrigin
+    {
+        [JsonProperty("epi_score")]
+        public long EpiScore { get; set; }
+
+        [JsonProperty("origin")]
+        public string Origin { get; set; }
+
+        [JsonProperty("percent")]
+        public long Percent { get; set; }
+
+        [JsonProperty("transportation_score")]
+        public long TransportationScore { get; set; }
+    }
+
+    public partial class AdjustmentsPackaging
+    {
+        [JsonProperty("non_recyclable_and_non_biodegradable_materials")]
+        public long NonRecyclableAndNonBiodegradableMaterials { get; set; }
+
+        [JsonProperty("packagings")]
+        public PackagingElement[] Packagings { get; set; }
+
+        [JsonProperty("score")]
+        public long Score { get; set; }
+
+        [JsonProperty("value")]
+        public long Value { get; set; }
+
+        [JsonProperty("warning")]
+        public string Warning { get; set; }
+    }
+
+    public partial class PackagingElement
+    {
+        [JsonProperty("environmental_score_material_score")]
+        public long EnvironmentalScoreMaterialScore { get; set; }
+
+        [JsonProperty("environmental_score_shape_ratio")]
+        public long EnvironmentalScoreShapeRatio { get; set; }
+
+        [JsonProperty("material")]
+        public string Material { get; set; }
+
+        [JsonProperty("number_of_units")]
+        public long NumberOfUnits { get; set; }
+
+        [JsonProperty("quantity_per_unit", NullValueHandling = NullValueHandling.Ignore)]
+        public string QuantityPerUnit { get; set; }
+
+        [JsonProperty("quantity_per_unit_unit", NullValueHandling = NullValueHandling.Ignore)]
+        public string QuantityPerUnitUnit { get; set; }
+
+        [JsonProperty("quantity_per_unit_value", NullValueHandling = NullValueHandling.Ignore)]
+        public long? QuantityPerUnitValue { get; set; }
+
+        [JsonProperty("recycling")]
+        public string Recycling { get; set; }
+
+        [JsonProperty("shape")]
+        public string Shape { get; set; }
+
+        [JsonProperty("weight_measured")]
+        public double WeightMeasured { get; set; }
+    }
+
+    public partial class ProductionSystem
+    {
+        [JsonProperty("labels")]
+        public object[] Labels { get; set; }
+
+        [JsonProperty("value")]
+        public long Value { get; set; }
+
+        [JsonProperty("warning")]
+        public string Warning { get; set; }
+    }
+
+    public partial class ThreatenedSpecies
+    {
+        [JsonProperty("ingredient")]
+        public string Ingredient { get; set; }
+
+        [JsonProperty("value")]
+        public long Value { get; set; }
+    }
+
+    public partial class Agribalyse
+    {
+        [JsonProperty("agribalyse_food_code")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long AgribalyseFoodCode { get; set; }
+
+        [JsonProperty("co2_agriculture")]
+        public double Co2Agriculture { get; set; }
+
+        [JsonProperty("co2_consumption")]
+        public long Co2Consumption { get; set; }
+
+        [JsonProperty("co2_distribution")]
+        public double Co2Distribution { get; set; }
+
+        [JsonProperty("co2_packaging")]
+        public double Co2Packaging { get; set; }
+
+        [JsonProperty("co2_processing")]
+        public double Co2Processing { get; set; }
+
+        [JsonProperty("co2_total")]
+        public double? Co2Total { get; set; }
+
+        [JsonProperty("co2_transportation")]
+        public double Co2Transportation { get; set; }
+
+        [JsonProperty("code")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long Code { get; set; }
+
+        [JsonProperty("dqr")]
+        public string Dqr { get; set; }
+
+        [JsonProperty("ef_agriculture")]
+        public double EfAgriculture { get; set; }
+
+        [JsonProperty("ef_consumption")]
+        public long EfConsumption { get; set; }
+
+        [JsonProperty("ef_distribution")]
+        public double EfDistribution { get; set; }
+
+        [JsonProperty("ef_packaging")]
+        public double EfPackaging { get; set; }
+
+        [JsonProperty("ef_processing")]
+        public double EfProcessing { get; set; }
+
+        [JsonProperty("ef_total")]
+        public double EfTotal { get; set; }
+
+        [JsonProperty("ef_transportation")]
+        public double EfTransportation { get; set; }
+
+        [JsonProperty("is_beverage")]
+        public long IsBeverage { get; set; }
+
+        [JsonProperty("name_en")]
+        public string NameEn { get; set; }
+
+        [JsonProperty("name_fr")]
+        public string NameFr { get; set; }
+
+        [JsonProperty("score")]
+        public long Score { get; set; }
+
+        [JsonProperty("version")]
+        public string Version { get; set; }
+    }
+
+    public partial class Missing
+    {
+        [JsonProperty("labels")]
+        public long Labels { get; set; }
+
+        [JsonProperty("origins")]
+        public long Origins { get; set; }
+
+        [JsonProperty("packagings")]
+        public long Packagings { get; set; }
+    }
 
 public partial class Ingredient
 {

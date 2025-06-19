@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static ScanHistoryManager;
+using static ProductDisplayManager;
 
 public class ProductHistoryUIController : MonoBehaviour
 {
@@ -11,10 +11,11 @@ public class ProductHistoryUIController : MonoBehaviour
     [SerializeField] private GameObject _scanHistoryPanel;
     [SerializeField] private Transform _historyItemsParent;
     [SerializeField] private GameObject _historyItemPrefab;
-    [SerializeField] private Vector3 displayOffset = new Vector3(0, 0, 0);
-    [SerializeField] private float distanceFromCamera = 0.5f;
+    [SerializeField] private Button _clearAllButton;
 
     private Camera mainCamera;
+    private PanelPositioner _scanHistoryPanelPositioner;
+
 
     void OnEnable()
     {
@@ -35,6 +36,18 @@ public class ProductHistoryUIController : MonoBehaviour
         {
             Debug.LogError("No Main Camera found! Please tag your main camera as 'MainCamera'.");
         }
+
+        if (_clearAllButton != null)
+        {
+            _clearAllButton.onClick.RemoveAllListeners();
+            _clearAllButton.onClick.AddListener(HandleClearAllButtonClick);
+        }
+        else
+        {
+            Debug.LogError("ScanHistoryUIController: Clear button is not assigned in the inspector.");
+        }
+
+        _scanHistoryPanelPositioner = _scanHistoryPanel.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
     }
 
     void Start()
@@ -42,7 +55,7 @@ public class ProductHistoryUIController : MonoBehaviour
         UpdateUI();
     }
 
-    private void AddProductToPanel(Root productProduct, int idx)
+    private void AddProductToPanel(Root productRoot, int idx)
     {
         GameObject newProductGO = Instantiate(_historyItemPrefab, _historyItemsParent);
 
@@ -52,22 +65,19 @@ public class ProductHistoryUIController : MonoBehaviour
 
         Transform productNameTransform = newProductGO.transform.Find("ScanHistoryItemProductName");
         TextMeshProUGUI productName = productNameTransform.GetComponent<TextMeshProUGUI>();
-        productName.SetText(productProduct.Product.ProductName);
+        productName.SetText(productRoot.Product.ProductName);
 
         Transform viewButtonTransform = newProductGO.transform.Find("ScanHistoryItemViewButton");
         Button viewButton = viewButtonTransform.GetComponent<Button>();
         viewButton.onClick.RemoveAllListeners();
-        viewButton.onClick.AddListener(() => HandleViewButtonClick(productProduct));
+        viewButton.onClick.AddListener(() => HandleViewButtonClick(productRoot));
 
         Transform removeButtonTransform = newProductGO.transform.Find("ScanHistoryItemRemoveButton");
         Button removeButton = removeButtonTransform.GetComponent<Button>();
         removeButton.onClick.RemoveAllListeners();
-        removeButton.onClick.AddListener(() => HandleRemoveButtonClick(productProduct));
+        removeButton.onClick.AddListener(() => HandleRemoveButtonClick(productRoot));
 
-        Transform clearAllButtonTransform = newProductGO.transform.Find("ClearAllButton");
-        Button clearAllButton = clearAllButtonTransform.GetComponent<Button>();
-        clearAllButton.onClick.RemoveAllListeners();
-        clearAllButton.onClick.AddListener(HandleClearAllButtonClick);
+        Debug.Log("ScanHistoryUIController: Inside end of addproducttopanel()");
     }
 
     private void HandleHistoryChanged()
@@ -77,7 +87,9 @@ public class ProductHistoryUIController : MonoBehaviour
 
     private void HandleViewButtonClick(Root productRoot)
     {
-        InstantiateProduct(productRoot);
+        Debug.Log("ScanHistoryUIController: Handling view button click");
+        ProductDisplayManagerInstance.InstantiateAndFillProductPrefab(productRoot);
+        // InstantiateProduct(productRoot);
     }
 
     private void HandleRemoveButtonClick(Root productRoot)
@@ -94,6 +106,7 @@ public class ProductHistoryUIController : MonoBehaviour
 
     private void UpdateUI()
     {
+        Debug.Log("ScanHistoryUIController: Updating UI");
         RemoveAllItems();
 
         List<Root> productsRoots = ScanHistoryManagerInstance.GetSavedProducts();
@@ -101,6 +114,7 @@ public class ProductHistoryUIController : MonoBehaviour
         for (int i = 0; i < productsRoots.Count; i++)
         {
             AddProductToPanel(productsRoots[i], i + 1);
+            Debug.Log("ScanHistoryUIController: Added product to panel.");
         }
     }
 
@@ -109,53 +123,6 @@ public class ProductHistoryUIController : MonoBehaviour
         foreach (Transform child in _historyItemsParent)
         {
             Destroy(child.gameObject);
-        }
-    }
-
-    private void InstantiateProduct(Root productRoot)
-    {
-        if (mainCamera == null)
-        {
-            Debug.LogError("Main Camera is null! Cannot spawn product prefab.");
-            return;
-        }
-
-        Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
-
-        spawnPosition += mainCamera.transform.right * displayOffset.x;
-        spawnPosition += mainCamera.transform.up * displayOffset.y;
-        spawnPosition += mainCamera.transform.forward * displayOffset.z;
-
-        Quaternion spawnRotation = Quaternion.LookRotation(mainCamera.transform.position - spawnPosition);
-
-        spawnRotation = mainCamera.transform.rotation;
-        try
-        {
-            GameObject newProductGO = Instantiate(_productPrefab, spawnPosition, spawnRotation, transform);
-            if (productRoot != null && productRoot.Product != null && !string.IsNullOrEmpty(productRoot.Product.ProductName))
-            {
-                newProductGO.name = $"ProductDisplay_{productRoot.Product.ProductName.Replace(" ", "_").Replace("/", "_")}";
-            }
-            else
-            {
-                newProductGO.name = $"ProductDisplay_Unknown";
-            }
-
-            ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
-
-
-            if (productDisplayScript != null)
-            {
-                productDisplayScript.SetProductData(productRoot);
-            }
-            else
-            {
-                Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Error Instancing Parent::" + ex.Message);
         }
     }
 
@@ -170,6 +137,13 @@ public class ProductHistoryUIController : MonoBehaviour
         {
             Debug.Log("ScanHistoryUIController: Show scan history panel");
             _scanHistoryPanel.SetActive(true);
+
+            if (_scanHistoryPanelPositioner == null)
+            {
+                Debug.LogWarning("ScanHistoryUIController: Scan history panel positioner is null");
+            }
+
+            _scanHistoryPanelPositioner.PositionPanelInFrontOfCamera();
         }
     }
 }
