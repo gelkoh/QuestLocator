@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections.Generic;
 
 public class TutorialStateManager : MonoBehaviour
 {
@@ -15,24 +14,28 @@ public class TutorialStateManager : MonoBehaviour
     private int currentPanelIndex = -1;
     private bool isTutorialActive = false;
     private BaseTutorialPanel currentPanel;
+    private PanelPositioner _tutorialPanelPositioner;
 
     // Singleton for easy access
-    public static TutorialStateManager Instance { get; private set; }
+    public static TutorialStateManager TutorialStateManagerInstance { get; private set; }
 
     public bool IsTutorialActive => isTutorialActive;
     public int CurrentStep => currentPanelIndex;
     public int TotalSteps => tutorialPanels.Length;
+    private bool _panelsInitializedYet = false;
 
     private void Awake()
     {
         Debug.Log("[TutorialStateManager] Awake called.");
-        if (Instance == null)
+        if (TutorialStateManagerInstance == null)
         {
-            Instance = this;
+            TutorialStateManagerInstance = this;
+
             if (transform.parent != null)
             {
                 transform.SetParent(null);
             }
+            
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -46,38 +49,66 @@ public class TutorialStateManager : MonoBehaviour
 
     private void InitializePanels()
     {
-        Debug.Log($"[TutorialStateManager] Initializing {tutorialPanels.Length} panels.");
-        // Hide all panels initially and set up their callbacks
-        for (int i = 0; i < tutorialPanels.Length; i++)
+        if (!_panelsInitializedYet)
         {
-            if (tutorialPanels[i] != null)
+            Debug.Log($"[TutorialStateManager] Initializing {tutorialPanels.Length} panels.");
+
+            if (tutorialPanels[0] != null)
             {
-                Debug.Log($"[TutorialStateManager] Hiding and initializing panel {i}: {tutorialPanels[i].gameObject.name}");
-                tutorialPanels[i].gameObject.SetActive(false);
-                tutorialPanels[i].Initialize(this, i);
+                _tutorialPanelPositioner = tutorialPanels[0].GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
             }
-            else
+
+            // Hide all panels initially and set up their callbacks
+            for (int i = 0; i < tutorialPanels.Length; i++)
             {
-                Debug.LogWarning($"[TutorialStateManager] tutorialPanels[{i}] is null!");
+                if (tutorialPanels[i] != null)
+                {
+                    Debug.Log($"[TutorialStateManager] Hiding and initializing panel {i}: {tutorialPanels[i].gameObject.name}");
+                    tutorialPanels[i].gameObject.SetActive(false);
+                    tutorialPanels[i].Initialize(this, i);
+                }
+                else
+                {
+                    Debug.LogWarning($"[TutorialStateManager] tutorialPanels[{i}] is null!");
+                }
             }
+
+            _panelsInitializedYet = true;
         }
     }
 
     public void StartTutorial()
     {
-        Debug.Log("[TutorialStateManager] StartTutorial called.");
-        if (tutorialPanels.Length == 0)
+        InitializePanels();
+
+        isTutorialActive = !isTutorialActive;
+
+        // If tutorial is already active and menu button is clicked again, hide the tutorial
+        if (isTutorialActive)
         {
-            Debug.LogWarning("[TutorialStateManager] No tutorial panels configured!");
+            Debug.Log("[TutorialStateManager] StartTutorial called.");
+
+            if (tutorialPanels.Length == 0)
+            {
+                Debug.LogWarning("[TutorialStateManager] No tutorial panels configured!");
+                return;
+            }
+
+            isTutorialActive = true;
+            currentPanelIndex = 0;
+
+            Debug.Log("[TutorialStateManager] Invoking OnTutorialStart event.");
+            OnTutorialStart?.Invoke();
+            ShowCurrentPanel();
+
+            Debug.Log("[TutorialStateManager] Positioned tutorial in front of camera.");
+            _tutorialPanelPositioner.PositionPanelInFrontOfCamera();
+        }
+        else
+        {
+            HideCurrentPanel();
             return;
         }
-
-        isTutorialActive = true;
-        currentPanelIndex = 0;
-
-        Debug.Log("[TutorialStateManager] Invoking OnTutorialStart event.");
-        OnTutorialStart?.Invoke();
-        ShowCurrentPanel();
     }
 
     public void NextPanel()
@@ -148,6 +179,7 @@ public class TutorialStateManager : MonoBehaviour
     private void ShowCurrentPanel()
     {
         Debug.Log($"[TutorialStateManager] ShowCurrentPanel called. currentPanelIndex={currentPanelIndex}, totalPanels={tutorialPanels.Length}");
+
         if (currentPanelIndex < 0 || currentPanelIndex >= tutorialPanels.Length)
         {
             Debug.LogWarning("[TutorialStateManager] currentPanelIndex out of range.");
@@ -155,6 +187,7 @@ public class TutorialStateManager : MonoBehaviour
         }
 
         currentPanel = tutorialPanels[currentPanelIndex];
+
         if (currentPanel != null)
         {
             Debug.Log($"[TutorialStateManager] Showing panel {currentPanelIndex}: {currentPanel.gameObject.name}");
@@ -195,5 +228,24 @@ public class TutorialStateManager : MonoBehaviour
             currentPanel.MarkCompleted();
         }
     }
-}
 
+    public void ResetAndHideTutorial()
+    {
+        Debug.Log("[TutorialStateManager] ResetAndHideTutorial called by external source.");
+        if (isTutorialActive)
+        {
+            HideCurrentPanel();
+        }
+
+        foreach (var panel in tutorialPanels)
+        {
+            if (panel != null && panel.gameObject.activeSelf)
+            {
+                panel.gameObject.SetActive(false);
+            }
+        }
+
+        isTutorialActive = false;
+        currentPanelIndex = -1;
+    }
+}
