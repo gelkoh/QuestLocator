@@ -19,7 +19,6 @@ public class ProductHistoryUIController : MonoBehaviour
 
     void OnEnable()
     {
-        ScanHistoryManagerInstance.OnHistoryChanged += HandleHistoryChanged;
         _scanHistoryPanel.SetActive(false);
     }
 
@@ -52,6 +51,16 @@ public class ProductHistoryUIController : MonoBehaviour
 
     void Start()
     {
+        if (ScanHistoryManagerInstance != null)
+        {
+            ScanHistoryManagerInstance.OnHistoryChanged += HandleHistoryChanged;
+            Debug.Log("ScanHistoryUIController: Subscribed to history changed event.");
+        }
+        else
+        {
+            Debug.LogWarning("ScanHistoryUIController: ScanHistoryManagerInstance not yet available. Subscription deferred.");
+        }
+
         UpdateUI();
     }
 
@@ -82,6 +91,7 @@ public class ProductHistoryUIController : MonoBehaviour
 
     private void HandleHistoryChanged()
     {
+        Debug.Log("ScanHistoryUIController: Handle History Changed");
         UpdateUI();
     }
 

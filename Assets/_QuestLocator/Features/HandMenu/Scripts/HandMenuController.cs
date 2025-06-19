@@ -6,12 +6,14 @@ using UnityEngine.XR;
 public class HandMenuController : MonoBehaviour
 {
     public GameObject menuUI;
-    public float handOffsetForward = 0.15f;
-    public float handOffsetUp = 0.5f;
+    private float handOffsetForward = 0.2f;
+    private float handOffsetUp = 0.28f;
+    private float handOffsetSide = 0.2f;
 
     public float distanceFromFace = 0.5f;
 
-    public bool isMenuVisible = false;
+    // public bool isMenuVisible = false;
+    private bool _isMenuActive;
 
     [SerializeField] private GameObject _settingsPanel;
     private PanelPositioner _settingsPanelPositioner;
@@ -62,23 +64,9 @@ public class HandMenuController : MonoBehaviour
 
     void Update()
     {
-        if (isMenuVisible)
+        if (_isMenuActive)
         {
             UpdateMenuPositionAndRotation();
-        }
-    }
-
-    public void ToggleMenu()
-    {
-        isMenuVisible = !isMenuVisible;
-
-        if (isMenuVisible)
-        {
-            ShowMenu();
-        }
-        else
-        {
-            HideMenu();
         }
     }
 
@@ -87,6 +75,7 @@ public class HandMenuController : MonoBehaviour
         if (menuUI == null) return;
 
         UpdateMenuPositionAndRotation();
+        _isMenuActive = true;
         menuUI.SetActive(true);
     }
 
@@ -134,10 +123,27 @@ public class HandMenuController : MonoBehaviour
         XRHandJoint wristJoint = currentHand.GetJoint(XRHandJointID.Wrist);
 
         if (wristJoint.TryGetPose(out Pose wristPose))
-        {
-            Vector3 targetPosition = wristPose.position;
-            targetPosition += wristPose.up * handOffsetUp;
-            targetPosition += wristPose.forward * handOffsetForward;
+    {
+            // Welt‑Y statt local‑up
+            Vector3 targetPosition = wristPose.position 
+                                + Vector3.up * handOffsetUp 
+                                + wristPose.forward * handOffsetForward;
+            // Vector3 targetPosition;
+            // if (_isLeftHandGesture)
+            // {
+            //     targetPosition = wristPose.position
+            //            + Vector3.up * handOffsetUp
+            //            + wristPose.forward * handOffsetForward
+            //            + Vector3.right * -handOffsetSide; // hier der seitliche Offset
+            // }
+            // else
+            // {
+            //     targetPosition = wristPose.position
+            //            + Vector3.up * handOffsetUp
+            //            + wristPose.forward * handOffsetForward
+            //            + Vector3.right * -handOffsetSide; // hier der seitliche Offset
+            // }
+            
 
             Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
 
@@ -148,23 +154,37 @@ public class HandMenuController : MonoBehaviour
 
     public void OnLeftHandMenuGesturePerformed()
     {
-        _isLeftHandGesture = true;
-        ToggleMenu();
+        if (!_isMenuActive)
+        {
+            _isLeftHandGesture = true;
+            ShowMenu();
+        }
     }
 
     public void OnLeftHandMenuGestureEnded()
     {
-        HideMenu();
+        if (_isLeftHandGesture)
+        {
+            _isMenuActive = false;
+            HideMenu();
+        }
     }
 
     public void OnRightHandMenuGesturePerformed()
     {
-        _isLeftHandGesture = false;
-        ToggleMenu();
+        if (!_isMenuActive)
+        {
+            _isLeftHandGesture = false;
+            ShowMenu();
+        }
     }
 
     public void OnRightHandMenuGestureEnded()
     {
-        HideMenu();
+        if (!_isLeftHandGesture)
+        {
+            _isMenuActive = false;
+            HideMenu();
+        }
     }
 }
