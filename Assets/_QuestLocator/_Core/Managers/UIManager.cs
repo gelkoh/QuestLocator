@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static TutorialStateManager;
 
 public class UIManager : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
+        TutorialStateManagerInstance.ResetAndHideTutorial();
         
         // Really destroy product related panels because there might be many at some point and maybe use up a lot of memory
         if (_contentRoot != null)
