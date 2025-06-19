@@ -41,9 +41,10 @@ public class ProductParent : MonoBehaviour
         Debug.LogError("start Parent");
 
         //nur zum test
-        //SetUpTitlePannel();
-        //SetUpNutritionPanel();
-        //SetUpZutatenPanel();
+        SetUpTitlePannel();
+        SetUpNutritionPanel();
+        SetUpZutatenPanel();
+        SetUpFootprintPanel();
     }
 
     // Update is called once per frame
@@ -155,7 +156,6 @@ public class ProductParent : MonoBehaviour
                 nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
                 nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 nutritionPannelInstance.GetComponent<Panel>().SetSpawn(nutritionSpawn);
-
             }
 
         }
