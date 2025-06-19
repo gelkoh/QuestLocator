@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _position: {x: 0, y: 0, z: 0}
-  _size: {x: 447, y: 359, z: 0.01}
+  _size: {x: 457, y: 164, z: 0.01}
 --- !u!114 &9102477571708733868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 8869180554963266541}
   - component: {fileID: 1607784513098647700}
   - component: {fileID: 6636257591820737843}
+  - component: {fileID: 7906199056291615459}
   m_Layer: 0
   m_Name: CanvasRoot
   m_TagString: Untagged
@@ -421,7 +422,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926829856356910108}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.0060016075, y: -0.35556707, z: 0.046854552, w: -0.93345636}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0005, y: 0.0005, z: 0.0005}
   m_ConstrainProportionsScale: 0
@@ -435,7 +436,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 447, y: 359}
+  m_SizeDelta: {x: 457, y: 164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4012089697842314527
 Canvas:
@@ -554,8 +555,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 428, y: 359, z: 0}
+  m_Size: {x: 447, y: 164, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7906199056291615459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926829856356910108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5971393b13edc41bccde967589001e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1163295120181116595
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,7 +1308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _position: {x: 0, y: 0, z: 0}
-  _size: {x: 447, y: 359, z: 0.01}
+  _size: {x: 457, y: 164, z: 0.01}
 --- !u!114 &4640691075321742870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,7 +2496,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 447, y: -359}
+  m_AnchoredPosition: {x: 457, y: -164}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &327168594241529398
