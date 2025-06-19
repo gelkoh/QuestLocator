@@ -22,22 +22,20 @@ public class DebugMenuScript : MonoBehaviour
     }
     void HandleLog(string logString, string stackTrace, LogType type)
     {
-        output = logString + "\n" + output;
-
-        stack = stackTrace;
+        if (type == LogType.Error)
+        {
+            output += logString + "\n";
+        }
         ErrorTF.text = output;
+
     }
-    public void ClearLog()
-    {
-        ErrorTF.text = "";
-    }
-    private void OnGUI()
-    {
-        
-    }
+    
     public void CreateError()
     {
         Debug.LogError("errorButton");
     }
-
+    private void ClearLog()
+    {
+        ErrorTF.text = "";
+    }
 }

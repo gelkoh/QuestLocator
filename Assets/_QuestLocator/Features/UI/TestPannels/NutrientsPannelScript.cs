@@ -4,8 +4,8 @@ using System.Collections;
 
 public class NutrientsPannelScript : MonoBehaviour
 {
-    [Header("Manuelle EAN Eingabe")]
-    [SerializeField] private string ean = "3017620422003"; // z. B. Nutella
+    //[Header("Manuelle EAN Eingabe")]
+    //[SerializeField] private string ean = "3017620422003"; // z. B. Nutella
     [SerializeField] private NutrientBarFiller nutrientBarFiller;
     [SerializeField] private TextMeshProUGUI productName;
 
@@ -82,7 +82,7 @@ public class NutrientsPannelScript : MonoBehaviour
         calc.OnNutritionRecommendationCalculated = null;
         calc.OnNutritionRecommendationCalculated += (recommendation) =>
         {
-            Debug.Log($"➡️ FillBars gestartet Energie: {productData.Product.Nutriments?.EnergyKcal100G}, Empfohlen: {recommendation?.energyKcal}");
+            //Debug.Log($"➡️ FillBars gestartet Energie: {productData.Product.Nutriments?.EnergyKcal100G}, Empfohlen: {recommendation?.energyKcal}");
             nutrientBarFiller.FillBars(productDisplayScript.productData.Product.Nutriments, recommendation);
         };
 
