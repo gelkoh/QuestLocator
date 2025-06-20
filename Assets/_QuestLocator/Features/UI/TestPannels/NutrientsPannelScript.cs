@@ -51,6 +51,7 @@ public class NutrientsPannelScript : MonoBehaviour
 
     private void TryFillBars()
     {
+        productName.text = productDisplayScript.productData.Product.ProductName;
         if (nutrientBarFiller == null)
         {
             Debug.LogError("❌ nutrientBarFiller ist nicht zugewiesen! Bitte das GameObject mit dem Script (z. B. col1) im Inspector eintragen.");
