@@ -74,10 +74,10 @@ public class NutrientsPannelScript : MonoBehaviour
         var calc = NutritionCalculator.NutritionCalculatorInstance;
 
         // Standardwerte setzen (damit Berechnung funktioniert)
-        calc.OnAgeSliderValueChanged(calc.defaultAge);
+        calc.OnAgeSliderValueChanged(calc.CurrentAge);
         calc.OnSexDropdownValueChanged(1); // 1 = Männlich
-        calc.OnWeightSliderValueChanged(calc.defaultWeight);
-        calc.OnPALSliderValueChanged(calc.defaultPAL * 10f); // Slider erwartet *10
+        calc.OnWeightSliderValueChanged(calc.CurrentWeight);
+        calc.OnPALSliderValueChanged(calc.CurrentPhysicalActivityLevel * 10f); // Slider erwartet *10
 
         // Event-Callback registrieren
         calc.OnNutritionRecommendationCalculated = null;
