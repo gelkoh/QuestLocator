@@ -2832,7 +2832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persitantPanels:
-  - {fileID: 0}
+  - {fileID: 7179458432129889981}
   - {fileID: 6658057282265761405}
   _contentRoot: {fileID: 51069746}
 --- !u!1 &182363814
@@ -3154,19 +3154,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1052339885871048415, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1052339885871048415, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1052339885871048415, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 60.5
       objectReference: {fileID: 0}
     - target: {fileID: 1052339885871048415, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 1597254738019875173, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3182,35 +3182,35 @@ PrefabInstance:
       objectReference: {fileID: 1444243018}
     - target: {fileID: 2177273802597890041, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2177273802597890041, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2177273802597890041, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2177273802597890041, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 2223105555814096433, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2223105555814096433, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2223105555814096433, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2223105555814096433, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 2425400815818265215, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3274,19 +3274,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626881762838256620, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3626881762838256620, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3626881762838256620, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 60.5
       objectReference: {fileID: 0}
     - target: {fileID: 3626881762838256620, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 3661178437741802818, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
@@ -43061,7 +43061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productPrefab: {fileID: 4502861445386835144, guid: af4a9bd156dbea34ea30b97bb8e7d8c9, type: 3}
-  productPrefabParent: {fileID: 301758861}
+  productPrefabParent: {fileID: 51069747}
   distanceFromCamera: 0.3
   displayOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1950462803
