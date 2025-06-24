@@ -1,17 +1,37 @@
 using UnityEngine;
+using UnityEngine.XR.Hands;
+using System.Collections.Generic;
 
 public class HandMenuController : MonoBehaviour
 {
-    public GameObject menuUI;
-    public float distanceFromFace = 0.5f;
+    [SerializeField] private GameObject _menuUI;
 
-    public bool isMenuVisible = false;
+    private Camera _mainCamera;
+    private XRHandSubsystem _handSubsystem;
+    private float _handOffsetUp = 0.085f;
+    private float _handOffsetForward = 0.1f;
+    private float _handOffsetSide = 0.24f;
+    private bool _isMenuActive;
+    private bool _isLeftHandGesture;
 
     [SerializeField] private GameObject _settingsPanel;
     private PanelPositioner _settingsPanelPositioner;
 
     void Awake()
     {
+        var handSubsystems = new List<XRHandSubsystem>();
+        SubsystemManager.GetSubsystems(handSubsystems);
+
+        if (handSubsystems.Count > 0)
+        {
+            _handSubsystem = handSubsystems[0];
+        }
+        else
+        {
+            Debug.LogError("HandMenuController: No XRHandSubsystem found. Hand tracking not possible for hand menu.");
+            enabled = false;
+        }
+
         _settingsPanelPositioner = _settingsPanel.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
     }
 
@@ -22,43 +42,40 @@ public class HandMenuController : MonoBehaviour
 
     void Start()
     {
-        if (menuUI != null)
+        _mainCamera = Camera.main;
+
+        if (_mainCamera == null)
         {
-            menuUI.SetActive(false);
+            Debug.LogError("HandMenuController: Couldn't find main camera.");
+            enabled = false;
+        }
+
+        if (_menuUI != null)
+        {
+            _menuUI.SetActive(false);
         }
     }
 
-    public void ToggleMenu()
+    void Update()
     {
-        isMenuVisible = !isMenuVisible;
-
-        if (isMenuVisible)
+        if (_isMenuActive)
         {
-            ShowMenu();
-        }
-        else
-        {
-            HideMenu();
+            UpdateMenuPositionAndRotation();
         }
     }
 
     public void ShowMenu()
     {
-        if (menuUI == null) return;
+        if (_menuUI == null) return;
 
-        Transform cam = Camera.main.transform;
-        Vector3 menuPosition = cam.position + cam.forward * distanceFromFace;
-
-        menuUI.transform.position = menuPosition;
-        menuUI.transform.rotation = Quaternion.LookRotation(menuUI.transform.position - cam.position, Vector3.up);
-        menuUI.SetActive(true);
+        UpdateMenuPositionAndRotation();
+        _isMenuActive = true;
+        _menuUI.SetActive(true);
     }
 
     public void HideMenu()
     {
-        if (menuUI == null) return;
-
-        menuUI.SetActive(false);
+        _menuUI.SetActive(false);
     }
 
     public void ToggleSettingsVisible()
@@ -71,6 +88,93 @@ public class HandMenuController : MonoBehaviour
         {
             _settingsPanel.SetActive(true);
             _settingsPanelPositioner.PositionPanelInFrontOfCamera();
+        }
+    }
+
+    private void UpdateMenuPositionAndRotation()
+    {
+        if (_handSubsystem == null || _menuUI == null) return;
+
+        XRHand currentHand;
+        bool handFound = false;
+
+        if (_isLeftHandGesture)
+        {
+            currentHand = _handSubsystem.leftHand;
+            handFound = true;
+        }
+        else
+        {
+            currentHand = _handSubsystem.rightHand;
+            handFound = true;
+        }
+
+        if (!handFound)
+        {
+            return;
+        }
+
+        XRHandJoint wristJoint = currentHand.GetJoint(XRHandJointID.Wrist);
+
+        if (wristJoint.TryGetPose(out Pose wristPose))
+        {
+            Vector3 targetPosition;
+
+            if (_isLeftHandGesture)
+            {
+                targetPosition = wristPose.position
+                    + Vector3.up * _handOffsetUp
+                    + wristPose.forward * _handOffsetForward
+                    + wristPose.right * -_handOffsetSide;
+            }
+            else
+            {
+                targetPosition = wristPose.position
+                    + Vector3.up * _handOffsetUp
+                    + wristPose.forward * _handOffsetForward
+                    + wristPose.right * _handOffsetSide;
+            }
+
+            Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
+
+            _menuUI.transform.position = targetPosition;
+            _menuUI.transform.rotation = targetRotation;
+        }
+    }
+
+    public void OnLeftHandMenuGesturePerformed()
+    {
+        if (!_isMenuActive)
+        {
+            _isLeftHandGesture = true;
+            ShowMenu();
+        }
+    }
+
+    public void OnLeftHandMenuGestureEnded()
+    {
+        if (_isLeftHandGesture)
+        {
+            _isMenuActive = false;
+            HideMenu();
+        }
+    }
+
+    public void OnRightHandMenuGesturePerformed()
+    {
+        if (!_isMenuActive)
+        {
+            _isLeftHandGesture = false;
+            ShowMenu();
+        }
+    }
+
+    public void OnRightHandMenuGestureEnded()
+    {
+        if (!_isLeftHandGesture)
+        {
+            _isMenuActive = false;
+            HideMenu();
         }
     }
 }

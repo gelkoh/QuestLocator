@@ -37,14 +37,17 @@ public class NutrientBarUI : MonoBehaviour
             StarteAnimation();
     }
 
-    public void SetData(string name, float wert, float max, string einheit)
+        public void SetData(string name, float wert, float max, string einheit)
     {
         this.naehrstoffName = name;
         this.aktuellerWert = wert;
         this.tagesMax = max;
         this.einheit = einheit;
         this.datenVorhanden = true;
+
+        StarteAnimation(); // 🔥 direkt hier ausführen!
     }
+
 
     void StarteAnimation()
     {

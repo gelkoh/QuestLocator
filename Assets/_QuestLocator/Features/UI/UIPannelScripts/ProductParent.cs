@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ProductParent : MonoBehaviour
 {
     public Root productData;
-    string productName;
 
     [SerializeField] GameObject titlePanelPrefab;
     [SerializeField] Transform titleSpawn;
@@ -27,6 +26,8 @@ public class ProductParent : MonoBehaviour
 
     [SerializeField] GameObject footprintPannelPrefab;
     [SerializeField] Transform footprintSpawn;
+
+    [SerializeField] Transform container;
     GameObject footprintPannelInstance = null;
 
 
@@ -41,7 +42,9 @@ public class ProductParent : MonoBehaviour
 
         //nur zum test
         SetUpTitlePannel();
+        SetUpNutritionPanel();
         SetUpZutatenPanel();
+        SetUpFootprintPanel();
     }
 
     // Update is called once per frame
@@ -49,18 +52,21 @@ public class ProductParent : MonoBehaviour
     {
         Debug.LogError("SetData");
         productData = productRoot;
-        SetUpZutatenPanel();
+        SetUpTitlePannel();
         SetUpNutritionPanel();
-        SetUpFootprintPanel();
-
     }
 
-    private void SetUpZutatenPanel()
+    public void SetUpZutatenPanel()
     {
         try
         {
-            ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
-            ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
+            if (ingredientPannelInstance == null)
+            {
+                ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
+                ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
+                ingredientPannelInstance.GetComponent<Panel>().SetSpawn(ingredientsSpawn);
+            }
+
         }
         catch (Exception ex)
         {
@@ -72,12 +78,23 @@ public class ProductParent : MonoBehaviour
     {
         return ingredientPannelInstance;
     }
-    private void SetUpTitlePannel()
+    public Transform GetZutatenSpawn()
+    {
+        return ingredientsSpawn;
+    }
+
+    public void SetUpTitlePannel()
     {
         try
         {
-            titlePanelInstance = Instantiate(titlePanelPrefab, titleSpawn.position, titleSpawn.rotation, titleSpawn);
-            titlePanelInstance.GetComponent<Panel>().SetProductParent(this);
+            if (titlePanelInstance == null)
+            {
+                titlePanelInstance = Instantiate(titlePanelPrefab, titleSpawn.position, titleSpawn.rotation, titleSpawn);
+                titlePanelInstance.GetComponent<Panel>().SetProductParent(this);
+                titlePanelInstance.GetComponent<Panel>().SetSpawn(titleSpawn);
+                titlePanelInstance.GetComponent<TitlePanel>().getTitleSection().text = productData.Product.ProductName;
+            }
+
         }
         catch (Exception ex)
         {
@@ -89,6 +106,10 @@ public class ProductParent : MonoBehaviour
     {
         return titlePanelInstance;
     }
+    public Transform GetTitleSpawn()
+    {
+        return titleSpawn;
+    }
 
     public void SetUpGeminiPannel(string prompt, string response)
     {
@@ -98,7 +119,8 @@ public class ProductParent : MonoBehaviour
             {
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
-                geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productName;
+                geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
+                geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
@@ -119,13 +141,23 @@ public class ProductParent : MonoBehaviour
     {
         return gemininPanelPrefab;
     }
-    private void SetUpNutritionPanel()
+    public Transform GetGeminiSpawn()
+    {
+        return geminiSpawn;
+    }
+
+    public void SetUpNutritionPanel()
     {
         Vector3 offset = new Vector3(0.8f, 0f, 0f);
         try
         {
-            nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
-            nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
+            if (nutritionPannelInstance == null)
+            {
+                nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
+                nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
+                nutritionPannelInstance.GetComponent<Panel>().SetSpawn(nutritionSpawn);
+            }
+
         }
         catch (Exception ex)
         {
@@ -136,13 +168,23 @@ public class ProductParent : MonoBehaviour
     {
         return nutritionPannelInstance;
     }
+    public Transform GetNutritionSpawn()
+    {
+        return nutritionSpawn;
+    }
 
-    private void SetUpFootprintPanel()
+    public void SetUpFootprintPanel()
     {
         try
         {
-            footprintPannelPrefab = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
-            footprintPannelPrefab.GetComponent<Panel>().SetProductParent(this);
+            if (footprintPannelInstance == null)
+            {
+                footprintPannelInstance = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
+                footprintPannelInstance.GetComponent<Panel>().SetProductParent(this);
+                footprintPannelInstance.GetComponent<Panel>().SetSpawn(footprintSpawn);
+
+            }
+
         }
         catch (Exception ex)
         {
@@ -152,6 +194,15 @@ public class ProductParent : MonoBehaviour
     public GameObject GetUmweltPanel()
     {
         return footprintPannelInstance;
+    }
+    public Transform GetUmweltSpawn()
+    {
+        return footprintSpawn;
+    }
+
+    public Transform GetContainer()
+    {
+        return container;
     }
 
 }

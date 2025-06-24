@@ -18,7 +18,6 @@ public class WordButton : MonoBehaviour
         {
             parentPanel.GetProductParent().SetUpGeminiPannel(promptWord, response);
         });
-
     }
 
     public void SetParentPanel(Panel parentPanel)
