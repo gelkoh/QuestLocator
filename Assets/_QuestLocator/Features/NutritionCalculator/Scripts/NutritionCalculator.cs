@@ -31,6 +31,9 @@ public class NutritionCalculator : MonoBehaviour
 
     private Coroutine _saveCoroutine;
     private const float SAVE_DELAY_SECONDS = 3.0f;
+    private NutritionRecommendation _currentNutritionRecommendation;
+
+    public NutritionRecommendation CurrentNutritionRecommendation => _currentNutritionRecommendation;
 
     void Awake()
     {
@@ -148,7 +151,7 @@ public class NutritionCalculator : MonoBehaviour
         UpdateAndScheduleSave();
     }
 
-    public void OnPALSliderValueChanged(float pal)
+    public void OnPhysicalActivityLevelValueChanged(float pal)
     {
         _physicalActivityLevel = pal / 10f; 
         UpdateAndScheduleSave();
@@ -186,7 +189,7 @@ public class NutritionCalculator : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[NutritionCalculator] Keine gültige Grundlage zur Berechnung.");
+            Debug.LogWarning("[NutritionCalculator] Problem updating nutrition recommendation.");
         }
     }
 
@@ -255,7 +258,7 @@ public class NutritionCalculator : MonoBehaviour
     {
         float palAdjustment = _physicalActivityLevel / data.pal;
 
-        return new NutritionRecommendation
+        NutritionRecommendation nutritionRecommendation = new NutritionRecommendation
         {
             energyKcal = data.energyKcal * palAdjustment,
             proteinG = data.proteinGPerKg * _weight,
@@ -264,6 +267,9 @@ public class NutritionCalculator : MonoBehaviour
             carbsG = data.carbsG * palAdjustment,
             sugarG = data.sugarG * palAdjustment
         };
+
+        _currentNutritionRecommendation = nutritionRecommendation;
+        return nutritionRecommendation;
     }
 
     private void SaveBodyMetricsInstant()
