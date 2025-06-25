@@ -35,7 +35,7 @@ public class IngredientPannel : MonoBehaviour
             wordButtonInstance.GetComponentInChildren<TextMeshProUGUI>().text = ingredient.Text;
             wordButtonInstance.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
             wordButtonInstance.GetComponent<WordButton>().setPromt(ingredient.Text);
-            wordButtonInstance.GetComponent<WordButton>().setPromptSentence(" auf einfache, kurze aber präzise Weise, sodass jeder die grundlegende Funktion oder Bedeutung versteht.");
+            wordButtonInstance.GetComponent<WordButton>().setPromptSentence(" auf einfache, kurze aber präzise Weise, sodass jeder die grundlegende Funktion oder Bedeutung versteht. Der Text soll ungestyled sein");
             wordButtonList.Add(wordButtonInstance);
             Debug.Log(zutatenListe.GetComponent<RectTransform>().sizeDelta);
         }
