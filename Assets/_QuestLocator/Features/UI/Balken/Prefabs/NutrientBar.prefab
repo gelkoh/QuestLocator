@@ -56,6 +56,7 @@ MonoBehaviour:
   slider: {fileID: 3668679299577718426}
   nameText: {fileID: 2133305922779037579}
   wertText: {fileID: 1402416959704240640}
+  tagesbedarfText: {fileID: 0}
   fillImage: {fileID: 214628917785505548}
 --- !u!225 &6220241910837259697
 CanvasGroup:
@@ -574,7 +575,7 @@ GameObject:
   - component: {fileID: 214628917785505548}
   m_Layer: 5
   m_Name: Fill
-  m_TagString: Untagged
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

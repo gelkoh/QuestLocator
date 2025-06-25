@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Oculus.Interaction;
 
 public class ProductParent : MonoBehaviour
 {
@@ -30,7 +30,7 @@ public class ProductParent : MonoBehaviour
     [SerializeField] Transform container;
     GameObject footprintPannelInstance = null;
 
-
+    [SerializeField] private UIThemeManager themeManager;
 
 
 
@@ -39,12 +39,14 @@ public class ProductParent : MonoBehaviour
     void Start()
     {
         Debug.LogError("start Parent");
+        themeManager = GetComponentInParent<UIThemeManager>();
 
         //nur zum test
         SetUpTitlePannel();
         SetUpNutritionPanel();
         SetUpZutatenPanel();
         SetUpFootprintPanel();
+        UpdateTheme();
     }
 
     // Update is called once per frame
@@ -54,6 +56,7 @@ public class ProductParent : MonoBehaviour
         productData = productRoot;
         SetUpTitlePannel();
         SetUpNutritionPanel();
+        UpdateTheme();
     }
 
     public void SetUpZutatenPanel()
@@ -65,6 +68,7 @@ public class ProductParent : MonoBehaviour
                 ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 ingredientPannelInstance.GetComponent<Panel>().SetSpawn(ingredientsSpawn);
+                UpdateTheme();
             }
 
         }
@@ -93,6 +97,7 @@ public class ProductParent : MonoBehaviour
                 titlePanelInstance.GetComponent<Panel>().SetProductParent(this);
                 titlePanelInstance.GetComponent<Panel>().SetSpawn(titleSpawn);
                 titlePanelInstance.GetComponent<TitlePanel>().getTitleSection().text = productData.Product.ProductName;
+                UpdateTheme();
             }
 
         }
@@ -124,6 +129,7 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+                UpdateTheme();
             }
             else
             {
@@ -156,6 +162,7 @@ public class ProductParent : MonoBehaviour
                 nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
                 nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 nutritionPannelInstance.GetComponent<Panel>().SetSpawn(nutritionSpawn);
+                UpdateTheme();
             }
 
         }
@@ -182,7 +189,7 @@ public class ProductParent : MonoBehaviour
                 footprintPannelInstance = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
                 footprintPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 footprintPannelInstance.GetComponent<Panel>().SetSpawn(footprintSpawn);
-
+                UpdateTheme();
             }
 
         }
@@ -205,4 +212,8 @@ public class ProductParent : MonoBehaviour
         return container;
     }
 
+    private void UpdateTheme()
+    {
+        themeManager.ApplyCurrentTheme();
+    }
 }
