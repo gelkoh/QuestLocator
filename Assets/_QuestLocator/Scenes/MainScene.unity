@@ -3141,6 +3141,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 885609435742943786, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
+      propertyPath: _supportedGrabTypes
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1052339885871048415, guid: a6615681ed2c2194d8e2515b29c43753, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -18891,6 +18895,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menuUI: {fileID: 864731715}
+  _menuOffsetUp: 0.6
+  _menuOffsetForward: 0
+  _menuOffsetSide: 0
   _settingsPanel: {fileID: 6658057282265761405}
 --- !u!4 &975567895
 Transform:
