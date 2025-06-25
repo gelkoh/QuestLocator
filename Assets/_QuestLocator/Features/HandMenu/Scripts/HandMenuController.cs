@@ -8,9 +8,9 @@ public class HandMenuController : MonoBehaviour
 
     private Camera _mainCamera;
     private XRHandSubsystem _handSubsystem;
-    private float _handOffsetUp = 0.085f;
-    private float _handOffsetForward = 0.1f;
-    private float _handOffsetSide = 0.24f;
+    [SerializeField] private float _menuOffsetUp = 0.6f;      // Offset nach oben vom Zeigefinger
+    [SerializeField] private float _menuOffsetForward = 0f; // Offset nach vorne vom Zeigefinger
+    [SerializeField] private float _menuOffsetSide = 0.0f;    // Offset zur Seite vom Zeigefinger (wird je nach Handrichtung invertiert)
     private bool _isMenuActive;
     private bool _isLeftHandGesture;
 
@@ -91,56 +91,107 @@ public class HandMenuController : MonoBehaviour
         }
     }
 
-    private void UpdateMenuPositionAndRotation()
+private void UpdateMenuPositionAndRotation()
     {
-        if (_handSubsystem == null || _menuUI == null) return;
+        if (_handSubsystem == null || _menuUI == null || _mainCamera == null) return;
 
         XRHand currentHand;
-        bool handFound = false;
+        bool handIsTracked = false;
 
         if (_isLeftHandGesture)
         {
             currentHand = _handSubsystem.leftHand;
-            handFound = true;
+            handIsTracked = true;
         }
         else
         {
             currentHand = _handSubsystem.rightHand;
-            handFound = true;
+            handIsTracked = true;
         }
 
-        if (!handFound)
+        if (!handIsTracked)
         {
             return;
         }
 
-        XRHandJoint wristJoint = currentHand.GetJoint(XRHandJointID.Wrist);
+        XRHandJoint indexTipJoint = currentHand.GetJoint(XRHandJointID.IndexTip);
 
-        if (wristJoint.TryGetPose(out Pose wristPose))
+        if (indexTipJoint.TryGetPose(out Pose indexTipPose))
         {
-            Vector3 targetPosition;
+            Vector3 targetPosition = indexTipPose.position;
 
             if (_isLeftHandGesture)
             {
-                targetPosition = wristPose.position
-                    + Vector3.up * _handOffsetUp
-                    + wristPose.forward * _handOffsetForward
-                    + wristPose.right * -_handOffsetSide;
+                targetPosition = targetPosition + Vector3.right * 0.125f;
             }
             else
             {
-                targetPosition = wristPose.position
-                    + Vector3.up * _handOffsetUp
-                    + wristPose.forward * _handOffsetForward
-                    + wristPose.right * _handOffsetSide;
+                targetPosition = targetPosition - Vector3.right * 0.125f;
             }
+
+            targetPosition = targetPosition - Vector3.back * 0.1f;
 
             Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
 
             _menuUI.transform.position = targetPosition;
             _menuUI.transform.rotation = targetRotation;
         }
+        else
+        {
+            Debug.LogWarning($"[HandMenuController] IndexTip pose could not be retrieved for a hand.");
+        }
     }
+
+    // private void UpdateMenuPositionAndRotation()
+    // {
+    //     if (_handSubsystem == null || _menuUI == null) return;
+
+    //     XRHand currentHand;
+    //     bool handFound = false;
+
+    //     if (_isLeftHandGesture)
+    //     {
+    //         currentHand = _handSubsystem.leftHand;
+    //         handFound = true;
+    //     }
+    //     else
+    //     {
+    //         currentHand = _handSubsystem.rightHand;
+    //         handFound = true;
+    //     }
+
+    //     if (!handFound)
+    //     {
+    //         return;
+    //     }
+
+    //     XRHandJoint wristJoint = currentHand.GetJoint(XRHandJointID.Wrist);
+
+    //     if (wristJoint.TryGetPose(out Pose wristPose))
+    //     {
+    //         Vector3 targetPosition;
+
+    //         if (_isLeftHandGesture)
+    //         {
+    //             targetPosition = wristPose.position
+    //                 + Vector3.up * _handOffsetUp
+    //                 + wristPose.forward * _handOffsetForward
+    //                 + wristPose.right * -_handOffsetSide;
+    //         }
+    //         else
+    //         {
+    //             targetPosition = wristPose.position
+    //                 + Vector3.up * _handOffsetUp
+    //                 + wristPose.forward * _handOffsetForward
+    //                 + wristPose.right * _handOffsetSide;
+    //         }
+
+    //         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
+
+    //         _menuUI.transform.position = targetPosition;
+    //         _menuUI.transform.rotation = targetRotation;
+    //     }
+    // }
 
     public void OnLeftHandMenuGesturePerformed()
     {
