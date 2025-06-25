@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d77c0fe66c705c541ada54398115658d, type: 3}
-  m_Name: ScannerFrostedTheme
+  m_Name: Light
   m_EditorClassIdentifier: 
   _themeVersion: 2
   backplateColor: {r: 1, g: 1, b: 1, a: 1}
@@ -49,13 +49,13 @@ MonoBehaviour:
   textFontBold: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   textFontMedium: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   textFontRegular: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  acPrimaryButton: {fileID: 9100000, guid: 765c37d9c5e11334db125d2d16f81090, type: 2}
-  acSecondaryButton: {fileID: 9100000, guid: 22b4c038a18ee0c4f8b15161a73f9dea, type: 2}
-  acBorderlessButton: {fileID: 9100000, guid: 4a69cbf8bc2dbc94b91f38470c43367a, type: 2}
-  acDestructiveButton: {fileID: 9100000, guid: b159f4d1377034e4da77f306827ccbc1, type: 2}
-  acToggleButton: {fileID: 9100000, guid: 8280694423b17f4478fda34771730b27, type: 2}
-  acToggleBorderlessButton: {fileID: 9100000, guid: 697158ef8728a2340afcf0b79fa7e1b9, type: 2}
-  acToggleSwitch: {fileID: 9100000, guid: 23d3f22cb0acab84d91d3afa8a5ab5bc, type: 2}
-  acToggleCheckboxRadio: {fileID: 9100000, guid: bd4350f6ddc14ed47b1d965ee9900e91, type: 2}
-  acTextInputField: {fileID: 9100000, guid: b8c9099bbb8b90e4ab14c91e8e42b6a9, type: 2}
+  acPrimaryButton: {fileID: 9100000, guid: 6cee2b5a37991504ca6c0f92ee2b9faa, type: 2}
+  acSecondaryButton: {fileID: 9100000, guid: 92ab37e302939a644b43ba877769aafa, type: 2}
+  acBorderlessButton: {fileID: 9100000, guid: 711e76de65e0df245a983055b9be0d69, type: 2}
+  acDestructiveButton: {fileID: 9100000, guid: e42be33eb8f33034191f8d1c17ad6685, type: 2}
+  acToggleButton: {fileID: 9100000, guid: 72441448f9b964c4fa8e1072b13be1ac, type: 2}
+  acToggleBorderlessButton: {fileID: 9100000, guid: cbbcd10a918b10d4ebba6ceb62b9e227, type: 2}
+  acToggleSwitch: {fileID: 9100000, guid: 33ba149d55098074cab3adbda3fa55ee, type: 2}
+  acToggleCheckboxRadio: {fileID: 9100000, guid: 8ec48458ecac98c498ce78ca58468db6, type: 2}
+  acTextInputField: {fileID: 9100000, guid: 5dde413192dd93b4c87cf037851e681c, type: 2}
   colorPath: Content/Background
