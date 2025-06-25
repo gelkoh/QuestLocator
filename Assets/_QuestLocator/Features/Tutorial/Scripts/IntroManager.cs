@@ -1,4 +1,4 @@
-// Modified IntroManager to work with TutorialStateManager
+// Modified IntroManager to work with TutorialStateManager and persistent settings
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class IntroManager : MonoBehaviour
 {
     [Header("Intro Settings")]
-    [SerializeField] private bool showIntroOnStart = true;
-    [SerializeField] private bool allowIntroRestart = true;
+    [SerializeField] private bool showIntroOnStart = true;  // Default value
+    [SerializeField] private bool allowIntroRestart = true; // Default value
 
     [Header("Events")]
     [SerializeField] private UnityEvent OnIntroStart;
@@ -23,6 +23,10 @@ public class IntroManager : MonoBehaviour
     // Singleton pattern for easy access from other scripts
     public static IntroManager Instance { get; private set; }
 
+    // PlayerPrefs keys
+    private const string SHOW_INTRO_KEY = "ShowIntroOnStart";
+    private const string ALLOW_RESTART_KEY = "AllowIntroRestart";
+
     private void Awake()
     {
         if (Instance == null)
@@ -34,6 +38,9 @@ public class IntroManager : MonoBehaviour
                 transform.SetParent(null);
             }
             DontDestroyOnLoad(gameObject);
+
+            // Load persistent settings
+            LoadSettings();
         }
         else
         {
@@ -46,6 +53,49 @@ public class IntroManager : MonoBehaviour
         Debug.Log($"[IntroManager] tutorialStateManager is {(tutorialStateManager == null ? "null" : "assigned")}");
     }
 
+    private void LoadSettings()
+    {
+        // Load from PlayerPrefs, use serialized field values as defaults
+        showIntroOnStart = PlayerPrefs.GetInt(SHOW_INTRO_KEY, showIntroOnStart ? 1 : 0) == 1;
+        allowIntroRestart = PlayerPrefs.GetInt(ALLOW_RESTART_KEY, allowIntroRestart ? 1 : 0) == 1;
+
+        Debug.Log($"[IntroManager] Loaded settings - ShowIntro: {showIntroOnStart}, AllowRestart: {allowIntroRestart}");
+    }
+
+    private void SaveSettings()
+    {
+        PlayerPrefs.SetInt(SHOW_INTRO_KEY, showIntroOnStart ? 1 : 0);
+        PlayerPrefs.SetInt(ALLOW_RESTART_KEY, allowIntroRestart ? 1 : 0);
+        PlayerPrefs.Save();
+
+        Debug.Log($"[IntroManager] Saved settings - ShowIntro: {showIntroOnStart}, AllowRestart: {allowIntroRestart}");
+    }
+
+    // Public getters and setters
+    public bool GetShowIntroOnStart()
+    {
+        return showIntroOnStart;
+    }
+
+    public void SetShowIntroOnStart(bool value)
+    {
+        showIntroOnStart = value;
+        SaveSettings();
+        Debug.Log($"Show intro on start set to: {showIntroOnStart}");
+    }
+
+    public bool GetAllowIntroRestart()
+    {
+        return allowIntroRestart;
+    }
+
+    public void SetAllowIntroRestart(bool value)
+    {
+        allowIntroRestart = value;
+        SaveSettings();
+        Debug.Log($"Allow intro restart set to: {allowIntroRestart}");
+    }
+
     private void Start()
     {
         // Subscribe to tutorial events
@@ -56,14 +106,12 @@ public class IntroManager : MonoBehaviour
             tutorialStateManager.OnTutorialSkipped.AddListener(OnTutorialSkipped);
         }
 
-        StartCoroutine(DelayedStartIntro()); 
-        // CheckAndStartIntro();
+        StartCoroutine(DelayedStartIntro());
     }
 
     private IEnumerator DelayedStartIntro()
     {
         yield return new WaitForSeconds(1f);
-
         CheckAndStartIntro();
     }
 
@@ -165,13 +213,37 @@ public class IntroManager : MonoBehaviour
 
     public void ToggleIntroOnStart()
     {
-        showIntroOnStart = !showIntroOnStart;
-        Debug.Log($"Show intro on start: {showIntroOnStart}");
+        SetShowIntroOnStart(!showIntroOnStart);
     }
 
-    public void SetIntroOnStart(bool value)
+    // Reset to defaults (useful for testing)
+    public void ResetToDefaults()
     {
-        showIntroOnStart = value;
-        Debug.Log($"Show intro on start set to: {showIntroOnStart}");
+        PlayerPrefs.DeleteKey(SHOW_INTRO_KEY);
+        PlayerPrefs.DeleteKey(ALLOW_RESTART_KEY);
+        LoadSettings();
+        Debug.Log("Settings reset to defaults");
+    }
+
+    // Unity Editor sync - called when values change in inspector
+    private void OnValidate()
+    {
+        if (Application.isPlaying)
+        {
+            // If running, immediately save any inspector changes to PlayerPrefs
+            SaveSettings();
+        }
+        else
+        {
+            // In editor, load from PlayerPrefs when script loads
+            LoadSettingsInEditor();
+        }
+    }
+
+    private void LoadSettingsInEditor()
+    {
+        // Load saved values to sync inspector with PlayerPrefs
+        showIntroOnStart = PlayerPrefs.GetInt(SHOW_INTRO_KEY, showIntroOnStart ? 1 : 0) == 1;
+        allowIntroRestart = PlayerPrefs.GetInt(ALLOW_RESTART_KEY, allowIntroRestart ? 1 : 0) == 1;
     }
 }
