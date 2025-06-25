@@ -1,19 +1,24 @@
 using UnityEngine;
 using TMPro;
+using static NutritionCalculator;
 
 public class WeightSliderCurrentValue : MonoBehaviour
 {
     private TextMeshProUGUI _sliderCurrentValueDisplayText;
 
-    void Awake()
+    void Start()
     {
         if (_sliderCurrentValueDisplayText == null)
         {
             _sliderCurrentValueDisplayText = gameObject.GetComponent<TextMeshProUGUI>();
 
-            if (_sliderCurrentValueDisplayText)
+            if (_sliderCurrentValueDisplayText != null)
             {
-                Debug.LogWarning("SliderCurrentValueDisplayAsInt: Couldn't get TextMehsProUGUI component on this element.");
+                _sliderCurrentValueDisplayText.SetText(NutritionCalculatorInstance.CurrentWeight.ToString());
+            }
+            else
+            {
+                Debug.LogWarning("SliderCurrentValueDisplayAsInt: Couldn't get TextMeshProUGUI component on this element.");
             }
         }
     }
