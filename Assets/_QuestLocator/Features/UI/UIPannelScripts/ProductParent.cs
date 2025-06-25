@@ -41,10 +41,10 @@ public class ProductParent : MonoBehaviour
         Debug.LogError("start Parent");
 
         //nur zum test
-        SetUpTitlePannel();
-        SetUpNutritionPanel();
-        SetUpZutatenPanel();
-        SetUpFootprintPanel();
+        //SetUpTitlePannel();
+        //SetUpNutritionPanel();
+        //SetUpZutatenPanel();
+        //SetUpFootprintPanel();
     }
 
     // Update is called once per frame
@@ -115,20 +115,26 @@ public class ProductParent : MonoBehaviour
     {
         try
         {
+
             if (geminiPanelInstance == null)
             {
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
                 geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
             }
             else
             {
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+
             }
         }
         catch (Exception ex)
@@ -148,7 +154,6 @@ public class ProductParent : MonoBehaviour
 
     public void SetUpNutritionPanel()
     {
-        Vector3 offset = new Vector3(0.8f, 0f, 0f);
         try
         {
             if (nutritionPannelInstance == null)
