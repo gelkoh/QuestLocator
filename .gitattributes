@@ -7,12 +7,16 @@
 # [attr]unity-yaml        merge=unityyamlmerge text linguist-language=yaml linguist-generated
 
 # Unity source files
-*.cginc                 text
-*.compute               text linguist-language=hlsl
-*.cs                    text diff=csharp
+# *.cginc                 text
+*.cginc                 text eol=crlf
+*.compute               text eol=crlf linguist-language=hlsl
+# *.compute               text linguist-language=hlsl
+# *.cs                    text diff=csharp
+*.cs                    text eol=crlf diff=csharp
 *.hlsl                  text linguist-language=hlsl
 *.raytrace              text linguist-language=hlsl
-*.shader                text
+*.shader                text eol=crlf
+# *.shader                text
 
 # Unity JSON files
 *.asmdef                unity-json

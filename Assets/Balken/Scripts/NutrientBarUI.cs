@@ -8,6 +8,7 @@ public class NutrientBarUI : MonoBehaviour
     public Slider slider;
     public TMP_Text nameText;
     public TMP_Text wertText;
+    public TMP_Text tagesbedarfText;
     public Image fillImage;
 
     private RectTransform rt;
@@ -18,23 +19,20 @@ public class NutrientBarUI : MonoBehaviour
     private float tagesMax;
     private string einheit;
 
-    private bool datenVorhanden = false;
+    private bool datenGesetzt = false;
 
-    void Start()
+    void Awake()
     {
         rt = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
-        nameText.text = "";
-        wertText.text = "";
-
-        canvasGroup.alpha = 0f;
-        rt.localScale = Vector3.zero;
-
-        // Starte nur, wenn vorher SetData() aufgerufen wurde
-        if (datenVorhanden)
-            StarteAnimation();
+        // Setze Standard-Anfangswerte für die UI
+        if (nameText != null) nameText.text = "";
+        if (wertText != null) wertText.text = "";
+        if (slider != null) slider.value = 0f;
+        if (canvasGroup != null) canvasGroup.alpha = 0f;
+        if (rt != null) rt.localScale = Vector3.zero;
     }
 
     public void SetData(string name, float wert, float max, string einheit)
@@ -43,28 +41,48 @@ public class NutrientBarUI : MonoBehaviour
         this.aktuellerWert = wert;
         this.tagesMax = max;
         this.einheit = einheit;
-        this.datenVorhanden = true;
+        this.datenGesetzt = true;
+
+        tagesbedarfText.SetText($"{tagesMax:0}");
     }
 
-    void StarteAnimation()
+    public void InitializeAndAnimate()
     {
+        if (!datenGesetzt)
+        {
+            Debug.LogWarning($"[NutrientBarUI] Attempted to animate bar '{naehrstoffName}', but no data was set yet. Call SetData() first.");
+            return;
+        }
+
         float prozent = Mathf.Clamp01(aktuellerWert / tagesMax);
 
-        nameText.text = naehrstoffName;
-        wertText.text = $"{aktuellerWert:F1} {einheit}";
+        // Sicherstellen, dass Textfelder und Slider existieren, bevor darauf zugegriffen wird
+        if (nameText != null) nameText.text = naehrstoffName;
+        if (wertText != null) wertText.text = $"{aktuellerWert:F1} {einheit}";
 
-        slider.maxValue = 1f;
-        slider.value = 0f;
+        if (slider != null)
+        {
+            slider.maxValue = 1f;
+            slider.value = 0f;
+        }
+        else
+        {
+            Debug.LogError("[NutrientBarUI] Slider not assigned for bar: " + naehrstoffName);
+            return;
+        }
 
         Sequence intro = DOTween.Sequence();
-        intro.Append(rt.DOScale(1f, 0.6f).SetEase(Ease.OutBack));
-        intro.Join(canvasGroup.DOFade(1f, 0.6f));
+        if (rt != null) intro.Append(rt.DOScale(1f, 0.6f).SetEase(Ease.OutBack));
+        if (canvasGroup != null) intro.Join(canvasGroup.DOFade(1f, 0.6f));
         intro.AppendCallback(() =>
         {
-            DOTween.To(() => slider.value, x => {
-                slider.value = x;
-                UpdateFarbe(x);
-            }, prozent, 1.5f).SetEase(Ease.InOutQuad);
+            if (slider != null)
+            {
+                DOTween.To(() => slider.value, x => {
+                    slider.value = x;
+                    UpdateFarbe(x);
+                }, prozent, 1.5f).SetEase(Ease.InOutQuad);
+            }
         });
     }
 
@@ -86,6 +104,6 @@ public class NutrientBarUI : MonoBehaviour
             zielFarbe = Color.Lerp(gelb, rot, t);
         }
 
-        fillImage.color = zielFarbe;
+        if (fillImage != null) fillImage.color = zielFarbe;
     }
 }

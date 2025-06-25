@@ -1,27 +1,21 @@
 using UnityEngine;
 using UnityEngine.XR.Hands;
 using System.Collections.Generic;
-using UnityEngine.XR;
 
 public class HandMenuController : MonoBehaviour
 {
-    public GameObject menuUI;
-    private float handOffsetForward = 0.2f;
-    private float handOffsetUp = 0.28f;
-    private float handOffsetSide = 0.2f;
+    [SerializeField] private GameObject _menuUI;
 
-    public float distanceFromFace = 0.5f;
-
-    // public bool isMenuVisible = false;
+    private Camera _mainCamera;
+    private XRHandSubsystem _handSubsystem;
+    private float _handOffsetUp = 0.085f;
+    private float _handOffsetForward = 0.1f;
+    private float _handOffsetSide = 0.24f;
     private bool _isMenuActive;
+    private bool _isLeftHandGesture;
 
     [SerializeField] private GameObject _settingsPanel;
     private PanelPositioner _settingsPanelPositioner;
-
-    Camera _mainCamera;
-    XRHandSubsystem _handSubsystem;
-
-    private bool _isLeftHandGesture;
 
     void Awake()
     {
@@ -56,9 +50,9 @@ public class HandMenuController : MonoBehaviour
             enabled = false;
         }
 
-        if (menuUI != null)
+        if (_menuUI != null)
         {
-            menuUI.SetActive(false);
+            _menuUI.SetActive(false);
         }
     }
 
@@ -72,16 +66,16 @@ public class HandMenuController : MonoBehaviour
 
     public void ShowMenu()
     {
-        if (menuUI == null) return;
+        if (_menuUI == null) return;
 
         UpdateMenuPositionAndRotation();
         _isMenuActive = true;
-        menuUI.SetActive(true);
+        _menuUI.SetActive(true);
     }
 
     public void HideMenu()
     {
-        menuUI.SetActive(false);
+        _menuUI.SetActive(false);
     }
 
     public void ToggleSettingsVisible()
@@ -99,9 +93,9 @@ public class HandMenuController : MonoBehaviour
 
     private void UpdateMenuPositionAndRotation()
     {
-        if (_handSubsystem == null || menuUI == null) return;
+        if (_handSubsystem == null || _menuUI == null) return;
 
-        XRHand currentHand = new XRHand();
+        XRHand currentHand;
         bool handFound = false;
 
         if (_isLeftHandGesture)
@@ -123,32 +117,28 @@ public class HandMenuController : MonoBehaviour
         XRHandJoint wristJoint = currentHand.GetJoint(XRHandJointID.Wrist);
 
         if (wristJoint.TryGetPose(out Pose wristPose))
-    {
-            // Welt‑Y statt local‑up
-            Vector3 targetPosition = wristPose.position 
-                                + Vector3.up * handOffsetUp 
-                                + wristPose.forward * handOffsetForward;
-            // Vector3 targetPosition;
-            // if (_isLeftHandGesture)
-            // {
-            //     targetPosition = wristPose.position
-            //            + Vector3.up * handOffsetUp
-            //            + wristPose.forward * handOffsetForward
-            //            + Vector3.right * -handOffsetSide; // hier der seitliche Offset
-            // }
-            // else
-            // {
-            //     targetPosition = wristPose.position
-            //            + Vector3.up * handOffsetUp
-            //            + wristPose.forward * handOffsetForward
-            //            + Vector3.right * -handOffsetSide; // hier der seitliche Offset
-            // }
-            
+        {
+            Vector3 targetPosition;
+
+            if (_isLeftHandGesture)
+            {
+                targetPosition = wristPose.position
+                    + Vector3.up * _handOffsetUp
+                    + wristPose.forward * _handOffsetForward
+                    + wristPose.right * -_handOffsetSide;
+            }
+            else
+            {
+                targetPosition = wristPose.position
+                    + Vector3.up * _handOffsetUp
+                    + wristPose.forward * _handOffsetForward
+                    + wristPose.right * _handOffsetSide;
+            }
 
             Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
 
-            menuUI.transform.position = targetPosition;
-            menuUI.transform.rotation = targetRotation;
+            _menuUI.transform.position = targetPosition;
+            _menuUI.transform.rotation = targetRotation;
         }
     }
 

@@ -378,31 +378,31 @@ public partial class Nutriments
     public double CarbohydratesValue { get; set; }
 
     [JsonProperty("energy")]
-    public long Energy { get; set; }
+    public double Energy { get; set; }
 
     [JsonProperty("energy-kcal")]
-    public long EnergyKcal { get; set; }
+    public double EnergyKcal { get; set; }
 
     [JsonProperty("energy-kcal_100g")]
-    public long EnergyKcal100G { get; set; }
+    public double EnergyKcal100G { get; set; }
 
     [JsonProperty("energy-kcal_unit")]
     public string EnergyKcalUnit { get; set; }
 
     [JsonProperty("energy-kcal_value")]
-    public long EnergyKcalValue { get; set; }
+    public double EnergyKcalValue { get; set; }
 
     [JsonProperty("energy-kcal_value_computed")]
     public double EnergyKcalValueComputed { get; set; }
 
     [JsonProperty("energy_100g")]
-    public long Energy100G { get; set; }
+    public double Energy100G { get; set; }
 
     [JsonProperty("energy_unit")]
     public string EnergyUnit { get; set; }
 
     [JsonProperty("energy_value")]
-    public long EnergyValue { get; set; }
+    public double EnergyValue { get; set; }
 
     [JsonProperty("fat")]
     public double Fat { get; set; }
@@ -417,10 +417,10 @@ public partial class Nutriments
     public double FatValue { get; set; }
 
     [JsonProperty("fruits-vegetables-legumes-estimate-from-ingredients_100g")]
-    public long FruitsVegetablesLegumesEstimateFromIngredients100G { get; set; }
+    public double FruitsVegetablesLegumesEstimateFromIngredients100G { get; set; }
 
     [JsonProperty("fruits-vegetables-legumes-estimate-from-ingredients_serving")]
-    public long FruitsVegetablesLegumesEstimateFromIngredientsServing { get; set; }
+    public double FruitsVegetablesLegumesEstimateFromIngredientsServing { get; set; }
 
     [JsonProperty("fruits-vegetables-nuts-estimate-from-ingredients_100g")]
     public double FruitsVegetablesNutsEstimateFromIngredients100G { get; set; }
@@ -429,19 +429,19 @@ public partial class Nutriments
     public double FruitsVegetablesNutsEstimateFromIngredientsServing { get; set; }
 
     [JsonProperty("nova-group")]
-    public long NovaGroup { get; set; }
+    public double NovaGroup { get; set; }
 
     [JsonProperty("nova-group_100g")]
-    public long NovaGroup100G { get; set; }
+    public double NovaGroup100G { get; set; }
 
     [JsonProperty("nova-group_serving")]
-    public long NovaGroupServing { get; set; }
+    public double NovaGroupServing { get; set; }
 
     [JsonProperty("nutrition-score-fr")]
-    public long NutritionScoreFr { get; set; }
+    public double NutritionScoreFr { get; set; }
 
     [JsonProperty("nutrition-score-fr_100g")]
-    public long NutritionScoreFr100G { get; set; }
+    public double NutritionScoreFr100G { get; set; }
 
     [JsonProperty("proteins")]
     public double Proteins { get; set; }
