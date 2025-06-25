@@ -18,26 +18,37 @@ public class GeminiPanel : MonoBehaviour
     // Reference to the TTSSpeaker component in this panel
     [SerializeField] private TTSSpeaker ttsSpeaker;
     private String prompt;
+    GameObject wissenschaftlichButton;
     String wissenschaftlich = " präzise und wissenschaftlich korrekt in maximal zwei Sätzen. Verwende dabei die Terminologie der jeweiligen Fachdisziplin. Der Text soll ungestyled sein";
+    GameObject einfachButton;
     String einfach = " so, dass ihn auch jemand ohne Vorwissen versteht. Die Erklärung soll korrekt, einfach und höchstens zwei kurze Sätze lang sein. Der Text soll ungestyled sein";
+    GameObject fuerKinderButton;
     String fuerKinder = "auf einfache, kurze aber präzise Weise, sodass ein Kind die grundlegende Funktion oder Bedeutung versteht. In Maximal 2 Sätzen. Der Text soll ungestyled sein";
 
     void Start()
     {
-        GameObject wissenschaftlichButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        wissenschaftlichButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        einfachButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        fuerKinderButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        SetButtons(prompt);
+    }
+
+    public void SetButtons(string prompt)
+    {
+        
         wissenschaftlichButton.GetComponentInChildren<TextMeshProUGUI>().text = "Wissenschaftlich";
         wissenschaftlichButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         wissenschaftlichButton.GetComponent<WordButton>().setPromt(prompt);
         wissenschaftlichButton.GetComponent<WordButton>().setPromptSentence(wissenschaftlich);
 
-        GameObject einfachButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        
         einfachButton.GetComponentInChildren<TextMeshProUGUI>().text = "Einfach";
         einfachButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         einfachButton.GetComponent<WordButton>().setPromt(prompt);
         einfachButton.GetComponent<WordButton>().setPromptSentence(einfach);
 
 
-        GameObject fuerKinderButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        
         fuerKinderButton.GetComponentInChildren<TextMeshProUGUI>().text = "Für Kinder";
         fuerKinderButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         fuerKinderButton.GetComponent<WordButton>().setPromt(prompt);
@@ -98,19 +109,6 @@ public class GeminiPanel : MonoBehaviour
         {
             Debug.LogWarning("TTSSpeaker not found on IntroPanel. Please add a TTSSpeaker component as a child.");
         }
-    }
-
-    private List<string> SplitIntoChunks(string text, int chunkSize)
-    {
-        List<string> chunks = new List<string>();
-
-        for (int i = 0; i < text.Length; i += chunkSize)
-        {
-            int length = Mathf.Min(chunkSize, text.Length - i);
-            chunks.Add(text.Substring(i, length));
-        }
-
-        return chunks;
     }
 
     public static List<string> SplitIntoChunksWordAware(string text, int maxChunkSize)
