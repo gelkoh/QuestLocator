@@ -110,7 +110,6 @@ namespace Oculus.Interaction
 
             foreach (var image in images)
             {
-
                 if (image.CompareTag("QDSUIIcon"))
                 {
                     // Apply the text color to the icons as well

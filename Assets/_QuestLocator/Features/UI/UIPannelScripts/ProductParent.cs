@@ -31,7 +31,7 @@ public class ProductParent : MonoBehaviour
     [SerializeField] Transform container;
     GameObject footprintPannelInstance = null;
 
-    [SerializeField] private UIThemeManagerLocal themeManager;
+    private UIThemeManagerLocal themeManager;
 
 
 

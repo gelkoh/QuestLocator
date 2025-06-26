@@ -64,10 +64,12 @@ public class Footprint : MonoBehaviour
             // Add TextMeshProUGUI component
             var tmp = textObj.AddComponent<TextMeshProUGUI>();
             tmp.text = packaging.Material[3..];
-            
-            tmp.text += ": " + packaging.WeightMeasured + "g";
-            
-            
+
+            if (packaging.WeightMeasured != null)
+            {
+                tmp.text += ": " + packaging.WeightMeasured + "g";
+            }
+        
             tmp.fontSize = 14;
             tmp.alignment = TextAlignmentOptions.MidlineLeft;
             

@@ -215,7 +215,7 @@ public partial class Product
         public string Shape { get; set; }
 
         [JsonProperty("weight_measured")]
-        public double WeightMeasured { get; set; }
+        public double? WeightMeasured { get; set; }
     }
 
     public partial class ProductionSystem
