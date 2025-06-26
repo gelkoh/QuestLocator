@@ -70,6 +70,7 @@ public class ProductParent : MonoBehaviour
                 ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 ingredientPannelInstance.GetComponent<Panel>().SetSpawn(ingredientsSpawn);
+                ingredientPannelInstance.GetComponent<IngredientPannel>().FillInfo();
                 UpdateTheme();
             }
 
@@ -99,6 +100,7 @@ public class ProductParent : MonoBehaviour
                 titlePanelInstance.GetComponent<Panel>().SetProductParent(this);
                 titlePanelInstance.GetComponent<Panel>().SetSpawn(titleSpawn);
                 titlePanelInstance.GetComponent<TitlePanel>().getTitleSection().text = productData.Product.ProductName;
+
                 UpdateTheme();
             }
 
@@ -128,22 +130,23 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
                 geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
-                //geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-                //geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+                //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
                 UpdateTheme();
             }
             else
             {
-                //geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
-                //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+                geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-                //geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
 
             }
         }
@@ -171,6 +174,7 @@ public class ProductParent : MonoBehaviour
                 nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
                 nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 nutritionPannelInstance.GetComponent<Panel>().SetSpawn(nutritionSpawn);
+                
                 UpdateTheme();
             }
 
@@ -198,6 +202,8 @@ public class ProductParent : MonoBehaviour
                 footprintPannelInstance = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
                 footprintPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 footprintPannelInstance.GetComponent<Panel>().SetSpawn(footprintSpawn);
+                footprintPannelInstance.GetComponent<Footprint>().FillInfo();
+                Debug.LogError("update footprintTheme");
                 UpdateTheme();
             }
 

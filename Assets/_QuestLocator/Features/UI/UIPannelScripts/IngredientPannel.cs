@@ -19,14 +19,18 @@ public class IngredientPannel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //productDisplayScript = GetComponentInParent<ProductParent>();
+        //content = zutatenListe.GetNamedChild("Content");
+        //ingredientTransform = content.transform;
+        //FillInfo();
+    }
+
+    public void FillInfo()
+    {
         productDisplayScript = GetComponentInParent<ProductParent>();
         content = zutatenListe.GetNamedChild("Content");
         ingredientTransform = content.transform;
-        FillInfo();
-    }
-
-    private void FillInfo()
-    {
+        
         title.text = productDisplayScript.productData.Product.ProductName;
 
         foreach (var ingredient in productDisplayScript.productData.Product.Ingredients)

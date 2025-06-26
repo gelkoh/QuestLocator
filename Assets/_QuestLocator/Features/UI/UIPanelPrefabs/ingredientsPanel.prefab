@@ -1495,7 +1495,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 192.04999, y: -119}
+  m_AnchoredPosition: {x: 192.04999, y: -111}
   m_SizeDelta: {x: 336.09998, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5907053421404931327
@@ -1791,8 +1791,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 24
-    m_Right: 24
-    m_Top: 24
+    m_Right: 16
+    m_Top: 16
     m_Bottom: 24
   m_ChildAlignment: 3
   m_Spacing: 12
@@ -2264,7 +2264,6 @@ GameObject:
   - component: {fileID: 5911111869112670494}
   - component: {fileID: 368638219129801084}
   - component: {fileID: 1424598475200029518}
-  - component: {fileID: 946821985605850654}
   m_Layer: 0
   m_Name: ingredientsPanel
   m_TagString: Untagged
@@ -2645,12 +2644,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8739298562397552902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e344eb216a47ff74b88407ddeacff16e, type: 3}
+  m_Script: {fileID: 11500000, guid: 16aa7cfc96bf1ae4f80ff6050dace97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   title: {fileID: 778263315613596030}
   wordButtonPrefab: {fileID: 3865857422416177524, guid: efab4d03a3e1b7344a67612b560117a3, type: 3}
-  content: {fileID: 0}
+  content: {fileID: 3466292257166763651}
   zutatenListe: {fileID: 5929831590267050178}
 --- !u!114 &368638219129801084
 MonoBehaviour:
@@ -2713,18 +2712,6 @@ MonoBehaviour:
   _whenSelectingInteractorViewRemoved:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &946821985605850654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8739298562397552902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc5971393b13edc41bccde967589001e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8963407022717064249
 GameObject:
   m_ObjectHideFlags: 0

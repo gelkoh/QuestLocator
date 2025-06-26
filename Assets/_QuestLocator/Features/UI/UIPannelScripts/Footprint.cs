@@ -16,15 +16,17 @@ public class Footprint : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        productDisplayScript = GetComponentInParent<ProductParent>();
-        FillInfo();
+        //productDisplayScript = GetComponentInParent<ProductParent>();
+        //FillInfo();
+        
     }
 
-    private void FillInfo()
+    public void FillInfo()
     {
+        productDisplayScript = GetComponentInParent<ProductParent>();
         title.text = productDisplayScript.productData.Product.ProductName;
 
-        Debug.Log("grade: "+productDisplayScript.productData.Product.EcoscoreData.Grade);
+        Debug.Log("grade: " + productDisplayScript.productData.Product.EcoscoreData.Grade);
         if (productDisplayScript.productData.Product.EcoscoreData?.Grade != null)
         {
             EcoGradeTF.text = productDisplayScript.productData.Product.EcoscoreData.Grade;
@@ -34,16 +36,17 @@ public class Footprint : MonoBehaviour
             EcoGradeTF.text = "Data not available";
         }
 
-        Debug.Log("score: "+productDisplayScript.productData.Product.EcoscoreData.Score);
+        Debug.Log("score: " + productDisplayScript.productData.Product.EcoscoreData.Score);
         if (productDisplayScript.productData.Product.EcoscoreData?.Score != null)
         {
             EcoScoreTF.text = productDisplayScript.productData.Product.EcoscoreData.Score.ToString();
-        }else
+        }
+        else
         {
             EcoScoreTF.text = "Data not available";
         }
 
-        Debug.Log("co2: "+productDisplayScript.productData.Product.EcoscoreData.Agribalyse.Co2Total);
+        Debug.Log("co2: " + productDisplayScript.productData.Product.EcoscoreData.Agribalyse.Co2Total);
         if (productDisplayScript.productData.Product.EcoscoreData?.Agribalyse?.Co2Total != null)
         {
             double co2Value = productDisplayScript.productData.Product.EcoscoreData.Agribalyse.Co2Total.Value;
@@ -58,22 +61,31 @@ public class Footprint : MonoBehaviour
         {
             foreach (var packaging in productDisplayScript.productData.Product.EcoscoreData.Adjustments.Packaging.Packagings)
             {
+                GameObject textObj = new GameObject("IngredientText");
+                textObj.transform.SetParent(PackagingSection.transform, false); // 'false' keeps local scale
+
+                // Add TextMeshProUGUI component
+                var tmp = textObj.AddComponent<TextMeshProUGUI>();
+                tmp.text = packaging.Material[3..];
+
+                if (packaging.WeightMeasured != null)
+                {
+                    tmp.text += ": " + packaging.WeightMeasured + "g";
+                }
+
+                tmp.fontSize = 14;
+                tmp.alignment = TextAlignmentOptions.MidlineLeft;
+
+            }
+        }
+        else
+        {
             GameObject textObj = new GameObject("IngredientText");
             textObj.transform.SetParent(PackagingSection.transform, false); // 'false' keeps local scale
 
             // Add TextMeshProUGUI component
             var tmp = textObj.AddComponent<TextMeshProUGUI>();
-            tmp.text = packaging.Material[3..];
-
-            if (packaging.WeightMeasured != null)
-            {
-                tmp.text += ": " + packaging.WeightMeasured + "g";
-            }
-        
-            tmp.fontSize = 14;
-            tmp.alignment = TextAlignmentOptions.MidlineLeft;
-            
-            }
+            tmp.text = "No packaging information available.";
         }
         
 

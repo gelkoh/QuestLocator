@@ -35,7 +35,7 @@ public class GeminiPanel : MonoBehaviour
 
     public void SetButtons(string prompt)
     {
-        
+
         wissenschaftlichButton.GetComponentInChildren<TextMeshProUGUI>().text = "Wissenschaftlich";
         wissenschaftlichButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         wissenschaftlichButton.GetComponent<WordButton>().setPromt(prompt);

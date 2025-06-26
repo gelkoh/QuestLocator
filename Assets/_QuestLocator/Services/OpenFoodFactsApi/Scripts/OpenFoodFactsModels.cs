@@ -246,7 +246,7 @@ public partial class Product
         public long AgribalyseFoodCode { get; set; }
 
         [JsonProperty("co2_agriculture")]
-        public double Co2Agriculture { get; set; }
+        public double? Co2Agriculture { get; set; }
 
         [JsonProperty("co2_consumption")]
         public long Co2Consumption { get; set; }
