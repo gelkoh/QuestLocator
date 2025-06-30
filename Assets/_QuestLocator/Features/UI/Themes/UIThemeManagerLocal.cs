@@ -38,9 +38,20 @@ namespace Oculus.Interaction
         private int _currentThemeIndex = 0;
         public int CurrentThemeIndex => _currentThemeIndex;
 
+        // private bool _isInitialized = false;
+        // private int _lastThemeIndex;
+
+        // void Awake()
+        // {
+        //     _lastThemeIndex = PlayerPrefs.GetInt("LastThemeIndex", 0);
+        //     Debug.Log($"[UIThemeManagerLocal] Start: Loading last theme index from PlayerPrefs: {_lastThemeIndex}.");
+        //     _isInitialized = true;
+        // }
+
         void Start()
         {
-            ApplyTheme(_currentThemeIndex);
+            // ApplyTheme(_lastThemeIndex);
+            ApplyTheme(CurrentThemeIndex);
         }
 
         public void ApplyCurrentTheme()
@@ -50,6 +61,8 @@ namespace Oculus.Interaction
 
         public void ApplyTheme(int index)
         {
+            // if (!_isInitialized) return;
+
             Debug.LogError("Apply theme " + index);
             // Check for out of range error ("index" is the parameter passed in, not the current theme index
             if (index < 0 || index >= _themes.Length)
@@ -59,6 +72,10 @@ namespace Oculus.Interaction
             }
 
             _currentThemeIndex = index;
+            // PlayerPrefs.SetInt("LastThemeIndex", _currentThemeIndex); // Speichere den neuen Index sofort
+            // PlayerPrefs.Save(); // WICHTIG: Speichern erzwingen, besonders vor App-Ende
+            // Debug.Log($"[UIThemeManagerLocal] Theme changed to {index} and saved to PlayerPrefs.");
+
             UITheme selectedTheme = _themes[index];
 
             // Assign Animator Controllers from current theme to all Animators in interactable UI components
@@ -110,6 +127,7 @@ namespace Oculus.Interaction
 
             foreach (var image in images)
             {
+                if (image.CompareTag("NoThemeOverride")) continue;
                 if (image.CompareTag("QDSUIIcon"))
                 {
                     // Apply the text color to the icons as well
@@ -144,7 +162,6 @@ namespace Oculus.Interaction
                 {
                     // Colors are applied though animation clips.
                 }
-                else if (image.CompareTag("NoThemeOverride")) continue;
                 else
                 {
                     image.color = selectedTheme.backplateColor;
@@ -180,11 +197,11 @@ namespace Oculus.Interaction
             {
                 text.font = selectedTheme.textFontMedium; // Set the font
 
+                if (text.CompareTag("NoThemeOverride")) continue;
                 if (text.CompareTag("QDSUISharedThemeColor") || text.CompareTag("QDSUIDestructiveButton"))
                 {
                     // Same color scheme for both themes, No changes. Or apply any future theme adjustments here.
                 }
-                else if (text.CompareTag("NoThemeOverride"))continue;
                 else if (text.CompareTag("QDSUITextSecondaryColor"))
                 {
                     text.color = selectedTheme.textSecondaryColor;
