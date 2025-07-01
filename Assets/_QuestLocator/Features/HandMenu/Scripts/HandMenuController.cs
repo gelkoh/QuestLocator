@@ -8,11 +8,14 @@ public class HandMenuController : MonoBehaviour
 
     private Camera _mainCamera;
     private XRHandSubsystem _handSubsystem;
-    [SerializeField] private float _menuOffsetUp = 0.6f;      // Offset nach oben vom Zeigefinger
-    [SerializeField] private float _menuOffsetForward = 0f; // Offset nach vorne vom Zeigefinger
-    [SerializeField] private float _menuOffsetSide = 0.0f;    // Offset zur Seite vom Zeigefinger (wird je nach Handrichtung invertiert)
+    private float _menuOffsetUp = 0.07f;
+    private float _menuOffsetForward = -0.05f;
+    private float _menuOffsetSide = -0.135f;
     private bool _isMenuActive;
     private bool _isLeftHandGesture;
+
+    private Vector3 _menuLocalEulerRotationOffset = new Vector3(-60, 0, 180); // Beispiel: 90 Grad Y-Rotation, um es seitlich zu drehen
+
 
     [SerializeField] private GameObject _settingsPanel;
     private PanelPositioner _settingsPanelPositioner;
@@ -114,24 +117,76 @@ private void UpdateMenuPositionAndRotation()
             return;
         }
 
-        XRHandJoint indexTipJoint = currentHand.GetJoint(XRHandJointID.IndexTip);
+        // XRHandJoint littleTipJoint = currentHand.GetJoint(XRHandJointID.LittleTip);
 
-        if (indexTipJoint.TryGetPose(out Pose indexTipPose))
+        // if (littleTipJoint.TryGetPose(out Pose littleTipPose))
+        // {
+        //     Vector3 targetPosition = littleTipPose.position;
+
+        //     if (_isLeftHandGesture)
+        //     {
+        //         targetPosition = targetPosition + Vector3.right * _menuOffsetSide;
+        //     }
+        //     else
+        //     {
+        //         targetPosition = targetPosition - Vector3.right * _menuOffsetSide;
+        //     }
+
+        //     targetPosition = targetPosition - Vector3.back * _menuOffsetForward;
+        //     targetPosition = targetPosition - Vector3.up * _menuOffsetUp;
+
+        //     // Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
+        //     Quaternion targetRotation = littleTipPose.rotation;
+        //     targetRotation[0] = 0.71f;
+        //     targetRotation[3] = 0.71f;
+
+        //     _menuUI.transform.position = targetPosition;
+        //     _menuUI.transform.rotation = targetRotation;
+        // }
+        // Verwende den LittleTipJoint für die Position
+        XRHandJoint littleTipJoint = currentHand.GetJoint(XRHandJointID.LittleTip);
+        // Für eine stabilere Rotation, nutze das Handgelenk oder den Metacarpal Joint des kleinen Fingers
+        XRHandJoint littleMetacarpalJoint = currentHand.GetJoint(XRHandJointID.LittleMetacarpal); // Basis des kleinen Fingers
+        XRHandJoint wristJoint = currentHand.GetJoint(XRHandJointID.Wrist); // Handgelenk
+
+        if (littleTipJoint.TryGetPose(out Pose littleTipPose) &&
+            littleMetacarpalJoint.TryGetPose(out Pose littleMetacarpalPose) && // Holen der Pose
+            wristJoint.TryGetPose(out Pose wristPose)) // Holen der Pose
         {
-            Vector3 targetPosition = indexTipPose.position;
+            Vector3 targetPosition = littleTipPose.position;
 
+            // Offset nach oben (relativ zur Welt-Up für stabile Höhe, oder wristPose.up für Hand-relative Up)
+            // targetPosition += wristPose.up * _menuOffsetUp;
+            // targetPosition += wristPose.forward * _menuOffsetForward;
+            targetPosition += littleTipPose.up * _menuOffsetUp;
+
+            // Offset nach vorne (relativ zur Vorwärtsrichtung des kleinen Fingers)
+            targetPosition += littleTipPose.forward * _menuOffsetForward;
+
+            // Offset zur Seite (außen von der Hand)
             if (_isLeftHandGesture)
             {
-                targetPosition = targetPosition + Vector3.right * 0.125f;
+                // Linke Hand: Menü soll rechts vom Finger sein
+                targetPosition += littleMetacarpalPose.right * _menuOffsetSide; // Verwende wristPose.right oder littleMetacarpalPose.right für seitlichen Offset
             }
-            else
+            else // Right Hand
             {
-                targetPosition = targetPosition - Vector3.right * 0.125f;
+                // Rechte Hand: Menü soll links vom Finger sein
+                targetPosition += littleMetacarpalPose.right * -_menuOffsetSide; // Verwende wristPose.right oder littleMetacarpalPose.right für seitlichen Offset
             }
 
-            targetPosition = targetPosition - Vector3.back * 0.1f;
+            // --- NEUE ROTATIONSLOGIK ---
+            // Nimm die Rotation des LittleMetacarpal (Basis des kleinen Fingers) oder des Handgelenks für die Grundausrichtung
+            // Die LittleMetacarpalPose ist oft besser, da sie die generelle Ausrichtung des Fingers/der Handfläche besser widerspiegelt
+            Quaternion baseRotation = littleMetacarpalPose.rotation;
 
-            Quaternion targetRotation = Quaternion.LookRotation(targetPosition - _mainCamera.transform.position, Vector3.up);
+            // Wende den lokalen Euler-Rotations-Offset an
+            // Dies dreht das Menü relativ zu seiner "flachen" Ausrichtung zur Hand
+            Quaternion rotationOffset = Quaternion.Euler(_menuLocalEulerRotationOffset);
+
+            // Kombiniere die Basis-Rotation mit dem Offset
+            // baseRotation * rotationOffset -> wendet den Offset relativ zur Handrotation an
+            Quaternion targetRotation = baseRotation * rotationOffset;
 
             _menuUI.transform.position = targetPosition;
             _menuUI.transform.rotation = targetRotation;
