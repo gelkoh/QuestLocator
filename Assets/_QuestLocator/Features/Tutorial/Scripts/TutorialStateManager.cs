@@ -4,7 +4,8 @@ using UnityEngine.Events;
 public class TutorialStateManager : MonoBehaviour
 {
     [Header("Tutorial Panels")]
-    [SerializeField] private BaseTutorialPanel[] tutorialPanels;
+    [SerializeField] private BaseTutorialPanel[] tutorialPanelPrefabs; // Changed from tutorialPanels to tutorialPanelPrefabs
+    [SerializeField] private Transform contentRoot; // Parent transform where panels should be spawned
 
     [Header("Events")]
     public UnityEvent OnTutorialStart;
@@ -14,15 +15,14 @@ public class TutorialStateManager : MonoBehaviour
     private int currentPanelIndex = -1;
     private bool isTutorialActive = false;
     private BaseTutorialPanel currentPanel;
-    private PanelPositioner _tutorialPanelPositioner;
+    private PanelPositioner _currentPanelPositioner;
 
     // Singleton for easy access
     public static TutorialStateManager TutorialStateManagerInstance { get; private set; }
 
     public bool IsTutorialActive => isTutorialActive;
     public int CurrentStep => currentPanelIndex;
-    public int TotalSteps => tutorialPanels.Length;
-    private bool _panelsInitializedYet = false;
+    public int TotalSteps => tutorialPanelPrefabs.Length;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class TutorialStateManager : MonoBehaviour
             {
                 transform.SetParent(null);
             }
-            
+
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -43,44 +43,10 @@ public class TutorialStateManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        InitializePanels();
-    }
-
-    private void InitializePanels()
-    {
-        if (!_panelsInitializedYet)
-        {
-            Debug.Log($"[TutorialStateManager] Initializing {tutorialPanels.Length} panels.");
-
-            if (tutorialPanels[0] != null)
-            {
-                _tutorialPanelPositioner = tutorialPanels[0].GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
-            }
-
-            // Hide all panels initially and set up their callbacks
-            for (int i = 0; i < tutorialPanels.Length; i++)
-            {
-                if (tutorialPanels[i] != null)
-                {
-                    Debug.Log($"[TutorialStateManager] Hiding and initializing panel {i}: {tutorialPanels[i].gameObject.name}");
-                    tutorialPanels[i].gameObject.SetActive(false);
-                    tutorialPanels[i].Initialize(this, i);
-                }
-                else
-                {
-                    Debug.LogWarning($"[TutorialStateManager] tutorialPanels[{i}] is null!");
-                }
-            }
-
-            _panelsInitializedYet = true;
-        }
     }
 
     public void StartTutorial()
     {
-        InitializePanels();
-
         isTutorialActive = !isTutorialActive;
 
         // If tutorial is already active and menu button is clicked again, hide the tutorial
@@ -88,9 +54,15 @@ public class TutorialStateManager : MonoBehaviour
         {
             Debug.Log("[TutorialStateManager] StartTutorial called.");
 
-            if (tutorialPanels.Length == 0)
+            if (tutorialPanelPrefabs.Length == 0)
             {
-                Debug.LogWarning("[TutorialStateManager] No tutorial panels configured!");
+                Debug.LogWarning("[TutorialStateManager] No tutorial panel prefabs configured!");
+                return;
+            }
+
+            if (contentRoot == null)
+            {
+                Debug.LogError("[TutorialStateManager] Content root is not assigned! Please assign a content root transform.");
                 return;
             }
 
@@ -100,9 +72,6 @@ public class TutorialStateManager : MonoBehaviour
             Debug.Log("[TutorialStateManager] Invoking OnTutorialStart event.");
             OnTutorialStart?.Invoke();
             ShowCurrentPanel();
-
-            Debug.Log("[TutorialStateManager] Positioned tutorial in front of camera.");
-            _tutorialPanelPositioner.PositionPanelInFrontOfCamera();
         }
         else
         {
@@ -121,7 +90,7 @@ public class TutorialStateManager : MonoBehaviour
         // Move to next panel
         currentPanelIndex++;
 
-        if (currentPanelIndex >= tutorialPanels.Length)
+        if (currentPanelIndex >= tutorialPanelPrefabs.Length)
         {
             // Tutorial completed
             CompleteTutorial();
@@ -169,7 +138,7 @@ public class TutorialStateManager : MonoBehaviour
 
     public void GoToPanel(int panelIndex)
     {
-        if (panelIndex < 0 || panelIndex >= tutorialPanels.Length) return;
+        if (panelIndex < 0 || panelIndex >= tutorialPanelPrefabs.Length) return;
 
         HideCurrentPanel();
         currentPanelIndex = panelIndex;
@@ -178,25 +147,41 @@ public class TutorialStateManager : MonoBehaviour
 
     private void ShowCurrentPanel()
     {
-        Debug.Log($"[TutorialStateManager] ShowCurrentPanel called. currentPanelIndex={currentPanelIndex}, totalPanels={tutorialPanels.Length}");
+        Debug.Log($"[TutorialStateManager] ShowCurrentPanel called. currentPanelIndex={currentPanelIndex}, totalPanels={tutorialPanelPrefabs.Length}");
 
-        if (currentPanelIndex < 0 || currentPanelIndex >= tutorialPanels.Length)
+        if (currentPanelIndex < 0 || currentPanelIndex >= tutorialPanelPrefabs.Length)
         {
             Debug.LogWarning("[TutorialStateManager] currentPanelIndex out of range.");
             return;
         }
 
-        currentPanel = tutorialPanels[currentPanelIndex];
+        BaseTutorialPanel prefab = tutorialPanelPrefabs[currentPanelIndex];
 
-        if (currentPanel != null)
+        if (prefab != null)
         {
-            Debug.Log($"[TutorialStateManager] Showing panel {currentPanelIndex}: {currentPanel.gameObject.name}");
-            currentPanel.gameObject.SetActive(true);
+            Debug.Log($"[TutorialStateManager] Instantiating panel {currentPanelIndex}: {prefab.gameObject.name}");
+
+            // Instantiate the prefab as a child of the content root
+            GameObject panelInstance = Instantiate(prefab.gameObject, contentRoot);
+            currentPanel = panelInstance.GetComponent<BaseTutorialPanel>();
+
+            // Get the PanelPositioner from the Canvas
+            _currentPanelPositioner = panelInstance.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
+
+            // Initialize the panel
+            currentPanel.Initialize(this, currentPanelIndex);
+
+            // Position and show the panel
+            if (_currentPanelPositioner != null)
+            {
+                _currentPanelPositioner.PositionPanelInFrontOfCamera();
+            }
+
             currentPanel.OnPanelShow();
         }
         else
         {
-            Debug.LogWarning($"[TutorialStateManager] currentPanel at index {currentPanelIndex} is null!");
+            Debug.LogWarning($"[TutorialStateManager] prefab at index {currentPanelIndex} is null!");
         }
     }
 
@@ -205,8 +190,12 @@ public class TutorialStateManager : MonoBehaviour
         if (currentPanel != null)
         {
             currentPanel.OnPanelHide();
-            currentPanel.gameObject.SetActive(false);
+
+            // Destroy the panel instead of deactivating it
+            Debug.Log($"[TutorialStateManager] Destroying panel: {currentPanel.gameObject.name}");
+            Destroy(currentPanel.gameObject);
             currentPanel = null;
+            _currentPanelPositioner = null;
         }
     }
 
@@ -235,14 +224,6 @@ public class TutorialStateManager : MonoBehaviour
         if (isTutorialActive)
         {
             HideCurrentPanel();
-        }
-
-        foreach (var panel in tutorialPanels)
-        {
-            if (panel != null && panel.gameObject.activeSelf)
-            {
-                panel.gameObject.SetActive(false);
-            }
         }
 
         isTutorialActive = false;
