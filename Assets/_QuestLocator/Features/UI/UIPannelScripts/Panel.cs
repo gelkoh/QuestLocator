@@ -4,7 +4,7 @@ using UnityEngine;
 public class Panel : MonoBehaviour
 {
     private ProductParent productparent;
-    [SerializeField]private Transform spawn;
+    private Transform spawn;
 
     public void DestroyObj()
     {

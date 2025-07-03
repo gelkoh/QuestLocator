@@ -119,7 +119,6 @@ public class ProductParent : MonoBehaviour
             {
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
-                Debug.Log("setSpawn" + geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
                 geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
