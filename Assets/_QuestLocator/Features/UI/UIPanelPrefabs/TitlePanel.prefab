@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1e24a4cc9ca36c64db77c651e39fbfdb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ff78a6652b399545acb3a96177a08b5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2086,6 +2086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8e005ed944c37498cd7d4e5128cef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawn: {fileID: 0}
 --- !u!114 &443994939745125634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4552,7 +4553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ecddbbec34c62d48874b0238b71b853, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61aac54cdcd4b2945aad75552f8df928, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4941,7 +4942,7 @@ GameObject:
   - component: {fileID: 4555009864743558774}
   - component: {fileID: 2893417256084654491}
   - component: {fileID: 2161519073669737666}
-  - component: {fileID: 7110406675329499295}
+  - component: {fileID: 1915184247457523498}
   m_Layer: 0
   m_Name: CanvasRoot
   m_TagString: Untagged
@@ -5091,7 +5092,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 364.28, y: 64, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7110406675329499295
+--- !u!114 &1915184247457523498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5380,7 +5381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8340366525611d349ac98167930b03de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a7399374af901ab49b52ba584080a9c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

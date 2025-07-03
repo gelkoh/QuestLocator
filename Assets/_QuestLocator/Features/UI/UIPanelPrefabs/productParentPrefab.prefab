@@ -176,7 +176,7 @@ Transform:
   m_GameObject: {fileID: 4241812166803964786}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.278, y: -0.12, z: 0}
+  m_LocalPosition: {x: -0.23, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -229,15 +229,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titlePanelPrefab: {fileID: 3295770102117027696, guid: 34177e9893026614da894abecd555649, type: 3}
   titleSpawn: {fileID: 5358251390866636714}
+  titlePanelInstance: {fileID: 0}
   gemininPanelPrefab: {fileID: 2000620342377611139, guid: 43cbed83bb0537b48b8772403f28ca84, type: 3}
   geminiSpawn: {fileID: 4454904750179743662}
+  geminiPanelInstance: {fileID: 0}
   ingredientPannelPrefab: {fileID: 8739298562397552902, guid: ca912bfc1d4f8284cb524acac752b7ab, type: 3}
   ingredientsSpawn: {fileID: 4035327751755136800}
+  ingredientPannelInstance: {fileID: 0}
   nutritionPannelPrefab: {fileID: 8658889551433000310, guid: fe16100daf2f11d41b8cb9c743ab0c35, type: 3}
   nutritionSpawn: {fileID: 1484457729989246268}
+  nutritionPannelInstance: {fileID: 0}
   footprintPannelPrefab: {fileID: 7067976688229630100, guid: 2dc520a71a5bb78429e0d903f5cba677, type: 3}
   footprintSpawn: {fileID: 416133135034213744}
   container: {fileID: 9104134170340373716}
+  footprintPannelInstance: {fileID: 0}
 --- !u!1 &5404567814249930155
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +306,7 @@ Transform:
   m_GameObject: {fileID: 5511079310656705427}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2793, y: -0.1328, z: 0}
+  m_LocalPosition: {x: 0.25, y: -0.1328, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -332,7 +337,7 @@ Transform:
   m_GameObject: {fileID: 6606282430272851605}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3743, z: 0}
+  m_LocalPosition: {x: 0, y: -0.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -497,7 +502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.489}
+  m_AnchoredPosition: {x: 0, y: -0.5}
   m_SizeDelta: {x: 400, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6040040666694111309

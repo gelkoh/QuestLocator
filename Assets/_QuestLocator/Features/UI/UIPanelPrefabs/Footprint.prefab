@@ -2418,6 +2418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8e005ed944c37498cd7d4e5128cef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  productparent: {fileID: 0}
 --- !u!114 &-2863022938871918928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2938,7 +2939,7 @@ GameObject:
   - component: {fileID: 3209296894029754301}
   - component: {fileID: 2245855316417671261}
   - component: {fileID: 5854359635509522071}
-  - component: {fileID: 4460585202333083400}
+  - component: {fileID: 6675767259568843332}
   m_Layer: 0
   m_Name: CanvasRoot
   m_TagString: Untagged
@@ -3088,7 +3089,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 527.4, y: 242, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4460585202333083400
+--- !u!114 &6675767259568843332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
