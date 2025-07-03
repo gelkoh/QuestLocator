@@ -4,7 +4,7 @@ using UnityEngine;
 public class Panel : MonoBehaviour
 {
     private ProductParent productparent;
-    private Transform spawn;
+    [SerializeField]private Transform spawn;
 
     public void DestroyObj()
     {
@@ -26,7 +26,9 @@ public class Panel : MonoBehaviour
 
     public void setCanvasPosition(Vector3 newPos)
     {
+        Debug.Log("spawn"+spawn);
         this.transform.SetParent(spawn);
+        Debug.Log("child"+this.gameObject.transform.GetChild(0));
         this.gameObject.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition3D = newPos;
     }
     public void setCanvasRotation(Vector3 newRotation)

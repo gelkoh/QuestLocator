@@ -10,25 +10,25 @@ public class ProductParent : MonoBehaviour
 
     [SerializeField] GameObject titlePanelPrefab;
     [SerializeField] Transform titleSpawn;
-    GameObject titlePanelInstance;
+    [SerializeField] GameObject titlePanelInstance;
 
     [SerializeField] GameObject gemininPanelPrefab;
     [SerializeField] Transform geminiSpawn;
-    GameObject geminiPanelInstance = null;
+    [SerializeField] GameObject geminiPanelInstance = null;
 
     [SerializeField] GameObject ingredientPannelPrefab;
     [SerializeField] Transform ingredientsSpawn;
-    GameObject ingredientPannelInstance = null;
+    [SerializeField] GameObject ingredientPannelInstance = null;
 
     [SerializeField] GameObject nutritionPannelPrefab;
     [SerializeField] Transform nutritionSpawn;
-    GameObject nutritionPannelInstance = null;
+    [SerializeField] GameObject nutritionPannelInstance = null;
 
     [SerializeField] GameObject footprintPannelPrefab;
     [SerializeField] Transform footprintSpawn;
 
     [SerializeField] Transform container;
-    GameObject footprintPannelInstance = null;
+    [SerializeField] GameObject footprintPannelInstance = null;
 
 
 
@@ -41,10 +41,10 @@ public class ProductParent : MonoBehaviour
         Debug.LogError("start Parent");
 
         //nur zum test
-        //SetUpTitlePannel();
-        //SetUpNutritionPanel();
-        //SetUpZutatenPanel();
-        //SetUpFootprintPanel();
+        SetUpTitlePannel();
+        SetUpNutritionPanel();
+        SetUpZutatenPanel();
+        SetUpFootprintPanel();
     }
 
     // Update is called once per frame
@@ -115,11 +115,11 @@ public class ProductParent : MonoBehaviour
     {
         try
         {
-
             if (geminiPanelInstance == null)
             {
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
+                Debug.Log("setSpawn" + geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
                 geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
@@ -141,13 +141,13 @@ public class ProductParent : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError("Error instancing TitlePannel: " + ex.Message);
+            Debug.LogError("Error instancing GeminiPannel: " + ex.Message);
         }
 
     }
     public GameObject GetGeminiPanel()
     {
-        return gemininPanelPrefab;
+        return geminiPanelInstance;
     }
     public Transform GetGeminiSpawn()
     {

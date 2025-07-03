@@ -451,6 +451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa1e1e314cf782419558e899294d537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentPanel: {fileID: 0}
+  loadingPrefab: {fileID: 819155108441602418, guid: fde94eb6980a22e47af5e3d31890a8ec, type: 3}
 --- !u!1 &4456538344816905782
 GameObject:
   m_ObjectHideFlags: 0

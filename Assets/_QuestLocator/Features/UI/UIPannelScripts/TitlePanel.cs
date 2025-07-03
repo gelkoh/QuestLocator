@@ -30,7 +30,7 @@ public class TitlePanel : MonoBehaviour
             parentPanel.GetNutriPanel().GetComponent<Panel>().setCanvasPosition(Vector3.zero);
             parentPanel.GetNutriPanel().GetComponent<Panel>().setCanvasRotation(parentPanel.GetContainer().eulerAngles);
         }
-
+        Debug.Log("gemPanel"+parentPanel.GetGeminiPanel());
         if (parentPanel.GetGeminiPanel() != null)
         {
             parentPanel.GetGeminiPanel().GetComponent<Panel>().setCanvasPosition(Vector3.zero);
