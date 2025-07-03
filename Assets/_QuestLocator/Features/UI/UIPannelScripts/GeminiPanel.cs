@@ -24,7 +24,7 @@ public class GeminiPanel : MonoBehaviour
     String einfach = " so, dass ihn auch jemand ohne Vorwissen versteht. Die Erklärung soll korrekt, einfach und höchstens zwei kurze Sätze lang sein. Der Text soll ungestyled sein";
     GameObject fuerKinderButton;
     String fuerKinder = "auf einfache, kurze aber präzise Weise, sodass ein Kind die grundlegende Funktion oder Bedeutung versteht. In Maximal 2 Sätzen. Der Text soll ungestyled sein";
-
+    List<GameObject> wordButtonList = new List<GameObject>();
     void Start()
     {
         wissenschaftlichButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
@@ -40,20 +40,23 @@ public class GeminiPanel : MonoBehaviour
         wissenschaftlichButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         wissenschaftlichButton.GetComponent<WordButton>().setPromt(prompt);
         wissenschaftlichButton.GetComponent<WordButton>().setPromptSentence(wissenschaftlich);
-
+        wissenschaftlichButton.GetComponent<WordButton>().id = 1;
+        wordButtonList.Add(wissenschaftlichButton);
         
         einfachButton.GetComponentInChildren<TextMeshProUGUI>().text = "Einfach";
         einfachButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         einfachButton.GetComponent<WordButton>().setPromt(prompt);
         einfachButton.GetComponent<WordButton>().setPromptSentence(einfach);
-
+        einfachButton.GetComponent<WordButton>().id = 2;
+        wordButtonList.Add(einfachButton);
 
         
         fuerKinderButton.GetComponentInChildren<TextMeshProUGUI>().text = "Für Kinder";
         fuerKinderButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         fuerKinderButton.GetComponent<WordButton>().setPromt(prompt);
         fuerKinderButton.GetComponent<WordButton>().setPromptSentence(fuerKinder);
-
+        fuerKinderButton.GetComponent<WordButton>().id = 3;
+        wordButtonList.Add(fuerKinderButton);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -78,18 +81,20 @@ public class GeminiPanel : MonoBehaviour
         this.prompt = prompt;
     }
 
+    public List<GameObject> GetWordList()
+    {
+        return wordButtonList;
+    }
+
     public void TtsTrigger(string text)
     {
         ttsSpeaker = GameObject.FindGameObjectWithTag("TTS").GetComponent<TTSSpeaker>();
         if (ttsSpeaker != null)
         {
-            if (text.Length > 140)
+            List<String> chunks = SplitIntoChunksWordAware(text, 140);
+            foreach (String chunk in chunks)
             {
-                List<String> chunks = SplitIntoChunksWordAware(text, 140);
-                foreach (String chunk in chunks)
-                {
-                    ttsSpeaker.SpeakQueued(chunk);
-                }
+                ttsSpeaker.SpeakQueued(chunk);
             }
         }
         else
