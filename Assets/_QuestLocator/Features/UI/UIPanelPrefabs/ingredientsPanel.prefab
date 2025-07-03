@@ -1508,7 +1508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 192.04999, y: -119}
+  m_AnchoredPosition: {x: 192.04999, y: -110}
   m_SizeDelta: {x: 336.09998, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5907053421404931327
@@ -1804,8 +1804,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 24
-    m_Right: 24
-    m_Top: 24
+    m_Right: 16
+    m_Top: 16
     m_Bottom: 24
   m_ChildAlignment: 3
   m_Spacing: 12
@@ -2657,12 +2657,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8739298562397552902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e344eb216a47ff74b88407ddeacff16e, type: 3}
+  m_Script: {fileID: 11500000, guid: 16aa7cfc96bf1ae4f80ff6050dace97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   title: {fileID: 778263315613596030}
   wordButtonPrefab: {fileID: 3865857422416177524, guid: efab4d03a3e1b7344a67612b560117a3, type: 3}
-  content: {fileID: 0}
+  content: {fileID: 3466292257166763651}
   zutatenListe: {fileID: 5929831590267050178}
 --- !u!114 &368638219129801084
 MonoBehaviour:

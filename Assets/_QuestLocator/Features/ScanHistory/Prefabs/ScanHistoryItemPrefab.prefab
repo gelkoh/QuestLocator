@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6299115433242859171}
   m_Layer: 5
   m_Name: Elements
-  m_TagString: Untagged
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1306532364720144536}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 8174495190735045563}
   m_Layer: 0
   m_Name: Background
-  m_TagString: QDSUIAccentColor
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 3223534256071860016}
   - component: {fileID: 8433272394827570212}
   - component: {fileID: 389052146009272734}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScanHistoryItemProductName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 6197060040291309829}
   m_Layer: 0
   m_Name: ScanHistoryItemRemoveButton
-  m_TagString: QDSUIPrimaryButton
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -748,7 +748,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2589666160194210768}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b92a148dcc32e0c49a76ca319938c23c, type: 2}
   m_CullingMode: 0
@@ -802,7 +802,7 @@ GameObject:
   - component: {fileID: 5968435753963934014}
   m_Layer: 0
   m_Name: ScanHistoryItemViewButton
-  m_TagString: QDSUIPrimaryButton
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -879,7 +879,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227979591932448983}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b92a148dcc32e0c49a76ca319938c23c, type: 2}
   m_CullingMode: 0
@@ -931,7 +931,7 @@ GameObject:
   - component: {fileID: 7674795248624604412}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1600,7 +1600,7 @@ GameObject:
   - component: {fileID: 6017227915670286968}
   m_Layer: 0
   m_Name: Background
-  m_TagString: QDSUIAccentColor
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1709,7 +1709,7 @@ GameObject:
   - component: {fileID: 3327893395702950031}
   m_Layer: 5
   m_Name: Elements
-  m_TagString: Untagged
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1783,7 +1783,7 @@ GameObject:
   - component: {fileID: 2838759997472598924}
   m_Layer: 5
   m_Name: Label
-  m_TagString: QDSUITextInvertedColor
+  m_TagString: NoThemeOverride
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

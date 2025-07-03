@@ -1,4 +1,5 @@
 using System;
+using Oculus.Interaction;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,7 @@ public class ProductParent : MonoBehaviour
     [SerializeField] Transform container;
     [SerializeField] GameObject footprintPannelInstance = null;
 
-
+    private UIThemeManagerLocal themeManager;
 
 
 
@@ -39,12 +40,14 @@ public class ProductParent : MonoBehaviour
     void Start()
     {
         Debug.LogError("start Parent");
+        //themeManager = GetComponentInParent<UIThemeManagerLocal>();
 
         //nur zum test
-        SetUpTitlePannel();
-        SetUpNutritionPanel();
-        SetUpZutatenPanel();
-        SetUpFootprintPanel();
+        //SetUpTitlePannel();
+        //SetUpNutritionPanel();
+        //SetUpZutatenPanel();
+        //SetUpFootprintPanel();
+        UpdateTheme();
     }
 
     // Update is called once per frame
@@ -52,8 +55,10 @@ public class ProductParent : MonoBehaviour
     {
         Debug.LogError("SetData");
         productData = productRoot;
+        themeManager = GetComponentInParent<UIThemeManagerLocal>();
         SetUpTitlePannel();
         SetUpNutritionPanel();
+        //UpdateTheme();
     }
 
     public void SetUpZutatenPanel()
@@ -65,6 +70,8 @@ public class ProductParent : MonoBehaviour
                 ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 ingredientPannelInstance.GetComponent<Panel>().SetSpawn(ingredientsSpawn);
+                ingredientPannelInstance.GetComponent<IngredientPannel>().FillInfo();
+                UpdateTheme();
             }
 
         }
@@ -93,6 +100,8 @@ public class ProductParent : MonoBehaviour
                 titlePanelInstance.GetComponent<Panel>().SetProductParent(this);
                 titlePanelInstance.GetComponent<Panel>().SetSpawn(titleSpawn);
                 titlePanelInstance.GetComponent<TitlePanel>().getTitleSection().text = productData.Product.ProductName;
+
+                UpdateTheme();
             }
 
         }
@@ -126,6 +135,8 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
                 geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+                //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+                UpdateTheme();
             }
             else
             {
@@ -162,6 +173,8 @@ public class ProductParent : MonoBehaviour
                 nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
                 nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 nutritionPannelInstance.GetComponent<Panel>().SetSpawn(nutritionSpawn);
+                
+                UpdateTheme();
             }
 
         }
@@ -188,7 +201,9 @@ public class ProductParent : MonoBehaviour
                 footprintPannelInstance = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
                 footprintPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 footprintPannelInstance.GetComponent<Panel>().SetSpawn(footprintSpawn);
-
+                footprintPannelInstance.GetComponent<Footprint>().FillInfo();
+                Debug.LogError("update footprintTheme");
+                UpdateTheme();
             }
 
         }
@@ -209,6 +224,10 @@ public class ProductParent : MonoBehaviour
     public Transform GetContainer()
     {
         return container;
+    }
+    private void UpdateTheme()
+    {
+        themeManager.ApplyCurrentTheme();
     }
 
 }

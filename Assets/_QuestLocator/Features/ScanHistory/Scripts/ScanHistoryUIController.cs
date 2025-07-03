@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using static ScanHistoryManager;
 using static ProductDisplayManager;
+using Oculus.Interaction;
 
 public class ProductHistoryUIController : MonoBehaviour
 {
-    [SerializeField] private GameObject _productPrefab;
     [SerializeField] private GameObject _scanHistoryPanel;
     [SerializeField] private Transform _historyItemsParent;
     [SerializeField] private GameObject _historyItemPrefab;
     [SerializeField] private Button _clearAllButton;
+
+    [SerializeField] private UIThemeManagerLocal _themeManager;
+
 
     private Camera mainCamera;
     private PanelPositioner _scanHistoryPanelPositioner;
@@ -19,6 +22,16 @@ public class ProductHistoryUIController : MonoBehaviour
 
     void OnEnable()
     {
+        if (_themeManager != null)
+        {
+            _themeManager.ApplyTheme(_themeManager.CurrentThemeIndex);
+            Debug.Log($"[ScanHistoryPanelThemer] Applied theme to '{gameObject.name}' on OnEnable.");
+        }
+        else
+        {
+            Debug.LogError($"[ScanHistoryPanelThemer] UIThemeManagerLocal not assigned for {gameObject.name}!");
+        }
+
         _scanHistoryPanel.SetActive(false);
     }
 
@@ -51,15 +64,15 @@ public class ProductHistoryUIController : MonoBehaviour
 
     void Start()
     {
-        if (ScanHistoryManagerInstance != null)
-        {
-            ScanHistoryManagerInstance.OnHistoryChanged += HandleHistoryChanged;
-            Debug.Log("ScanHistoryUIController: Subscribed to history changed event.");
-        }
-        else
-        {
-            Debug.LogWarning("ScanHistoryUIController: ScanHistoryManagerInstance not yet available. Subscription deferred.");
-        }
+        // if (ScanHistoryManagerInstance != null)
+        // {
+        //     ScanHistoryManagerInstance.OnHistoryChanged += HandleHistoryChanged;
+        //     Debug.Log("ScanHistoryUIController: Subscribed to history changed event.");
+        // }
+        // else
+        // {
+        //     Debug.LogWarning("ScanHistoryUIController: ScanHistoryManagerInstance not yet available. Subscription deferred.");
+        // }
 
         UpdateUI();
     }
