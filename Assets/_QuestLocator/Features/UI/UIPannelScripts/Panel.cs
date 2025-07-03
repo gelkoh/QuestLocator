@@ -26,9 +26,7 @@ public class Panel : MonoBehaviour
 
     public void setCanvasPosition(Vector3 newPos)
     {
-        Debug.Log("spawn"+spawn);
         this.transform.SetParent(spawn);
-        Debug.Log("child"+this.gameObject.transform.GetChild(0));
         this.gameObject.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition3D = newPos;
     }
     public void setCanvasRotation(Vector3 newRotation)

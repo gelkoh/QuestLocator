@@ -11,25 +11,25 @@ public class ProductParent : MonoBehaviour
 
     [SerializeField] GameObject titlePanelPrefab;
     [SerializeField] Transform titleSpawn;
-    [SerializeField] GameObject titlePanelInstance;
+    GameObject titlePanelInstance;
 
     [SerializeField] GameObject gemininPanelPrefab;
     [SerializeField] Transform geminiSpawn;
-    [SerializeField] GameObject geminiPanelInstance = null;
+    GameObject geminiPanelInstance = null;
 
     [SerializeField] GameObject ingredientPannelPrefab;
     [SerializeField] Transform ingredientsSpawn;
-    [SerializeField] GameObject ingredientPannelInstance = null;
+    GameObject ingredientPannelInstance = null;
 
     [SerializeField] GameObject nutritionPannelPrefab;
     [SerializeField] Transform nutritionSpawn;
-    [SerializeField] GameObject nutritionPannelInstance = null;
+    GameObject nutritionPannelInstance = null;
 
     [SerializeField] GameObject footprintPannelPrefab;
     [SerializeField] Transform footprintSpawn;
 
     [SerializeField] Transform container;
-    [SerializeField] GameObject footprintPannelInstance = null;
+    GameObject footprintPannelInstance = null;
 
     private UIThemeManagerLocal themeManager;
 
@@ -124,6 +124,7 @@ public class ProductParent : MonoBehaviour
     {
         try
         {
+
             if (geminiPanelInstance == null)
             {
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
@@ -151,13 +152,13 @@ public class ProductParent : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError("Error instancing GeminiPannel: " + ex.Message);
+            Debug.LogError("Error instancing TitlePannel: " + ex.Message);
         }
 
     }
     public GameObject GetGeminiPanel()
     {
-        return geminiPanelInstance;
+        return gemininPanelPrefab;
     }
     public Transform GetGeminiSpawn()
     {

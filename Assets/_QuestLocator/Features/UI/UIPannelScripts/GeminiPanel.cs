@@ -83,10 +83,13 @@ public class GeminiPanel : MonoBehaviour
         ttsSpeaker = GameObject.FindGameObjectWithTag("TTS").GetComponent<TTSSpeaker>();
         if (ttsSpeaker != null)
         {
-            List<String> chunks = SplitIntoChunksWordAware(text, 140);
-            foreach (String chunk in chunks)
+            if (text.Length > 140)
             {
-                ttsSpeaker.SpeakQueued(chunk);
+                List<String> chunks = SplitIntoChunksWordAware(text, 140);
+                foreach (String chunk in chunks)
+                {
+                    ttsSpeaker.SpeakQueued(chunk);
+                }
             }
         }
         else
