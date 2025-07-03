@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Meta.WitAi.TTS.Utilities;
 using UnityEngine;
 using static TutorialStateManager;
 
@@ -23,6 +24,15 @@ public class UIManager : MonoBehaviour
 
     public void CloseAllPanels()
     {
+        TTSSpeaker ttsSpeaker = GameObject.FindGameObjectWithTag("TTS").GetComponent<TTSSpeaker>();
+        if (ttsSpeaker != null)
+        {
+            ttsSpeaker.Stop();
+        }
+        else
+        {
+            Debug.LogWarning("TTSSpeaker not found on IntroPanel. Please add a TTSSpeaker component as a child.");
+        }
         // Set "persistant" panels inactive instead of destroying them (because they will never exist multiple times in the scene anyways)
         if (_persitantPanels != null)
         {
