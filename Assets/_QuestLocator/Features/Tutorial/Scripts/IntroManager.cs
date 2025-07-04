@@ -98,10 +98,9 @@ public class IntroManager : MonoBehaviour
 
     private void Start()
     {
-        // Subscribe to tutorial events
+        // Subscribe to tutorial events - only the ones we need
         if (tutorialStateManager != null)
         {
-            tutorialStateManager.OnTutorialStart.AddListener(OnTutorialStarted);
             tutorialStateManager.OnTutorialComplete.AddListener(OnTutorialCompleted);
             tutorialStateManager.OnTutorialSkipped.AddListener(OnTutorialSkipped);
         }
@@ -135,55 +134,65 @@ public class IntroManager : MonoBehaviour
         // Disable main application components during intro
         DisableMainApplicationFeatures();
 
+        // Trigger intro start event
+        OnIntroStart?.Invoke();
+
         // Start the tutorial state manager
         if (tutorialStateManager != null)
         {
             tutorialStateManager.StartTutorial();
         }
-
-        // Trigger intro start event
-        OnIntroStart?.Invoke();
-    }
-
-    private void OnTutorialStarted()
-    {
-        // Called when tutorial state manager starts
-        Debug.Log("Tutorial state manager started");
     }
 
     private void OnTutorialCompleted()
     {
-        CompleteIntro();
+        Debug.Log("Tutorial completed - ending intro");
+        EndIntro(false); // false = completed, not skipped
     }
 
     private void OnTutorialSkipped()
     {
-        SkipIntro();
+        Debug.Log("Tutorial skipped - ending intro");
+        EndIntro(true); // true = skipped
     }
 
+    private void EndIntro(bool wasSkipped)
+    {
+        IsInIntro = false;
+        EnableMainApplicationFeatures();
+
+        if (wasSkipped)
+        {
+            OnSkipIntro?.Invoke();
+        }
+        else
+        {
+            OnIntroComplete?.Invoke();
+        }
+
+        SetMainApplicationState();
+    }
+
+    // Public methods for manual control (if needed)
     public void CompleteIntro()
     {
-        Debug.Log("Intro tutorial completed!");
-        IsInIntro = false;
-
-        EnableMainApplicationFeatures();
-        OnIntroComplete?.Invoke();
-        SetMainApplicationState();
+        if (IsInIntro && tutorialStateManager != null)
+        {
+            tutorialStateManager.CompleteTutorial();
+        }
     }
 
     public void SkipIntro()
     {
-        Debug.Log("Intro tutorial skipped!");
-        IsInIntro = false;
-
-        EnableMainApplicationFeatures();
-        OnSkipIntro?.Invoke();
-        SetMainApplicationState();
+        if (IsInIntro && tutorialStateManager != null)
+        {
+            tutorialStateManager.SkipTutorial();
+        }
     }
 
     private void DisableMainApplicationFeatures()
     {
-
+        // Add any features to disable during intro
     }
 
     private void EnableMainApplicationFeatures()
