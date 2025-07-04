@@ -28,23 +28,23 @@ public class NutrientsPannelScript : MonoBehaviour
 
     private void TryFillBars(NutritionRecommendation nutritionRecommendation)
     {
-        Debug.Log("📊 FillBars() wird aufgerufen...");
+        Debug.Log("FillBars() wird aufgerufen...");
         productName.text = productDisplayScript.productData.Product.ProductName;
 
         if (nutrientBarFiller == null)
         {
-            Debug.LogError("❌ nutrientBarFiller ist nicht zugewiesen! Bitte das GameObject mit dem Script (z. B. col1) im Inspector eintragen.");
+            Debug.LogError(" nutrientBarFiller ist nicht zugewiesen! Bitte das GameObject mit dem Script (z. B. col1) im Inspector eintragen.");
             return;
         }
 
         /* if (productData?.Product?.Nutriments == null)
         {
-            Debug.LogWarning("⚠️ Keine Nährwertdaten verfügbar.");
+            Debug.LogWarning("Keine Nährwertdaten verfügbar.");
             return;
         } */
         if (productDisplayScript.productData.Product.Nutriments == null)
         {
-            Debug.LogWarning("⚠️ Keine Nährwertdaten verfügbar.");
+            Debug.LogError("Keine Nährwertdaten verfügbar.");
             return;
         }
 
