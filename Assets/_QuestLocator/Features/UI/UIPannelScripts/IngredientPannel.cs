@@ -18,6 +18,11 @@ public class IngredientPannel : MonoBehaviour
     [SerializeField] GameObject zutatenListe;
     List<GameObject> wordButtonList = new List<GameObject>();
 
+    // TODO: Store globally later because it's also used in GeminiPanel.cs
+    String wissenschaftlich = " präzise und wissenschaftlich korrekt in maximal zwei Sätzen. Verwende dabei die Terminologie der jeweiligen Fachdisziplin. Der Text soll ungestyled sein";
+    String einfach = " so, dass ihn auch jemand ohne Vorwissen versteht. Die Erklärung soll korrekt, einfach und höchstens zwei kurze Sätze lang sein. Der Text soll ungestyled sein";
+    String fuerKinder = "auf einfache, kurze aber präzise Weise, sodass ein Kind die grundlegende Funktion oder Bedeutung versteht. In Maximal 2 Sätzen. Der Text soll ungestyled sein";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,15 +40,35 @@ public class IngredientPannel : MonoBehaviour
 
         title.text = productDisplayScript.productData.Product.ProductName;
 
+        int lastSelectedTranslationStyleIndex = PlayerPrefs.GetInt("TranslationStyleIndex");
+
         int id = 0;
         foreach (var ingredient in productDisplayScript.productData.Product.Ingredients)
         {
             GameObject wordButtonInstance = Instantiate(wordButtonPrefab, ingredientTransform);
             wordButtonInstance.GetComponentInChildren<TextMeshProUGUI>().text = ingredient.Text;
             wordButtonInstance.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
+
+            if (lastSelectedTranslationStyleIndex == 0)
+            {
+                wordButtonInstance.GetComponent<WordButton>().setPromptSentence(einfach);
+            }
+            else if (lastSelectedTranslationStyleIndex == 1)
+            {
+                wordButtonInstance.GetComponent<WordButton>().setPromptSentence(wissenschaftlich);
+            }
+            else if (lastSelectedTranslationStyleIndex == 2)
+            {
+                wordButtonInstance.GetComponent<WordButton>().setPromptSentence(einfach);
+            }
+            else if (lastSelectedTranslationStyleIndex == 3)
+            {
+                wordButtonInstance.GetComponent<WordButton>().setPromptSentence(fuerKinder);
+            }
+
             wordButtonInstance.GetComponent<WordButton>().setPromt(ingredient.Id[3..]);
-            wordButtonInstance.GetComponent<WordButton>().setPromptSentence(" auf einfache, kurze aber präzise Weise, sodass jeder die grundlegende Funktion oder Bedeutung versteht. Der Text soll ungestyled sein");
             wordButtonInstance.GetComponent<WordButton>().id = id;
+
             wordButtonList.Add(wordButtonInstance);
             id++;
         }
