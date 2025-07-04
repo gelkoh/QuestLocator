@@ -8,6 +8,7 @@ public class TutorialIntrolPanel : BaseTutorialPanel
     [Header("UI Elements")]
     [SerializeField] private Button nextButton;
     [SerializeField] private Button skipButton;
+    [SerializeField] private Button closeButton;
     [SerializeField] private Toggle showIntroToggle;
     [SerializeField] private Toggle allowRestartToggle;
 
@@ -61,6 +62,18 @@ public class TutorialIntrolPanel : BaseTutorialPanel
             }
         }
 
+        if (closeButton == null)
+        {
+            foreach (var btn in GetComponentsInChildren<Button>(true))
+            {
+                if (btn.name == "DestructiveButton_IconAndLabel_UnityUIButton")
+                {
+                    closeButton = btn;
+                    break;
+                }
+            }
+        }
+
         // Auto-assign toggles
         if (showIntroToggle == null)
         {
@@ -105,6 +118,8 @@ public class TutorialIntrolPanel : BaseTutorialPanel
             nextButton.onClick.AddListener(OnNextButton);
         if (skipButton != null)
             skipButton.onClick.AddListener(OnSkipButton);
+        if (closeButton != null)
+            closeButton.onClick.AddListener(OnSkipButton);
     }
 
     private void SetupToggles()

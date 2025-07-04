@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialExplainPanel : BaseTutorialPanel
+public class TutorialGenericPanel : BaseTutorialPanel
 {
     [Header("UI Elements")]
     [SerializeField] private Button nextButton;
@@ -76,7 +76,7 @@ public class TutorialExplainPanel : BaseTutorialPanel
 
         if (previousButton != null)
             previousButton.onClick.AddListener(OnPreviousButton); // From base TutorialPanel 
-       
+
         if (closeButton != null)
         {
             closeButton.onClick.AddListener(OnSkipButton); // Calls base panel skip logic
