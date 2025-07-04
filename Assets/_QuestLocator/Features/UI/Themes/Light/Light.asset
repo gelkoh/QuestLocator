@@ -19,9 +19,9 @@ MonoBehaviour:
   sectionPlateColor: {r: 0.3509434, g: 0.3509434, b: 0.3509434, a: 0.07058824}
   tooltipColor: {r: 0.9058824, g: 0.9058824, b: 0.9058824, a: 1}
   textPrimaryColor: {r: 0.3132075, g: 0.3132075, b: 0.3132075, a: 1}
-  textSecondaryColor: {r: 1, g: 0.26226407, b: 0.26226407, a: 1}
+  textSecondaryColor: {r: 0.87058824, g: 0.21568628, b: 0.21568628, a: 1}
   textPrimaryInvertedColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
-  textSecondaryInvertedColor: {r: 0.4943396, g: 0.0065289875, b: 0.0065289875, a: 0.69803923}
+  textSecondaryInvertedColor: {r: 0.6666667, g: 0.039215688, b: 0.11764707, a: 0.69803923}
   primaryButton:
     normal: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 0.9019608}
     highlighted: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 0.8}
@@ -41,10 +41,10 @@ MonoBehaviour:
     selected: {r: 0.78823537, g: 0.79215693, b: 0.85098046, a: 1}
     disabled: {r: 0.7960785, g: 0.7960785, b: 0.8470589, a: 0}
   destructiveButton:
-    normal: {r: 0.6666667, g: 0.039215688, b: 0.11764707, a: 1}
-    highlighted: {r: 0.6, g: 0.03529412, b: 0.10588236, a: 1}
-    pressed: {r: 0.53333336, g: 0.03137255, b: 0.09411766, a: 1}
-    selected: {r: 0.6666667, g: 0.039215688, b: 0.11764707, a: 1}
+    normal: {r: 0.87058824, g: 0.21568628, b: 0.21568628, a: 1}
+    highlighted: {r: 1, g: 0.3764706, b: 0.3764706, a: 1}
+    pressed: {r: 0.7764706, g: 0.21568628, b: 0.21568628, a: 1}
+    selected: {r: 0.84313726, g: 0.3019608, b: 0.3019608, a: 1}
     disabled: {r: 0.7490196, g: 0.53333336, b: 0.5882353, a: 1}
   textFontBold: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   textFontMedium: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

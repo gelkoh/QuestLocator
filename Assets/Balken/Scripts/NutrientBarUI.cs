@@ -29,7 +29,8 @@ public class NutrientBarUI : MonoBehaviour
 
         // Setze Standard-Anfangswerte für die UI
         if (nameText != null) nameText.text = "";
-        if (wertText != null) wertText.text = "";
+        //if (wertText != null) wertText.text = "";
+        wertText.text = "";
         if (slider != null) slider.value = 0f;
         if (canvasGroup != null) canvasGroup.alpha = 0f;
         if (rt != null) rt.localScale = Vector3.zero;
@@ -57,9 +58,9 @@ public class NutrientBarUI : MonoBehaviour
         float prozent = Mathf.Clamp01(aktuellerWert / tagesMax);
 
         // Sicherstellen, dass Textfelder und Slider existieren, bevor darauf zugegriffen wird
-        if (nameText != null) nameText.text = naehrstoffName;
-        if (wertText != null) wertText.text = $"{aktuellerWert:F1} {einheit}";
-
+        if (nameText != null) nameText.text = naehrstoffName +"  "+ $"{aktuellerWert:F1} {einheit}";
+        //if (wertText != null) wertText.text = $"{aktuellerWert:F1} {einheit}";
+        
         if (slider != null)
         {
             slider.maxValue = 1f;

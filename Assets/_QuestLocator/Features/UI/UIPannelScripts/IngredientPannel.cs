@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class IngredientPannel : MonoBehaviour
 {
@@ -35,18 +37,17 @@ public class IngredientPannel : MonoBehaviour
         productDisplayScript = GetComponentInParent<ProductParent>();
         content = zutatenListe.GetNamedChild("Content");
         ingredientTransform = content.transform;
-        
+
         title.text = productDisplayScript.productData.Product.ProductName;
 
         int lastSelectedTranslationStyleIndex = PlayerPrefs.GetInt("TranslationStyleIndex");
 
+        int id = 0;
         foreach (var ingredient in productDisplayScript.productData.Product.Ingredients)
         {
             GameObject wordButtonInstance = Instantiate(wordButtonPrefab, ingredientTransform);
             wordButtonInstance.GetComponentInChildren<TextMeshProUGUI>().text = ingredient.Text;
             wordButtonInstance.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
-            wordButtonInstance.GetComponent<WordButton>().setPromt(ingredient.Text);
-            // wordButtonInstance.GetComponent<WordButton>().setPromptSentence(" auf einfache, kurze aber präzise Weise, sodass jeder die grundlegende Funktion oder Bedeutung versteht. Der Text soll ungestyled sein");
 
             if (lastSelectedTranslationStyleIndex == 0)
             {
@@ -65,9 +66,19 @@ public class IngredientPannel : MonoBehaviour
                 wordButtonInstance.GetComponent<WordButton>().setPromptSentence(fuerKinder);
             }
 
+            wordButtonInstance.GetComponent<WordButton>().setPromt(ingredient.Id[3..]);
+            wordButtonInstance.GetComponent<WordButton>().id = id;
+
             wordButtonList.Add(wordButtonInstance);
-            Debug.Log(zutatenListe.GetComponent<RectTransform>().sizeDelta);
+            id++;
         }
+
+
+    }
+
+    public List<GameObject> GetWordList()
+    {
+        return wordButtonList;
     }
 }
 
