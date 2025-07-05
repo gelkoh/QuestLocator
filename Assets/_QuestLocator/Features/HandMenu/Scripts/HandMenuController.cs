@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Hands;
 using System.Collections.Generic;
+using Oculus.Interaction;
 
 public class HandMenuController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class HandMenuController : MonoBehaviour
     [SerializeField] private GameObject _settingsPanel;
     private PanelPositioner _settingsPanelPositioner;
 
+    private UIThemeManagerLocal themeManager;
+
     void Awake()
     {
         var handSubsystems = new List<XRHandSubsystem>();
@@ -36,6 +39,8 @@ public class HandMenuController : MonoBehaviour
         }
 
         _settingsPanelPositioner = _settingsPanel.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
+        GameObject parentE = transform.parent.gameObject;
+        themeManager = parentE.transform.parent.GetComponent<UIThemeManagerLocal>();
     }
 
     void OnEnable()
@@ -74,6 +79,7 @@ public class HandMenuController : MonoBehaviour
         UpdateMenuPositionAndRotation();
         _isMenuActive = true;
         _menuUI.SetActive(true);
+        themeManager.ApplyCurrentTheme();
     }
 
     public void HideMenu()
