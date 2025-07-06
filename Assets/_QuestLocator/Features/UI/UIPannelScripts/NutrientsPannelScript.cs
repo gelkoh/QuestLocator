@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
 using static NutritionCalculator;
 
 public class NutrientsPannelScript : MonoBehaviour
@@ -20,6 +19,11 @@ public class NutrientsPannelScript : MonoBehaviour
         NutritionCalculatorInstance.OnNutritionRecommendationCalculated -= HandleNutritionRecommendationCalculated;
     }
 
+    public void InitAfterDataAvailable(NutritionRecommendation recommendation)
+    {
+        TryFillBars(recommendation);
+    }
+
     private void Start()
     {
         productDisplayScript = GetComponentInParent<ProductParent>();
@@ -28,27 +32,27 @@ public class NutrientsPannelScript : MonoBehaviour
 
     private void TryFillBars(NutritionRecommendation nutritionRecommendation)
     {
-        Debug.Log("FillBars() wird aufgerufen...");
-        productName.text = productDisplayScript.productData.Product.ProductName;
+        Debug.Log("🔁 [NutrientsPannelScript] FillBars() wird aufgerufen...");
+
+        if (productDisplayScript == null || productDisplayScript.productData?.Product == null)
+        {
+            Debug.LogError("❌ [NutrientsPannelScript] Produktdaten nicht verfügbar.");
+            return;
+        }
 
         if (nutrientBarFiller == null)
         {
-            Debug.LogError(" nutrientBarFiller ist nicht zugewiesen! Bitte das GameObject mit dem Script (z. B. col1) im Inspector eintragen.");
+            Debug.LogError("❌ [NutrientsPannelScript] nutrientBarFiller ist nicht zugewiesen! Bitte im Inspector setzen.");
             return;
         }
 
-        /* if (productData?.Product?.Nutriments == null)
+        if (productName != null)
         {
-            Debug.LogWarning("Keine Nährwertdaten verfügbar.");
-            return;
-        } */
-        if (productDisplayScript.productData.Product.Nutriments == null)
-        {
-            Debug.LogError("Keine Nährwertdaten verfügbar.");
-            return;
+            productName.text = productDisplayScript.productData.Product.ProductName;
         }
 
-        nutrientBarFiller.FillBars(productDisplayScript.productData.Product.Nutriments, nutritionRecommendation);
+        // Fülle die Balken mit dem aktiven Modus
+        nutrientBarFiller.FillBars(productDisplayScript.productData.Product, nutritionRecommendation);
     }
 
     private void HandleNutritionRecommendationCalculated(NutritionRecommendation nutritionRecommendation)

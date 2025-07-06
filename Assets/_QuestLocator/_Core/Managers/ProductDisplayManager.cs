@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using static BarcodeProcessor;
+using TMPro;
+using static NutritionCalculator;
 
 public class ProductDisplayManager : MonoBehaviour
 {
@@ -103,6 +105,18 @@ public class ProductDisplayManager : MonoBehaviour
             {
                 newProductGO.name = $"ProductDisplay_Unknown";
             }
+
+            TMP_Text modeText = newProductGO.transform.Find("CanvasRoot/UIBackplate/Content/Content/ActiveModeText")?.GetComponent<TMP_Text>();
+
+            if (modeText != null)
+            {
+                DisplayModeManager.Instance.SetActiveModeText(modeText);
+            }
+            else
+            {
+                Debug.LogWarning("ActiveModeText nicht gefunden im neuen Produkt-UI!");
+            }
+
             ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
 
         
@@ -113,7 +127,20 @@ public class ProductDisplayManager : MonoBehaviour
             else
             {
                 Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-            } 
+            }
+            if (productDisplayScript != null)
+            {
+                productDisplayScript.SetProductData(productRoot);
+
+                // Jetzt sicherstellen, dass NutrientsPannelScript korrekt gefüllt wird
+                NutrientsPannelScript panelScript = newProductGO.GetComponentInChildren<NutrientsPannelScript>();
+                if (panelScript != null)
+                {
+                    panelScript.InitAfterDataAvailable(NutritionCalculatorInstance.CurrentNutritionRecommendation);
+                }
+            }
+
+ 
         }
         catch (Exception ex)
         {

@@ -5,27 +5,73 @@ public class NutrientBarFiller : MonoBehaviour
 {
     [SerializeField] private List<NutrientBarUI> nutrientBars;
 
-    public void FillBars(Nutriments n, NutritionRecommendation r)
+    public void FillBars(Product product, NutritionRecommendation recommendation)
     {
-        Debug.Log($"FillBars gestartet – Energie: {n.EnergyKcal100G}, Empfohlen (Tagesbedarf): {r.energyKcal}");
+        if (product == null || product.Nutriments == null)
+        {
+            Debug.LogError("[NutrientBarFiller] Produkt oder Nährwerte fehlen!");
+            return;
+        }
 
-        nutrientBars[0].SetData("Energie", (float)n.EnergyKcal100G, r.energyKcal, "kcal");
-        nutrientBars[1].SetData("Zucker", (float)n.Sugars100G, r.sugarG, "g");
-        nutrientBars[2].SetData("Fett", (float)n.Fat100G, r.fatG, "g");
-        nutrientBars[3].SetData("Ges. Fett", (float)n.SaturatedFat100G, r.satFatG, "g");
-        nutrientBars[4].SetData("Proteine", (float)n.Proteins100G, r.proteinG, "g");
-        nutrientBars[5].SetData("Kohlenhydrate", (float)n.Carbohydrates100G, r.carbsG, "g");
+        Nutriments n = product.Nutriments;
+
+        float portionFactor = GetPortionFactor(product);
+
+        Debug.Log($"Berechne Balken für Modus: {DisplayModeManager.Instance.CurrentMode}");
+
+        switch (DisplayModeManager.Instance.CurrentMode)
+        {
+            case DisplayMode.Per100gVsNeed:
+                Fill("Energie", (float)n.EnergyKcal100G, recommendation.energyKcal, "kcal", 0);
+                Fill("Zucker", (float)n.Sugars100G, recommendation.sugarG, "g", 1);
+                Fill("Fett", (float)n.Fat100G, recommendation.fatG, "g", 2);
+                Fill("Ges. Fett", (float)n.SaturatedFat100G, recommendation.satFatG, "g", 3);
+                Fill("Proteine", (float)n.Proteins100G, recommendation.proteinG, "g", 4);
+                Fill("Kohlenhydrate", (float)n.Carbohydrates100G, recommendation.carbsG, "g", 5);
+                break;
+
+            case DisplayMode.PerPortionVsNeed:
+                Fill("Energie", (float)(n.EnergyKcal100G * portionFactor), recommendation.energyKcal, "kcal", 0);
+                Fill("Zucker", (float)(n.Sugars100G * portionFactor), recommendation.sugarG, "g", 1);
+                Fill("Fett", (float)(n.Fat100G * portionFactor), recommendation.fatG, "g", 2);
+                Fill("Ges. Fett", (float)(n.SaturatedFat100G * portionFactor), recommendation.satFatG, "g", 3);
+                Fill("Proteine", (float)(n.Proteins100G * portionFactor), recommendation.proteinG, "g", 4);
+                Fill("Kohlenhydrate", (float)(n.Carbohydrates100G * portionFactor), recommendation.carbsG, "g", 5);
+                break;
+
+            case DisplayMode.Per100gVsLimit:
+                Fill("Energie", (float)n.EnergyKcal100G, StaticReferenceValues.MaxEnergyPer100g, "kcal", 0);
+                Fill("Zucker", (float)n.Sugars100G, StaticReferenceValues.MaxSugarPer100g, "g", 1);
+                Fill("Fett", (float)n.Fat100G, StaticReferenceValues.MaxFatPer100g, "g", 2);
+                Fill("Ges. Fett", (float)n.SaturatedFat100G, StaticReferenceValues.MaxSatFatPer100g, "g", 3);
+                Fill("Proteine", (float)n.Proteins100G, StaticReferenceValues.MaxProteinPer100g, "g", 4);
+                Fill("Kohlenhydrate", (float)n.Carbohydrates100G, StaticReferenceValues.MaxCarbsPer100g, "g", 5);
+                break;
+        }
 
         foreach (var bar in nutrientBars)
         {
             bar.InitializeAndAnimate();
         }
+    }
 
-        Debug.Log($"Energie: {n.EnergyKcal100G}, Tagesbedarf: {r.energyKcal}, ≈ {((float)n.EnergyKcal100G / r.energyKcal) * 100f:0.0}%");
-        Debug.Log($"Zucker: {n.Sugars100G}, Tagesbedarf: {r.sugarG}, ≈ {((float)n.Sugars100G / r.sugarG) * 100f:0.0}%");
-        Debug.Log($"Fett: {n.Fat100G}, Tagesbedarf: {r.fatG}, ≈ {((float)n.Fat100G / r.fatG) * 100f:0.0}%");
-        Debug.Log($"Ges. Fett: {n.SaturatedFat100G}, Tagesbedarf: {r.satFatG}, ≈ {((float)n.SaturatedFat100G / r.satFatG) * 100f:0.0}%");
-        Debug.Log($"Proteine: {n.Proteins100G}, Tagesbedarf: {r.proteinG}, ≈ {((float)n.Proteins100G / r.proteinG) * 100f:0.0}%");
-        Debug.Log($"Kohlenhydrate: {n.Carbohydrates100G}, Tagesbedarf: {r.carbsG}, ≈ {((float)n.Carbohydrates100G / r.carbsG) * 100f:0.0}%");
+    private void Fill(string name, float actual, float max, string unit, int index)
+    {
+        if (index < 0 || index >= nutrientBars.Count)
+        {
+            Debug.LogError($"[NutrientBarFiller] Ungültiger Index {index} für Balken '{name}'");
+            return;
+        }
+
+        nutrientBars[index].SetData(name, actual, max, unit);
+    }
+
+    private float GetPortionFactor(Product p)
+    {
+        if (p.ServingSizeG > 0)
+            return p.ServingSizeG / 100f;
+
+        Debug.LogWarning("[NutrientBarFiller] Portion nicht angegeben. Verwende 30g als Default.");
+        return StaticReferenceValues.DefaultPortionSize / 100f;
     }
 }
