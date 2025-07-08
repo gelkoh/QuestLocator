@@ -66,6 +66,29 @@ public partial class Product
 
         [JsonProperty("product_quantity_unit")]
         public string ProductQuantityUnit { get; set; }
+
+        [JsonProperty("serving_size")]
+        public string ServingSize { get; set; }
+
+        [JsonIgnore]
+        public float ServingSizeG
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ServingSize))
+                    return StaticReferenceValues.DefaultPortionSize;
+
+                string cleaned = ServingSize.ToLower()
+                                            .Replace(" ", "")
+                                            .Replace("ml", "")
+                                            .Replace("g", "");
+
+                if (float.TryParse(cleaned, NumberStyles.Float, CultureInfo.InvariantCulture, out float result))
+                    return result;
+
+                return StaticReferenceValues.DefaultPortionSize;
+            }
+        }
     }
 
     public partial class EcoscoreData
