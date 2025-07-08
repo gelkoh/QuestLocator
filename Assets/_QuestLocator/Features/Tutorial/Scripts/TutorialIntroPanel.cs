@@ -12,7 +12,7 @@ public class TutorialIntrolPanel : BaseTutorialPanel
     [SerializeField] private Toggle showIntroToggle;
     [SerializeField] private Toggle allowRestartToggle;
 
-    [Header("Settings Fields (Auto-synced with IntroManager)")]
+    [Header("Settings Fields (Auto-synced with TutorialManager)")]
     [SerializeField] private bool showIntroOnStart = true;
     [SerializeField] private bool allowIntroRestart = true;
 
@@ -137,11 +137,11 @@ public class TutorialIntrolPanel : BaseTutorialPanel
 
     private void SyncFieldsWithIntroManager()
     {
-        if (IntroManager.Instance != null)
+        if (TutorialManager.Instance != null)
         {
             // Get current values from IntroManager
-            showIntroOnStart = IntroManager.Instance.GetShowIntroOnStart();
-            allowIntroRestart = IntroManager.Instance.GetAllowIntroRestart();
+            showIntroOnStart = TutorialManager.Instance.GetShowIntroOnStart();
+            allowIntroRestart = TutorialManager.Instance.GetAllowIntroRestart();
 
             // Update toggle states to match
             if (showIntroToggle != null)
@@ -158,9 +158,9 @@ public class TutorialIntrolPanel : BaseTutorialPanel
     {
         showIntroOnStart = value;
 
-        if (IntroManager.Instance != null)
+        if (TutorialManager.Instance != null)
         {
-            IntroManager.Instance.SetShowIntroOnStart(value);
+            TutorialManager.Instance.SetShowIntroOnStart(value);
         }
 
         Debug.Log($"Show intro on start toggled to: {value}");
@@ -170,9 +170,9 @@ public class TutorialIntrolPanel : BaseTutorialPanel
     {
         allowIntroRestart = value;
 
-        if (IntroManager.Instance != null)
+        if (TutorialManager.Instance != null)
         {
-            IntroManager.Instance.SetAllowIntroRestart(value);
+            TutorialManager.Instance.SetAllowIntroRestart(value);
         }
 
         Debug.Log($"Allow intro restart toggled to: {value}");
@@ -182,18 +182,18 @@ public class TutorialIntrolPanel : BaseTutorialPanel
     private void OnValidate()
     {
         // Sync inspector changes to IntroManager if in play mode
-        if (Application.isPlaying && IntroManager.Instance != null)
+        if (Application.isPlaying && TutorialManager.Instance != null)
         {
-            if (IntroManager.Instance.GetShowIntroOnStart() != showIntroOnStart)
+            if (TutorialManager.Instance.GetShowIntroOnStart() != showIntroOnStart)
             {
-                IntroManager.Instance.SetShowIntroOnStart(showIntroOnStart);
+                TutorialManager.Instance.SetShowIntroOnStart(showIntroOnStart);
                 if (showIntroToggle != null)
                     showIntroToggle.isOn = showIntroOnStart;
             }
 
-            if (IntroManager.Instance.GetAllowIntroRestart() != allowIntroRestart)
+            if (TutorialManager.Instance.GetAllowIntroRestart() != allowIntroRestart)
             {
-                IntroManager.Instance.SetAllowIntroRestart(allowIntroRestart);
+                TutorialManager.Instance.SetAllowIntroRestart(allowIntroRestart);
                 if (allowRestartToggle != null)
                     allowRestartToggle.isOn = allowIntroRestart;
             }

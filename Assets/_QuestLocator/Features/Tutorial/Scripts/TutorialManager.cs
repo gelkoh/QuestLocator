@@ -1,13 +1,15 @@
-// Modified IntroManager to work with TutorialStateManager and persistent settings
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IntroManager : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
     [Header("Intro Settings")]
     [SerializeField] private bool showIntroOnStart = true;  // Default value
     [SerializeField] private bool allowIntroRestart = true; // Default value
+
+    [Header("Main Application Features")]
+    [SerializeField] private GameObject[] mainApplicationFeatures;
 
     [Header("Events")]
     [SerializeField] private UnityEvent OnIntroStart;
@@ -21,7 +23,7 @@ public class IntroManager : MonoBehaviour
     private TutorialStateManager tutorialStateManager;
 
     // Singleton pattern for easy access from other scripts
-    public static IntroManager Instance { get; private set; }
+    public static TutorialManager Instance { get; private set; }
 
     // PlayerPrefs keys
     private const string SHOW_INTRO_KEY = "ShowIntroOnStart";
@@ -192,15 +194,26 @@ public class IntroManager : MonoBehaviour
 
     private void DisableMainApplicationFeatures()
     {
-        // Add any features to disable during intro
+        foreach (var feature in mainApplicationFeatures)
+        {
+            if (feature != null)
+            {
+                feature.SetActive(false);
+                Debug.Log($"[IntroManager] Disabled {feature.name} during intro");
+            }
+        }
     }
 
     private void EnableMainApplicationFeatures()
     {
-        /*
-        var barcodeScanner = FindFirstObjectByType<BarcodeScanner>();
-        if (barcodeScanner != null) barcodeScanner.enabled = true;
-        */
+        foreach (var feature in mainApplicationFeatures)
+        {
+            if (feature != null)
+            {
+                feature.SetActive(true);
+                Debug.Log($"[IntroManager] Enabled {feature.name} after intro");
+            }
+        }
     }
 
     private void SetMainApplicationState()
