@@ -11,9 +11,7 @@ public enum DisplayMode
 
 public class DisplayModeManager : MonoBehaviour
 {
-    public static DisplayModeManager Instance;
-
-    public TMP_Text activeModeText;
+    public static DisplayModeManager DisplayModeManagerInstance { get; private set; }
 
     public DisplayMode CurrentMode { get; private set; } = DisplayMode.Per100gVsNeed;
 
@@ -21,42 +19,28 @@ public class DisplayModeManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (DisplayModeManagerInstance != null && DisplayModeManagerInstance != this)
         {
             Destroy(this);
             return;
         }
-        Instance = this;
 
-        // Optional: Standard-Text setzen, falls schon ein Textfeld zugewiesen ist
-        if (activeModeText != null)
-        {
-            activeModeText.SetText(GetTextForMode(CurrentMode));
-        }
+        DisplayModeManagerInstance = this;
     }
-
-    public void SetActiveModeText(TMP_Text text)
-    {
-        activeModeText = text;
-        // Direkt aktuellen Modus reinschreiben
-        activeModeText.SetText(GetTextForMode(CurrentMode));
-    }
-
     public void SetMode(DisplayMode newMode)
     {
         CurrentMode = newMode;
-        activeModeText?.SetText(GetTextForMode(newMode));
         OnDisplayModeChanged?.Invoke(newMode);
     }
 
-    private string GetTextForMode(DisplayMode mode)
+    public string GetTextForMode(DisplayMode mode)
     {
         return mode switch
         {
-            DisplayMode.Per100gVsNeed => "100g vs Tagesbedarf",
-            DisplayMode.PerPortionVsNeed => "Portion vs Tagesbedarf",
-            DisplayMode.Per100gVsLimit => "100g vs empfohlene Grenzwerte",
-            _ => "Unbekannter Modus"
+            DisplayMode.Per100gVsNeed => "100g vs Daily Need",
+            DisplayMode.PerPortionVsNeed => "Portion vs Daily Need",
+            DisplayMode.Per100gVsLimit => "100g vs Recommended Limit",
+            _ => "Unknown Mode"
         };
     }
 }

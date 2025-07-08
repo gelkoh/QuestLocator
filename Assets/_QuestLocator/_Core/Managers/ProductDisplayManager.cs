@@ -3,6 +3,7 @@ using UnityEngine;
 using static BarcodeProcessor;
 using TMPro;
 using static NutritionCalculator;
+using static DisplayModeManager;
 
 public class ProductDisplayManager : MonoBehaviour
 {
@@ -106,16 +107,17 @@ public class ProductDisplayManager : MonoBehaviour
                 newProductGO.name = $"ProductDisplay_Unknown";
             }
 
-            TMP_Text modeText = newProductGO.transform.Find("CanvasRoot/UIBackplate/Content/Content/ActiveModeText")?.GetComponent<TMP_Text>();
+            // THIS IS NOT OPTIMAL AND IN FACT DOESN'T WORK
+            // TMP_Text modeText = newProductGO.transform.Find("CanvasRoot/UIBackplate/Content/Content/ActiveModeText")?.GetComponent<TMP_Text>();
 
-            if (modeText != null)
-            {
-                DisplayModeManager.Instance.SetActiveModeText(modeText);
-            }
-            else
-            {
-                Debug.LogWarning("ActiveModeText nicht gefunden im neuen Produkt-UI!");
-            }
+            // if (modeText != null)
+            // {
+            //     DisplayModeManagerInstance.SetActiveModeText(modeText);
+            // }
+            // else
+            // {
+            //     Debug.LogWarning("ActiveModeText nicht gefunden im neuen Produkt-UI!");
+            // }
 
             ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
 

@@ -44,7 +44,14 @@ public class NutrientBarUI : MonoBehaviour
         this.einheit = einheit;
         this.datenGesetzt = true;
 
-        tagesbedarfText.SetText($"{tagesMax:0}");
+        if (name != "Energy")
+        {
+            tagesbedarfText.SetText($"{tagesMax:0} g");
+        }
+        else
+        {
+            tagesbedarfText.SetText($"{tagesMax:0} kcal");
+        }
     }
 
     public void InitializeAndAnimate()
