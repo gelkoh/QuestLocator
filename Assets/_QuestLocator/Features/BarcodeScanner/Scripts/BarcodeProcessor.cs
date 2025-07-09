@@ -15,6 +15,9 @@ public class BarcodeProcessor : MonoBehaviour
     private OpenFoodFactsClient _openFoodFactsClient;
     private bool _isProcessing = false;
 
+    [SerializeField] GameObject WarningPannelParent;
+    private WarningPannelParentScript warningPannelParentScript;
+
     private void Awake()
     {
         if (BarcodeProcessorInstance == null)
@@ -29,6 +32,8 @@ public class BarcodeProcessor : MonoBehaviour
 
     private IEnumerator Start()
     {
+        warningPannelParentScript = WarningPannelParent.GetComponent<WarningPannelParentScript>();
+
         while (BarcodeProcessorInstance == null)
         {
             Debug.Log("Waiting for BarcodeProcessor to initialize...");
@@ -73,6 +78,7 @@ public class BarcodeProcessor : MonoBehaviour
                 {
                     string errorMessage = root != null ? root.StatusVerbose : "Unbekannter API-Fehler";
                     Debug.LogError($"Produkt nicht gefunden für EAN {barcode}: {errorMessage}");
+                     warningPannelParentScript.SetUpWarning("Produkt nicht gefunden für EAN " + barcode);
                     OnProductProcessed?.Invoke(false, errorMessage, null);
                     SoundFeedbackManagerInstance.PlayScanFailed();
                 }
@@ -81,6 +87,7 @@ public class BarcodeProcessor : MonoBehaviour
             onError: (err) =>
             {
                 Debug.LogError($"Fehler bei OpenFoodFacts Anfrage für EAN {barcode}: {err}");
+                warningPannelParentScript.SetUpWarning("Fehler bei OpenFoodFacts Anfrage für EAN: "+ barcode);
                 OnProductProcessed?.Invoke(false, $"API Error: {err}", null);
                 _isProcessing = false;
                 SoundFeedbackManagerInstance.PlayScanFailed();
