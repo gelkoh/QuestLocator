@@ -70,6 +70,9 @@ public partial class Product
         [JsonProperty("serving_size")]
         public string ServingSize { get; set; }
 
+        [JsonProperty("allergens_tags")]
+        public string[] AllergensTags { get; set; }
+
         [JsonIgnore]
         public float ServingSizeG
         {

@@ -10,7 +10,7 @@ using ZXing;
 public class OpenFoodFactsClient
 {
     private string baseUrl = "https://world.openfoodfacts.net/api/v2/product/";
-    private string endUrlTags = "?fields=_id,product_name,brands_tags,product_quantity,product_quantity_unit,ingredients,ingredients_analysis_tags,nutriments,ecoscore_grade,nutriscore_grade,ecoscore_data,ecoscore_grade,ecoscore_score";
+    private string endUrlTags = "?fields=_id,product_name,brands_tags,product_quantity,product_quantity_unit,ingredients,ingredients_analysis_tags,allergens_tags,nutriments,ecoscore_grade,nutriscore_grade,ecoscore_data,ecoscore_grade,ecoscore_score";
     
 
     
