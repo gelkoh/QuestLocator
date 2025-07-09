@@ -1966,7 +1966,7 @@ GameObject:
   - component: {fileID: 8269175492760027849}
   - component: {fileID: 5444892026917866459}
   - component: {fileID: 2481897832380740576}
-  - component: {fileID: 3233170341102626527}
+  - component: {fileID: 4803439890981819842}
   m_Layer: 0
   m_Name: Toggle
   m_TagString: QDSUIPrimaryButton
@@ -2038,7 +2038,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3233170341102626527}
+      - m_Target: {fileID: 4803439890981819842}
         m_TargetAssemblyTypeName: ToggleTTS, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
@@ -2098,7 +2098,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &3233170341102626527
+--- !u!114 &4803439890981819842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13521,12 +13521,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NutritionCalculator, Assembly-CSharp
-        m_MethodName: OnPhysicalActivityLevelValueChanged
-        m_Mode: 0
+        m_TargetAssemblyTypeName: SliderCurrentValueDisplayAsFloat, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
