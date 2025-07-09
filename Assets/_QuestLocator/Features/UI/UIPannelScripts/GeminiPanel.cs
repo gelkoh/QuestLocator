@@ -97,10 +97,6 @@ public class GeminiPanel : MonoBehaviour
                 ttsSpeaker.SpeakQueued(chunk);
             }
         }
-        else
-        {
-            Debug.LogWarning("TTSSpeaker not found on IntroPanel. Please add a TTSSpeaker component as a child.");
-        }
     }
 
     public void StopTtsSpeaker()
@@ -109,10 +105,6 @@ public class GeminiPanel : MonoBehaviour
         if (ttsSpeaker != null)
         {
             ttsSpeaker.Stop();
-        }
-        else
-        {
-            Debug.LogWarning("TTSSpeaker not found on IntroPanel. Please add a TTSSpeaker component as a child.");
         }
     }
 

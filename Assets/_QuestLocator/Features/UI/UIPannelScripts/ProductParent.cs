@@ -1,4 +1,5 @@
 using System;
+using Meta.WitAi.TTS.Utilities;
 using Oculus.Interaction;
 using TMPro;
 using UnityEngine;
@@ -122,38 +123,32 @@ public class ProductParent : MonoBehaviour
 
     public void SetUpGeminiPannel(string prompt, string response)
     {
-        try
+        if (geminiPanelInstance == null)
         {
-            if (geminiPanelInstance == null)
-            {
-                geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
-                geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
-                geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
-                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
-                geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
-                geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
-                geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
-                geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
-                //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
-                UpdateTheme();
-            }
-            else
-            {
-                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
-                geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
-                geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
-                geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
-                geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+            geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
+            geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
+            geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
+            geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
+            geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
+            geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
+            geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+            UpdateTheme();
+            geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+            geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
 
-            }
+
+            //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+            
         }
-        catch (Exception ex)
+        else
         {
-            Debug.LogError("Error instancing GeminiPannel: " + ex.Message);
+            geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
+            geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+            geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
+            geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+            geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+            geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
         }
-
     }
     public GameObject GetGeminiPanel()
     {
