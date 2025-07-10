@@ -31,13 +31,14 @@ public class ProductParent : MonoBehaviour
 
     [SerializeField] Transform container;
     [SerializeField] GameObject footprintPannelInstance = null;
+    [SerializeField] GameObject panelMover;
 
 
     private Color _productBorderColorA;
     private Color _productBorderColorB;
 
-    private List<Color> _availableBorderColorsA = new() { Color.blue, Color.green, Color.yellow, Color.magenta, Color.yellow };
-    private List<Color> _availableBorderColorsB = new() { Color.blue * 0.5f, Color.green * 0.5f, Color.yellow * 0.5f, Color.magenta * 0.5f, Color.yellow * 0.5f }; 
+    private List<Color> _availableBorderColorsA = new() { Color.blue, Color.green, Color.yellow, Color.magenta, new Color(255, 255, 0), Color.cyan };
+    private List<Color> _availableBorderColorsB = new() { Color.blue * 0.5f, Color.green * 0.5f, Color.yellow * 0.5f, Color.magenta * 0.5f, new Color(255, 255, 0) * 0.5f, Color.cyan * 0.5f }; 
 
     private static int _nextColorIndex = 0;
 
@@ -132,7 +133,53 @@ public class ProductParent : MonoBehaviour
 
         Debug.Log($"[ProductParent] Applied border colors to {panelInstance.name}: A={_productBorderColorA}, B={_productBorderColorB}");
     }
- 
+
+    private void ApplyBorderColorToPanelMover(GameObject panelInstance)
+    {
+        if (panelInstance == null)
+        {
+            Debug.LogWarning($"[ProductParent PanelMover] Panel instance is null. Cannot apply border color.");
+            return;
+        }
+
+        // Transform canvasRootTransform = panelInstance.transform.Find("CanvasRoot");
+
+        // if (canvasRootTransform == null)
+        // {
+        //     Debug.LogWarning($"[ProductParent PanelMover] No 'CanvasRoot' child found on {panelInstance.name}. Cannot apply border color.");
+        //     return;
+        // }
+
+        Transform uiBackplateTransform = panelInstance.transform.Find("UIBackplate");
+
+        if (uiBackplateTransform == null)
+        {
+            Debug.LogWarning($"[ProductParent PanelMover] No 'UIBackplate' child found under 'CanvasRoot' in {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        Image panelImage = uiBackplateTransform.GetComponent<Image>();
+
+        if (panelImage == null)
+        {
+            Debug.LogWarning($"[ProductParent PanelMover] No Image component found on 'UIBackplate' of {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        Material materialInstance = panelImage.material;
+
+        if (materialInstance == null)
+        {
+            Debug.LogWarning($"[ProductParent PanelMover] No material found on Image component of 'UIBackplate' of {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        materialInstance.SetColor("_BorderColorA", _productBorderColorA);
+        materialInstance.SetColor("_BorderColorB", _productBorderColorB);
+
+        Debug.Log($"[ProductParent PanelMover] Applied border colors to {panelInstance.name}: A={_productBorderColorA}, B={_productBorderColorB}");
+    }
+
     private void ApplyBorderColorToAllPanels()
     {
         Debug.Log("[ProductParent] Applying border color to all panels.");
@@ -141,6 +188,7 @@ public class ProductParent : MonoBehaviour
         ApplyBorderColorToPanel(ingredientPannelInstance);
         ApplyBorderColorToPanel(nutritionPannelInstance);
         ApplyBorderColorToPanel(footprintPannelInstance);
+        ApplyBorderColorToPanelMover(panelMover);
     }
 
     public void SetUpZutatenPanel()
