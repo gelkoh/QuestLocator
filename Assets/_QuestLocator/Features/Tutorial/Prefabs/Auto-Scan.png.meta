@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 25223f8de052e724283a80477ff39b9c
+guid: e8d3ced86e013924985e746abe31eff9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +21,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,12 +108,78 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Auto-Scan_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2362
+        height: 2362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce2d4babb03666b45ba30cc67fb0647d
+      internalID: -1890115503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-Scan_1
+      rect:
+        serializedVersion: 2
+        x: 2362
+        y: 0
+        width: 2362
+        height: 2362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75646f19961e18145a6f519dfdb8bc70
+      internalID: 1938732652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-Scan_2
+      rect:
+        serializedVersion: 2
+        x: 4724
+        y: 0
+        width: 2362
+        height: 2362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c56e1dd29923ec54a8aa717a2fb51717
+      internalID: -1704198131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: fd59cbfaee0c7b74abbf64c758fbf71d
     internalID: 0
     vertices: []
     indices: 
@@ -122,7 +188,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Auto-Scan_0: -1890115503
+      Auto-Scan_1: 1938732652
+      Auto-Scan_2: -1704198131
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

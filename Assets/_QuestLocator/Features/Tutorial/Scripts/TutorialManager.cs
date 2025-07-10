@@ -1,13 +1,15 @@
-// Modified IntroManager to work with TutorialStateManager and persistent settings
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IntroManager : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
     [Header("Intro Settings")]
     [SerializeField] private bool showIntroOnStart = true;  // Default value
     [SerializeField] private bool allowIntroRestart = true; // Default value
+
+    [Header("Main Application Features")]
+    [SerializeField] private GameObject[] mainApplicationFeatures;
 
     [Header("Events")]
     [SerializeField] private UnityEvent OnIntroStart;
@@ -21,7 +23,7 @@ public class IntroManager : MonoBehaviour
     private TutorialStateManager tutorialStateManager;
 
     // Singleton pattern for easy access from other scripts
-    public static IntroManager Instance { get; private set; }
+    public static TutorialManager Instance { get; private set; }
 
     // PlayerPrefs keys
     private const string SHOW_INTRO_KEY = "ShowIntroOnStart";
@@ -98,10 +100,9 @@ public class IntroManager : MonoBehaviour
 
     private void Start()
     {
-        // Subscribe to tutorial events
+        // Subscribe to tutorial events - only the ones we need
         if (tutorialStateManager != null)
         {
-            tutorialStateManager.OnTutorialStart.AddListener(OnTutorialStarted);
             tutorialStateManager.OnTutorialComplete.AddListener(OnTutorialCompleted);
             tutorialStateManager.OnTutorialSkipped.AddListener(OnTutorialSkipped);
         }
@@ -135,63 +136,84 @@ public class IntroManager : MonoBehaviour
         // Disable main application components during intro
         DisableMainApplicationFeatures();
 
+        // Trigger intro start event
+        OnIntroStart?.Invoke();
+
         // Start the tutorial state manager
         if (tutorialStateManager != null)
         {
             tutorialStateManager.StartTutorial();
         }
-
-        // Trigger intro start event
-        OnIntroStart?.Invoke();
-    }
-
-    private void OnTutorialStarted()
-    {
-        // Called when tutorial state manager starts
-        Debug.Log("Tutorial state manager started");
     }
 
     private void OnTutorialCompleted()
     {
-        CompleteIntro();
+        Debug.Log("Tutorial completed - ending intro");
+        EndIntro(false); // false = completed, not skipped
     }
 
     private void OnTutorialSkipped()
     {
-        SkipIntro();
+        Debug.Log("Tutorial skipped - ending intro");
+        EndIntro(true); // true = skipped
     }
 
+    private void EndIntro(bool wasSkipped)
+    {
+        IsInIntro = false;
+        EnableMainApplicationFeatures();
+
+        if (wasSkipped)
+        {
+            OnSkipIntro?.Invoke();
+        }
+        else
+        {
+            OnIntroComplete?.Invoke();
+        }
+
+        SetMainApplicationState();
+    }
+
+    // Public methods for manual control (if needed)
     public void CompleteIntro()
     {
-        Debug.Log("Intro tutorial completed!");
-        IsInIntro = false;
-
-        EnableMainApplicationFeatures();
-        OnIntroComplete?.Invoke();
-        SetMainApplicationState();
+        if (IsInIntro && tutorialStateManager != null)
+        {
+            tutorialStateManager.CompleteTutorial();
+        }
     }
 
     public void SkipIntro()
     {
-        Debug.Log("Intro tutorial skipped!");
-        IsInIntro = false;
-
-        EnableMainApplicationFeatures();
-        OnSkipIntro?.Invoke();
-        SetMainApplicationState();
+        if (IsInIntro && tutorialStateManager != null)
+        {
+            tutorialStateManager.SkipTutorial();
+        }
     }
 
     private void DisableMainApplicationFeatures()
     {
-
+        foreach (var feature in mainApplicationFeatures)
+        {
+            if (feature != null)
+            {
+                feature.SetActive(false);
+                Debug.Log($"[IntroManager] Disabled {feature.name} during intro");
+            }
+        }
     }
 
     private void EnableMainApplicationFeatures()
     {
-        /*
-        var barcodeScanner = FindFirstObjectByType<BarcodeScanner>();
-        if (barcodeScanner != null) barcodeScanner.enabled = true;
-        */
+        foreach (var feature in mainApplicationFeatures)
+        {
+            if (feature != null)
+            {
+                feature.SetActive(true);
+                Debug.Log($"[IntroManager] Enabled {feature.name} after intro");
+            }
+        }
     }
 
     private void SetMainApplicationState()
