@@ -94,7 +94,9 @@ public class ProductDisplayManager : MonoBehaviour
 
         Quaternion spawnRotation = Quaternion.LookRotation(mainCamera.transform.position - spawnPosition);
 
-        spawnRotation = mainCamera.transform.rotation;
+        Vector3 euler = mainCamera.transform.rotation.eulerAngles;
+        euler.z = 0;
+        spawnRotation = Quaternion.Euler(euler);
         try
         {
             GameObject newProductGO = Instantiate(productPrefab, spawnPosition, spawnRotation, productPrefabParent);
