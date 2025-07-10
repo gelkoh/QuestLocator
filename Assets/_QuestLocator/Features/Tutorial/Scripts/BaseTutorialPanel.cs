@@ -7,13 +7,13 @@ public abstract class BaseTutorialPanel : MonoBehaviour
     [SerializeField] protected bool autoAdvance = false;
     [SerializeField] protected float autoAdvanceDelay = 3f;
 
-    protected TutorialStateManager tutorialManager;
+    protected TutorialStateManager tutorialStateManager;
     protected int panelIndex;
     protected bool isCompleted = false;
 
     public virtual void Initialize(TutorialStateManager manager, int index)
     {
-        tutorialManager = manager;
+        tutorialStateManager = manager;
         panelIndex = index;
         isCompleted = false;
     }
@@ -47,7 +47,7 @@ public abstract class BaseTutorialPanel : MonoBehaviour
 
     private void AutoAdvance()
     {
-        tutorialManager?.NextPanel();
+        tutorialStateManager?.NextPanel();
     }
 
     // UI hook methods
@@ -55,17 +55,17 @@ public abstract class BaseTutorialPanel : MonoBehaviour
     {
         if (IsStepCompleted())
         {
-            tutorialManager?.NextPanel();
+            tutorialStateManager?.NextPanel();
         }
     }
 
     public void OnPreviousButton()
     {
-        tutorialManager?.PreviousPanel();
+        tutorialStateManager?.PreviousPanel();
     }
 
     public void OnSkipButton()
     {
-        tutorialManager?.SkipTutorial();
+        tutorialStateManager?.SkipTutorial();
     }
 }
