@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,9 @@ public class TutorialStateManager : MonoBehaviour
     private bool isTutorialActive = false;
     private BaseTutorialPanel currentPanel;
     private PanelPositioner _currentPanelPositioner;
+    private bool firstPanelWasPositioned = false;
+    private Vector3 firstPanelPosition;
+    private Quaternion firstPanelRotation;
 
     // Singleton for easy access
     public static TutorialStateManager TutorialStateManagerInstance { get; private set; }
@@ -42,6 +46,31 @@ public class TutorialStateManager : MonoBehaviour
         {
             Destroy(gameObject);
             return;
+        }
+
+        StartCoroutine(UpdatePanelPositionLoop());
+    }
+
+    private IEnumerator UpdatePanelPositionLoop()
+    {
+        while (true)
+        {
+            if (currentPanel != null)
+            {
+                Transform canvasRootTransform = currentPanel.transform.Find("CanvasRoot");
+
+                if (canvasRootTransform != null)
+                {
+                    firstPanelPosition = canvasRootTransform.position;
+                    firstPanelRotation = canvasRootTransform.rotation;
+                }
+                else
+                {
+                    Debug.LogWarning("[TutorialStateManager]: CanvasRoot not found on currentPanel. Cannot update firstPanelPosition/Rotation.");
+                }
+            }
+
+            yield return new WaitForSeconds(0.25f);
         }
     }
 
@@ -75,7 +104,7 @@ public class TutorialStateManager : MonoBehaviour
         }
         else
         {
-            HideCurrentPanel();
+            SkipTutorial();
             return;
         }
     }
@@ -112,10 +141,9 @@ public class TutorialStateManager : MonoBehaviour
 
     public void SkipTutorial()
     {
-        if (isTutorialActive)
-        {
-            HideCurrentPanel();
-        }
+        firstPanelWasPositioned = false;
+
+        HideCurrentPanel();
 
         isTutorialActive = false;
         currentPanelIndex = -1;
@@ -125,6 +153,8 @@ public class TutorialStateManager : MonoBehaviour
 
     public void CompleteTutorial()
     {
+        firstPanelWasPositioned = false;
+
         HideCurrentPanel();
 
         isTutorialActive = false;
@@ -165,17 +195,34 @@ public class TutorialStateManager : MonoBehaviour
             GameObject panelInstance = Instantiate(prefab.gameObject, contentRoot);
             currentPanel = panelInstance.GetComponent<BaseTutorialPanel>();
 
-            // Get the PanelPositioner from the Canvas
-            _currentPanelPositioner = panelInstance.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
-
             // Initialize the panel
             currentPanel.Initialize(this, currentPanelIndex);
 
-            // Position and show the panel
-            if (_currentPanelPositioner != null)
+            if (!firstPanelWasPositioned)
             {
-                _currentPanelPositioner.PositionPanelInFrontOfCamera();
+                // Get the PanelPositioner from the Canvas
+                _currentPanelPositioner = panelInstance.GetComponentInChildren<Canvas>().GetComponent<PanelPositioner>();
+
+                // Position and show the panel
+                if (_currentPanelPositioner != null)
+                {
+                    _currentPanelPositioner.PositionPanelInFrontOfCamera();
+                }
+
+                // panelInstance.transform.Find("CanvasRoot");
+                firstPanelPosition = currentPanel.transform.Find("CanvasRoot").transform.position;
+                firstPanelRotation = currentPanel.transform.Find("CanvasRoot").transform.rotation;
+                firstPanelWasPositioned = true;
             }
+            else
+            {
+                currentPanel.transform.Find("CanvasRoot").transform.position = firstPanelPosition;
+                currentPanel.transform.Find("CanvasRoot").transform.rotation = firstPanelRotation;
+                // currentPanel.gameObject.transform.position = firstPanelPosition;currentPanel.transform.Find("CanvasRoot").transform.position;
+            }
+
+            Debug.Log($"[TutorialStateManager]: firstPanelWasPosition: {firstPanelWasPositioned}");
+            Debug.Log($"[TutorialStateManager]: firstPanelPosition: {firstPanelPosition}");
 
             currentPanel.OnPanelShow();
         }
@@ -220,11 +267,11 @@ public class TutorialStateManager : MonoBehaviour
 
     public void ResetAndHideTutorial()
     {
+        firstPanelWasPositioned = false;
+
         Debug.Log("[TutorialStateManager] ResetAndHideTutorial called by external source.");
-        if (isTutorialActive)
-        {
-            HideCurrentPanel();
-        }
+
+        HideCurrentPanel();
 
         isTutorialActive = false;
         currentPanelIndex = -1;

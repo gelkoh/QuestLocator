@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        TutorialStateManagerInstance.ResetAndHideTutorial();
+        TutorialStateManagerInstance.SkipTutorial();
         
         // Really destroy product related panels because there might be many at some point and maybe use up a lot of memory
         if (_contentRoot != null)
