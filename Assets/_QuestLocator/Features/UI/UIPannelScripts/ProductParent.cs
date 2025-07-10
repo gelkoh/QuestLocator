@@ -1,5 +1,5 @@
 using System;
-using Meta.WitAi.TTS.Utilities;
+using System.Collections.Generic;
 using Oculus.Interaction;
 using TMPro;
 using UnityEngine;
@@ -32,34 +32,115 @@ public class ProductParent : MonoBehaviour
     [SerializeField] Transform container;
     [SerializeField] GameObject footprintPannelInstance = null;
 
+
+    private Color _productBorderColorA;
+    private Color _productBorderColorB;
+
+    private List<Color> _availableBorderColorsA = new() { Color.blue, Color.green, Color.yellow, Color.magenta, Color.yellow };
+    private List<Color> _availableBorderColorsB = new() { Color.blue * 0.5f, Color.green * 0.5f, Color.yellow * 0.5f, Color.magenta * 0.5f, Color.yellow * 0.5f }; 
+
+    private static int _nextColorIndex = 0;
+
     private UIThemeManagerLocal themeManager;
 
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.LogError("start Parent");
-        //themeManager = GetComponentInParent<UIThemeManagerLocal>();
+        themeManager = GetComponentInParent<UIThemeManagerLocal>();
 
-        //nur zum test
-        //SetUpTitlePannel();
-        //SetUpNutritionPanel();
-        //SetUpZutatenPanel();
-        //SetUpFootprintPanel();
+        if (themeManager == null)
+        {
+            Debug.Log("[ProductParent]: Theme manager local couldn't be found in parent.");
+        }
+        else
+        {
+            themeManager.OnThemeApplied += ApplyBorderColorToAllPanels;      
+        }
+
         UpdateTheme();
+        Debug.Log("ProductParent Start method called.");
+    }
+    
+    void OnDestroy()
+    {
+        themeManager.OnThemeApplied -= ApplyBorderColorToAllPanels;  
     }
 
-    // Update is called once per frame
     public void SetProductData(Root productRoot)
     {
-        Debug.LogError("SetData");
+        Debug.Log("[ProductParent] SetProductData called for product: " + productRoot.Product.ProductName);
         productData = productRoot;
         themeManager = GetComponentInParent<UIThemeManagerLocal>();
+
+        SetProductGroupBorderColors();
+
         SetUpTitlePannel();
         SetUpNutritionPanel();
-        //UpdateTheme();
+
+        UpdateTheme();
+        ApplyBorderColorToAllPanels();
+    }
+
+    private void SetProductGroupBorderColors()
+    {
+        _productBorderColorA = _availableBorderColorsA[_nextColorIndex % _availableBorderColorsA.Count];
+        _productBorderColorB = _availableBorderColorsB[_nextColorIndex % _availableBorderColorsB.Count];
+
+        _nextColorIndex++;
+        Debug.Log($"[ProductParent] Assigned Border Colors for this product group: A={_productBorderColorA}, B={_productBorderColorB}");
+    }
+
+    private void ApplyBorderColorToPanel(GameObject panelInstance)
+    {
+        if (panelInstance == null)
+        {
+            Debug.LogWarning($"[ProductParent] Panel instance is null. Cannot apply border color.");
+            return;
+        }
+
+        Transform canvasRootTransform = panelInstance.transform.Find("CanvasRoot");
+
+        if (canvasRootTransform == null)
+        {
+            Debug.LogWarning($"[ProductParent] No 'CanvasRoot' child found on {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        Transform uiBackplateTransform = canvasRootTransform.Find("UIBackplate");
+
+        if (uiBackplateTransform == null)
+        {
+            Debug.LogWarning($"[ProductParent] No 'UIBackplate' child found under 'CanvasRoot' in {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        Image panelImage = uiBackplateTransform.GetComponent<Image>();
+        if (panelImage == null)
+        {
+            Debug.LogWarning($"[ProductParent] No Image component found on 'UIBackplate' of {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        Material materialInstance = panelImage.material;
+        if (materialInstance == null)
+        {
+            Debug.LogWarning($"[ProductParent] No material found on Image component of 'UIBackplate' of {panelInstance.name}. Cannot apply border color.");
+            return;
+        }
+
+        materialInstance.SetColor("_BorderColorA", _productBorderColorA);
+        materialInstance.SetColor("_BorderColorB", _productBorderColorB);
+
+        Debug.Log($"[ProductParent] Applied border colors to {panelInstance.name}: A={_productBorderColorA}, B={_productBorderColorB}");
+    }
+ 
+    private void ApplyBorderColorToAllPanels()
+    {
+        Debug.Log("[ProductParent] Applying border color to all panels.");
+        ApplyBorderColorToPanel(titlePanelInstance);
+        ApplyBorderColorToPanel(geminiPanelInstance);
+        ApplyBorderColorToPanel(ingredientPannelInstance);
+        ApplyBorderColorToPanel(nutritionPannelInstance);
+        ApplyBorderColorToPanel(footprintPannelInstance);
     }
 
     public void SetUpZutatenPanel()
@@ -80,12 +161,13 @@ public class ProductParent : MonoBehaviour
         {
             Debug.LogError("Error instancing TestPannel: " + ex.Message);
         }
-
     }
+
     public GameObject GetZutantenPanel()
     {
         return ingredientPannelInstance;
     }
+
     public Transform GetZutatenSpawn()
     {
         return ingredientsSpawn;
@@ -101,7 +183,6 @@ public class ProductParent : MonoBehaviour
                 titlePanelInstance.GetComponent<Panel>().SetProductParent(this);
                 titlePanelInstance.GetComponent<Panel>().SetSpawn(titleSpawn);
                 titlePanelInstance.GetComponent<TitlePanel>().getTitleSection().text = productData.Product.ProductName;
-
                 UpdateTheme();
             }
 
@@ -116,6 +197,7 @@ public class ProductParent : MonoBehaviour
     {
         return titlePanelInstance;
     }
+
     public Transform GetTitleSpawn()
     {
         return titleSpawn;
@@ -123,37 +205,45 @@ public class ProductParent : MonoBehaviour
 
     public void SetUpGeminiPannel(string prompt, string response)
     {
-        if (geminiPanelInstance == null)
+        try
         {
-            geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
-            geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
-            geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
-            geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
-            geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
-            geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
-            geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-            UpdateTheme();
-            geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
-            geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+            if (geminiPanelInstance == null)
+            {
+                geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
+                geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
+                geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+                geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
+                geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
+                geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
+                geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+                //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+                UpdateTheme();
+            }
+            else
+            {
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+                geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
+                geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+                geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
+                geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
 
-
-            //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
-            
+            }
         }
-        else
+        catch (Exception ex)
         {
-            geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
-            geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
-            geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
-            geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-            geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
-            geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+            Debug.LogError("Error instancing GeminiPannel: " + ex.Message);
         }
+
     }
+
     public GameObject GetGeminiPanel()
     {
         return geminiPanelInstance;
     }
+
     public Transform GetGeminiSpawn()
     {
         return geminiSpawn;
@@ -168,20 +258,20 @@ public class ProductParent : MonoBehaviour
                 nutritionPannelInstance = Instantiate(nutritionPannelPrefab, nutritionSpawn.position, nutritionSpawn.rotation, nutritionSpawn);
                 nutritionPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 nutritionPannelInstance.GetComponent<Panel>().SetSpawn(nutritionSpawn);
-                
                 UpdateTheme();
             }
-
         }
         catch (Exception ex)
         {
             Debug.LogError("Error instancing TestPanel: " + ex.Message);
         }
     }
+
     public GameObject GetNutriPanel()
     {
         return nutritionPannelInstance;
     }
+
     public Transform GetNutritionSpawn()
     {
         return nutritionSpawn;
@@ -200,17 +290,18 @@ public class ProductParent : MonoBehaviour
                 Debug.LogError("update footprintTheme");
                 UpdateTheme();
             }
-
         }
         catch (Exception ex)
         {
             Debug.LogError("Error instancing TestPanel: " + ex.Message);
         }
     }
+
     public GameObject GetUmweltPanel()
     {
         return footprintPannelInstance;
     }
+
     public Transform GetUmweltSpawn()
     {
         return footprintSpawn;
@@ -220,9 +311,16 @@ public class ProductParent : MonoBehaviour
     {
         return container;
     }
+
     private void UpdateTheme()
     {
-        themeManager.ApplyCurrentTheme();
+        if (themeManager != null)
+        {
+            themeManager.ApplyCurrentTheme();
+        }
+        else
+        {
+            Debug.LogWarning("[ProductParent] UIThemeManagerLocal not found or assigned. Theme update skipped.");
+        }
     }
-
 }
