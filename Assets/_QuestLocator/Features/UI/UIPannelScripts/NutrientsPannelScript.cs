@@ -34,7 +34,8 @@ public class NutrientsPannelScript : MonoBehaviour
         productDisplayScript = GetComponentInParent<ProductParent>();
         TryFillBars(NutritionCalculatorInstance.CurrentNutritionRecommendation);
 
-        activeModeText.SetText(DisplayModeManagerInstance.GetTextForMode(DisplayMode.Per100gVsNeed));
+        // activeModeText.SetText(DisplayModeManagerInstance.GetTextForMode(DisplayMode.Per100gVsNeed));
+        activeModeText.SetText(DisplayModeManagerInstance.GetTextForMode(DisplayModeManagerInstance.CurrentMode));
     }
 
     private void TryFillBars(NutritionRecommendation nutritionRecommendation)
