@@ -86,6 +86,7 @@ public class ProductParent : MonoBehaviour
         _productBorderColorA = _availableBorderColorsA[_nextColorIndex % _availableBorderColorsA.Count];
         _productBorderColorB = _availableBorderColorsB[_nextColorIndex % _availableBorderColorsB.Count];
 
+        Debug.Log("[ProductParent nextColorInndex]: " + _nextColorIndex);
         _nextColorIndex++;
         Debug.Log($"[ProductParent] Assigned Border Colors for this product group: A={_productBorderColorA}, B={_productBorderColorB}");
     }
