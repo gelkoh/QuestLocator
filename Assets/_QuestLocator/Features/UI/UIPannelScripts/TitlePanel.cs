@@ -2,11 +2,21 @@ using Meta.WitAi;
 using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitlePanel : MonoBehaviour
 {
     private ProductParent parentPanel;
     [SerializeField] TextMeshProUGUI titleSection;
+    [SerializeField] Image nutrientsIcon;
+    [SerializeField] Sprite nOpen;
+    [SerializeField] Sprite nClose;
+    [SerializeField] Image zutantenIcon;
+    [SerializeField] Sprite zOpen;
+    [SerializeField] Sprite zClose;
+    [SerializeField] Image umweltIcon;
+    [SerializeField] Sprite uOpen;
+    [SerializeField] Sprite uClose;
     bool toggleNutrients = false;
     bool toggleZutaten = false;
     bool toggleUmwelt = false;
@@ -46,11 +56,13 @@ public class TitlePanel : MonoBehaviour
     {
         if (toggleNutrients == false)
         {
+            nutrientsIcon.sprite = nClose;
             parentPanel.SetUpNutritionPanel();
             toggleNutrients = true;
         }
         else
         {
+            nutrientsIcon.sprite = nOpen;
             parentPanel.GetNutriPanel().DestroySafely();
             toggleNutrients = false;
         }
@@ -60,11 +72,13 @@ public class TitlePanel : MonoBehaviour
     {
         if (toggleZutaten == false)
         {
+            zutantenIcon.sprite = zClose;
             parentPanel.SetUpZutatenPanel();
             toggleZutaten = true;
         }
         else
         {
+            zutantenIcon.sprite = zOpen;
             parentPanel.GetZutantenPanel().DestroySafely();
             toggleZutaten = false;
         }
@@ -75,11 +89,13 @@ public class TitlePanel : MonoBehaviour
     {
         if (toggleUmwelt == false)
         {
+            umweltIcon.sprite = uClose;
             parentPanel.SetUpFootprintPanel();
             toggleUmwelt = true;
         }
         else
         {
+            umweltIcon.sprite = uOpen;
             parentPanel.GetUmweltPanel().DestroySafely();
             toggleUmwelt = false;
         }

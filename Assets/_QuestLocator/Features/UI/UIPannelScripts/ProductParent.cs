@@ -198,11 +198,11 @@ public class ProductParent : MonoBehaviour
         {
             if (ingredientPannelInstance == null)
             {
+                UpdateTheme();
                 ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 ingredientPannelInstance.GetComponent<Panel>().SetSpawn(ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<IngredientPannel>().FillInfo();
-                UpdateTheme();
             }
 
         }
@@ -261,22 +261,23 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
                 geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
-                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetMenuTitle().text = productData.Product.ProductName;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
                 //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
                 UpdateTheme();
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
+                geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
+
             }
             else
             {
-                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
+                geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
 
             }
