@@ -67,7 +67,7 @@ namespace Oculus.Interaction
         {
             // if (!_isInitialized) return;
 
-            Debug.LogError("Apply theme " + index);
+            //Debug.LogError("Apply theme " + index);
             // Check for out of range error ("index" is the parameter passed in, not the current theme index
             if (index < 0 || index >= _themes.Length)
             {

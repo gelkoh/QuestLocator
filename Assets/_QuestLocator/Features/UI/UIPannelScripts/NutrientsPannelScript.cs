@@ -31,6 +31,7 @@ public class NutrientsPannelScript : MonoBehaviour
 
     private void Start()
     {
+        Debug.LogError("start nutrients");
         productDisplayScript = GetComponentInParent<ProductParent>();
         TryFillBars(NutritionCalculatorInstance.CurrentNutritionRecommendation);
 
@@ -40,17 +41,16 @@ public class NutrientsPannelScript : MonoBehaviour
 
     private void TryFillBars(NutritionRecommendation nutritionRecommendation)
     {
-        Debug.Log("🔁 [NutrientsPannelScript] FillBars() wird aufgerufen...");
 
         if (productDisplayScript == null || productDisplayScript.productData?.Product == null)
         {
-            Debug.LogError("❌ [NutrientsPannelScript] Produktdaten nicht verfügbar.");
+            Debug.LogError(" [NutrientsPannelScript] Produktdaten nicht verfügbaree.");
             return;
         }
 
         if (nutrientBarFiller == null)
         {
-            Debug.LogError("❌ [NutrientsPannelScript] nutrientBarFiller ist nicht zugewiesen! Bitte im Inspector setzen.");
+            Debug.LogError(" [NutrientsPannelScript] nutrientBarFiller ist nicht zugewiesen! Bitte im Inspector setzen.");
             return;
         }
 
@@ -58,9 +58,9 @@ public class NutrientsPannelScript : MonoBehaviour
         {
             productName.text = productDisplayScript.productData.Product.ProductName;
         }
-
         // Fülle die Balken mit dem aktiven Modus
         nutrientBarFiller.FillBars(productDisplayScript.productData.Product, nutritionRecommendation);
+        
     }
 
     private void HandleNutritionRecommendationCalculated(NutritionRecommendation nutritionRecommendation)

@@ -77,10 +77,10 @@ public class IngredientPannel : MonoBehaviour
             wordButtonList.Add(wordButtonInstance);
             id++;
         }
-        Debug.LogError("beforeTags");
+        
         if (productDisplayScript.productData.Product.AllergensTags.Length > 0)
         {
-            Debug.LogError("In allergens");
+            
             String text = "";
             for (int i = 0; i < productDisplayScript.productData.Product.AllergensTags.Length; i++)
             {
@@ -91,7 +91,7 @@ public class IngredientPannel : MonoBehaviour
 
         if (productDisplayScript.productData.Product.IngredientsAnalysisTags != null)
         {
-            Debug.LogError("in Veg");
+            
             foreach (string tag in productDisplayScript.productData.Product.IngredientsAnalysisTags)
             {
                 if (tag.Equals("en:vegan", StringComparison.OrdinalIgnoreCase))

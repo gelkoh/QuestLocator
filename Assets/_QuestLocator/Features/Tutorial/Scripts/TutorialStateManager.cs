@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Oculus.Interaction;
 
 public class TutorialStateManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class TutorialStateManager : MonoBehaviour
     public bool IsTutorialActive => isTutorialActive;
     public int CurrentStep => currentPanelIndex;
     public int TotalSteps => tutorialPanelPrefabs.Length;
+
+    public UIThemeManagerLocal themeManager;
 
     private void Awake()
     {
@@ -230,6 +233,17 @@ public class TutorialStateManager : MonoBehaviour
         {
             Debug.LogWarning($"[TutorialStateManager] prefab at index {currentPanelIndex} is null!");
         }
+        
+        // Update theme so pannel has correct colors
+        if (themeManager != null)
+        {
+            themeManager.ApplyCurrentTheme();
+        }
+        else
+        {
+            Debug.LogWarning("[ProductParent] UIThemeManagerLocal not found or assigned. Theme update skipped.");
+        }
+
     }
 
     private void HideCurrentPanel()

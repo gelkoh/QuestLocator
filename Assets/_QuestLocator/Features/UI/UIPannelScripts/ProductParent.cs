@@ -198,11 +198,11 @@ public class ProductParent : MonoBehaviour
         {
             if (ingredientPannelInstance == null)
             {
-                UpdateTheme();
                 ingredientPannelInstance = Instantiate(ingredientPannelPrefab, ingredientsSpawn.position, ingredientsSpawn.rotation, ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 ingredientPannelInstance.GetComponent<Panel>().SetSpawn(ingredientsSpawn);
                 ingredientPannelInstance.GetComponent<IngredientPannel>().FillInfo();
+                UpdateTheme();
             }
 
         }
@@ -258,6 +258,7 @@ public class ProductParent : MonoBehaviour
         {
             if (geminiPanelInstance == null)
             {
+                Debug.LogError("start gemini pannel");
                 geminiPanelInstance = Instantiate(gemininPanelPrefab, geminiSpawn.position, geminiSpawn.rotation, geminiSpawn);
                 geminiPanelInstance.GetComponent<Panel>().SetProductParent(this);
                 geminiPanelInstance.GetComponent<Panel>().SetSpawn(geminiSpawn);
@@ -266,6 +267,7 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
                 //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
+                Debug.LogError("update Theme gemini");
                 UpdateTheme();
                 geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
