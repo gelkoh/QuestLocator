@@ -17,7 +17,7 @@ public class TitlePanel : MonoBehaviour
     [SerializeField] Image umweltIcon;
     [SerializeField] Sprite uOpen;
     [SerializeField] Sprite uClose;
-    bool toggleNutrients = false;
+    bool toggleNutrients = true;
     bool toggleZutaten = false;
     bool toggleUmwelt = false;
     void Start()
