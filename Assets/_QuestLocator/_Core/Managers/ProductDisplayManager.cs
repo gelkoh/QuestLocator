@@ -121,15 +121,15 @@ public class ProductDisplayManager : MonoBehaviour
 
             ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
 
-        
-            if (productDisplayScript != null)
-            {
-                productDisplayScript.SetProductData(productRoot);
-            }
-            else
-            {
-                Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-            }
+
+            // if (productDisplayScript != null)
+            // {
+            //     productDisplayScript.SetProductData(productRoot);
+            // }
+            // else
+            // {
+            //     Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
+            // }
             if (productDisplayScript != null)
             {
                 productDisplayScript.SetProductData(productRoot);
@@ -140,6 +140,10 @@ public class ProductDisplayManager : MonoBehaviour
                 {
                     panelScript.InitAfterDataAvailable(NutritionCalculatorInstance.CurrentNutritionRecommendation);
                 }
+            }
+            else
+            {
+                Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
             }
 
  
