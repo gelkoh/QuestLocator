@@ -95,12 +95,27 @@ public class NutrientBarUI : MonoBehaviour
     }
 
     void UpdateFarbe(float prozent)
-    {
-        Color gruen = Color.green;
-        Color gelb = Color.yellow;
-        Color rot = Color.red;
-        Color zielFarbe;
+{
+    Color gruen = Color.green;
+    Color gelb = Color.yellow;
+    Color rot = Color.red;
+    Color zielFarbe;
 
+    if (naehrstoffName.ToLower().Contains("protein"))
+    {
+        // Spezielle Farblogik nur für Proteine
+        if (prozent < 0.05f)
+            zielFarbe = rot;
+        else if (prozent < 0.2f)
+            zielFarbe = gelb;
+        else if (prozent < 0.7f)
+            zielFarbe = gruen;
+        else
+            zielFarbe = rot;
+    }
+    else
+    {
+        // Standard-Verlauf für alle anderen Nährstoffe
         if (prozent < 0.5f)
         {
             float t = prozent / 0.5f;
@@ -111,7 +126,9 @@ public class NutrientBarUI : MonoBehaviour
             float t = (prozent - 0.5f) / 0.5f;
             zielFarbe = Color.Lerp(gelb, rot, t);
         }
-
-        if (fillImage != null) fillImage.color = zielFarbe;
     }
+
+    if (fillImage != null) fillImage.color = zielFarbe;
+}
+
 }
