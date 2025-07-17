@@ -364,7 +364,7 @@ public class ProductParent : MonoBehaviour
         return container;
     }
 
-    private void UpdateTheme()
+    public void UpdateTheme()
     {
         if (themeManager != null)
         {

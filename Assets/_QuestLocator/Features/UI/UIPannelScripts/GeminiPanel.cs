@@ -27,10 +27,13 @@ public class GeminiPanel : MonoBehaviour
     List<GameObject> wordButtonList = new List<GameObject>();
     void Start()
     {
+        ProductParent parentPanel = GetComponent<Panel>().GetProductParent();
+
         wissenschaftlichButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
         einfachButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
         fuerKinderButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
         SetButtons(prompt);
+        parentPanel.UpdateTheme();
     }
 
     public void SetButtons(string prompt)
