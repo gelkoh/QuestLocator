@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> _persitantPanels = new();
     [SerializeField] private GameObject _contentRoot;
+    [SerializeField] private GameObject WarningPannelManager;
 
     void Awake()
     {
@@ -46,7 +47,7 @@ public class UIManager : MonoBehaviour
         }
 
         TutorialStateManagerInstance.SkipTutorial();
-        
+
         // Really destroy product related panels because there might be many at some point and maybe use up a lot of memory
         if (_contentRoot != null)
         {
@@ -68,5 +69,12 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+        WarningPannelParentScript warningPannelParentScript = WarningPannelManager.GetComponent<WarningPannelParentScript>();
+
+        if (WarningPannelManager != null)
+        {
+            warningPannelParentScript.ClearWarningPannels();
+        }
+        
     }
 }

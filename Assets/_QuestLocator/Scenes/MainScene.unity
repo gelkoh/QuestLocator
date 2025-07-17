@@ -707,6 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WarnigPannelPrefab: {fileID: 7067976688229630100, guid: 4275f14d07a4c594a85140ad3530d309, type: 3}
+  maxPannelCount: 5
 --- !u!1 &41845617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2882,6 +2883,7 @@ MonoBehaviour:
   - {fileID: 7179458432129889981}
   - {fileID: 311521164}
   _contentRoot: {fileID: 51069746}
+  WarningPannelManager: {fileID: 40631999}
 --- !u!1 &182363814
 GameObject:
   m_ObjectHideFlags: 0
@@ -6797,6 +6799,10 @@ PrefabInstance:
     - target: {fileID: 3133494152545806682, guid: 3f7511fbc40ae7a4b89c3298a3de199d, type: 3}
       propertyPath: m_Name
       value: Right Hand Tracking
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558430574972630377, guid: 3f7511fbc40ae7a4b89c3298a3de199d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22052,6 +22058,10 @@ PrefabInstance:
     - target: {fileID: 773853689519989575, guid: b3ed8a0a703ebd34a9e44ed3d9f1fcf6, type: 3}
       propertyPath: m_Name
       value: Left Hand Tracking
+      objectReference: {fileID: 0}
+    - target: {fileID: 4985677829560647913, guid: b3ed8a0a703ebd34a9e44ed3d9f1fcf6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9019872111205603751, guid: b3ed8a0a703ebd34a9e44ed3d9f1fcf6, type: 3}
       propertyPath: m_IsActive
