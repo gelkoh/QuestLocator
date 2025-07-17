@@ -338,9 +338,11 @@ public class ProductParent : MonoBehaviour
                 footprintPannelInstance = Instantiate(footprintPannelPrefab, footprintSpawn.position, footprintSpawn.rotation, footprintSpawn);
                 footprintPannelInstance.GetComponent<Panel>().SetProductParent(this);
                 footprintPannelInstance.GetComponent<Panel>().SetSpawn(footprintSpawn);
-                footprintPannelInstance.GetComponent<Footprint>().FillInfo();
                 Debug.LogError("update footprintTheme");
                 UpdateTheme();
+                footprintPannelInstance.GetComponent<Footprint>().FillInfo();
+                
+                
             }
         }
         catch (Exception ex)
