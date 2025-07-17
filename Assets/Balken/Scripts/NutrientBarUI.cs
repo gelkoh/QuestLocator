@@ -27,9 +27,7 @@ public class NutrientBarUI : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
-        // Setze Standard-Anfangswerte für die UI
         if (nameText != null) nameText.text = "";
-        //if (wertText != null) wertText.text = "";
         wertText.text = "";
         if (slider != null) slider.value = 0f;
         if (canvasGroup != null) canvasGroup.alpha = 0f;
@@ -64,9 +62,7 @@ public class NutrientBarUI : MonoBehaviour
 
         float prozent = Mathf.Clamp01(aktuellerWert / tagesMax);
 
-        // Sicherstellen, dass Textfelder und Slider existieren, bevor darauf zugegriffen wird
         if (nameText != null) nameText.text = naehrstoffName +"  "+ $"{aktuellerWert:F1} {einheit}";
-        //if (wertText != null) wertText.text = $"{aktuellerWert:F1} {einheit}";
         
         if (slider != null)
         {
@@ -101,15 +97,40 @@ public class NutrientBarUI : MonoBehaviour
         Color rot = Color.red;
         Color zielFarbe;
 
-        if (prozent < 0.5f)
+        if (naehrstoffName.ToLower().Contains("protein"))
         {
-            float t = prozent / 0.5f;
-            zielFarbe = Color.Lerp(gruen, gelb, t);
+            if (prozent < 0.05f)
+            {
+                float t = Mathf.InverseLerp(0f, 0.05f, prozent);
+                zielFarbe = Color.Lerp(rot, gelb, t);
+            }
+            else if (prozent < 0.2f)
+            {
+                float t = Mathf.InverseLerp(0.05f, 0.2f, prozent);
+                zielFarbe = Color.Lerp(gelb, gruen, t);
+            }
+            else if (prozent < 0.7f)
+            {
+                zielFarbe = gruen;
+            }
+            else
+            {
+                float t = Mathf.InverseLerp(0.7f, 1.0f, prozent);
+                zielFarbe = Color.Lerp(gruen, rot, t);
+            }
         }
         else
         {
-            float t = (prozent - 0.5f) / 0.5f;
-            zielFarbe = Color.Lerp(gelb, rot, t);
+            if (prozent < 0.5f)
+            {
+                float t = prozent / 0.5f;
+                zielFarbe = Color.Lerp(gruen, gelb, t);
+            }
+            else
+            {
+                float t = (prozent - 0.5f) / 0.5f;
+                zielFarbe = Color.Lerp(gelb, rot, t);
+            }
         }
 
         if (fillImage != null) fillImage.color = zielFarbe;
