@@ -19,11 +19,11 @@ public class GeminiPanel : MonoBehaviour
     [SerializeField] private TTSSpeaker ttsSpeaker;
     private String prompt;
     GameObject ScientificButton;
-    String Scientific = " precisely and scientifically correctly in a maximum of two sentences. Use the terminology of the respective discipline. The text should be unstyled";
+    String Scientific = " precisely and scientifically correct with a maximum of 434 characters. Use the terminology of the respective discipline. The text should be unstyled";
     GameObject NormalButton;
-    String Normal = " in such a way that someone without prior knowledge can understand it. The explanation should be correct, normal and no longer than two short sentences. The text should be unstyled";
+    String Normal = " in such a way that someone without prior knowledge can understand it. The explanation should be correct, normal and no longer than 434 characters. The text should be unstyled";
     GameObject forChildrenButton;
-    String forChildren = " in a normal, short but precise way so that a child understands the basic function or meaning. In a maximum of 2 sentences. The text should be unstyled";
+    String forChildren = " in a normal, short but precise way so that a child understands the basic function or meaning. In a maximum of 434 characters. The text should be unstyled";
     List<GameObject> wordButtonList = new List<GameObject>();
     void Start()
     {
@@ -54,7 +54,7 @@ public class GeminiPanel : MonoBehaviour
         wordButtonList.Add(NormalButton);
 
         
-        forChildrenButton.GetComponentInChildren<TextMeshProUGUI>().text = "For children";
+        forChildrenButton.GetComponentInChildren<TextMeshProUGUI>().text = "Simplified";
         forChildrenButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         forChildrenButton.GetComponent<WordButton>().setPromt(prompt);
         forChildrenButton.GetComponent<WordButton>().setPromptSentence(forChildren);

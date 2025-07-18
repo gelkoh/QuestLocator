@@ -281,7 +281,6 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
                 geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();
                 geminiPanelInstance.GetComponent<GeminiPanel>().TtsTrigger(response);
-
             }
         }
         catch (Exception ex)
