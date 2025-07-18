@@ -1661,6 +1661,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1119500066301262613}
+  - {fileID: 1191183174647301321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1002512406861287226
@@ -2038,7 +2039,7 @@ MonoBehaviour:
   titleSection: {fileID: 8637222640969623117}
   nutrientsIcon: {fileID: 9170194854142749150}
   nOpen: {fileID: 21300000, guid: 6df02a9181c7ffb4389d8f11f950c409, type: 3}
-  nClose: {fileID: 21300000, guid: feebab5a727c2a145af65242b80dbc92, type: 3}
+  nClose: {fileID: 21300000, guid: 7eee81b6d1cae3f4bb88cabd7eb57e3b, type: 3}
   zutantenIcon: {fileID: 4682718588136431168}
   zOpen: {fileID: 21300000, guid: 61aac54cdcd4b2945aad75552f8df928, type: 3}
   zClose: {fileID: 21300000, guid: c98c1d397984f1249890eb7c49799de5, type: 3}
@@ -2509,6 +2510,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &4040164134828257777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1191183174647301321}
+  m_Layer: 0
+  m_Name: nutrients_1_icon_close_white_neu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1191183174647301321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4040164134828257777}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2552414490863079769}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4149217435410456615
 GameObject:
   m_ObjectHideFlags: 0
