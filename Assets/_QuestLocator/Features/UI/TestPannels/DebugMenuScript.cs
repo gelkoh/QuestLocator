@@ -34,8 +34,10 @@ public class DebugMenuScript : MonoBehaviour
     {
         Debug.LogError("errorButton");
     }
-    private void ClearLog()
+    public void ClearLog()
     {
+        output = "";
+        stack = "";
         ErrorTF.text = "";
     }
 }
