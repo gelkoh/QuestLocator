@@ -21,7 +21,7 @@ public class IngredientPannel : MonoBehaviour
 
     // TODO: Store globally later because it's also used in GeminiPanel.cs
     //String Scientific = " präzise und Scientific korrekt in maximal zwei Sätzen. Verwende dabei die Terminologie der jeweiligen Fachdisziplin. Der Text soll ungestyled sein";
-    String Scientific = "precisely and scientifically correctly in a maximum of two sentences. Use the terminology of the respective discipline. The text should be unstyled";
+    String Scientific = " precisely and scientifically correctly in a maximum of two sentences. Use the terminology of the respective discipline. The text should be unstyled";
     //String Normal = " so, dass ihn auch jemand ohne Vorwissen versteht. Die Erklärung soll korrekt, Normal und höchstens zwei kurze Sätze lang sein. Der Text soll ungestyled sein";
     String Normal = " in such a way that someone without prior knowledge can understand it. The explanation should be correct, normal and no longer than two short sentences. The text should be unstyled";
     //String forChildren = "auf Normale, kurze aber präzise Weise, sodass ein Kind die grundlegende Funktion oder Bedeutung versteht. In Maximal 2 Sätzen. Der Text soll ungestyled sein";

@@ -18,20 +18,20 @@ public class GeminiPanel : MonoBehaviour
     // Reference to the TTSSpeaker component in this panel
     [SerializeField] private TTSSpeaker ttsSpeaker;
     private String prompt;
-    GameObject wissenschaftlichButton;
-    String wissenschaftlich = " präzise und wissenschaftlich korrekt in maximal zwei Sätzen. Verwende dabei die Terminologie der jeweiligen Fachdisziplin. Der Text soll ungestyled sein";
-    GameObject einfachButton;
-    String einfach = " so, dass ihn auch jemand ohne Vorwissen versteht. Die Erklärung soll korrekt, einfach und höchstens zwei kurze Sätze lang sein. Der Text soll ungestyled sein";
-    GameObject fuerKinderButton;
-    String fuerKinder = "auf einfache, kurze aber präzise Weise, sodass ein Kind die grundlegende Funktion oder Bedeutung versteht. In Maximal 2 Sätzen. Der Text soll ungestyled sein";
+    GameObject ScientificButton;
+    String Scientific = " precisely and scientifically correctly in a maximum of two sentences. Use the terminology of the respective discipline. The text should be unstyled";
+    GameObject NormalButton;
+    String Normal = " in such a way that someone without prior knowledge can understand it. The explanation should be correct, normal and no longer than two short sentences. The text should be unstyled";
+    GameObject forChildrenButton;
+    String forChildren = " in a normal, short but precise way so that a child understands the basic function or meaning. In a maximum of 2 sentences. The text should be unstyled";
     List<GameObject> wordButtonList = new List<GameObject>();
     void Start()
     {
         ProductParent parentPanel = GetComponent<Panel>().GetProductParent();
 
-        wissenschaftlichButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
-        einfachButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
-        fuerKinderButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        ScientificButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        NormalButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
+        forChildrenButton = Instantiate(wordButtonPrefab, Buttons.position, Buttons.rotation, Buttons);
         SetButtons(prompt);
         parentPanel.UpdateTheme();
     }
@@ -39,27 +39,27 @@ public class GeminiPanel : MonoBehaviour
     public void SetButtons(string prompt)
     {
 
-        wissenschaftlichButton.GetComponentInChildren<TextMeshProUGUI>().text = "Scientific";
-        wissenschaftlichButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
-        wissenschaftlichButton.GetComponent<WordButton>().setPromt(prompt);
-        wissenschaftlichButton.GetComponent<WordButton>().setPromptSentence(wissenschaftlich);
-        wissenschaftlichButton.GetComponent<WordButton>().id = 1;
-        wordButtonList.Add(wissenschaftlichButton);
+        ScientificButton.GetComponentInChildren<TextMeshProUGUI>().text = "Scientific";
+        ScientificButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
+        ScientificButton.GetComponent<WordButton>().setPromt(prompt);
+        ScientificButton.GetComponent<WordButton>().setPromptSentence(Scientific);
+        ScientificButton.GetComponent<WordButton>().id = 1;
+        wordButtonList.Add(ScientificButton);
         
-        einfachButton.GetComponentInChildren<TextMeshProUGUI>().text = "Normal";
-        einfachButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
-        einfachButton.GetComponent<WordButton>().setPromt(prompt);
-        einfachButton.GetComponent<WordButton>().setPromptSentence(einfach);
-        einfachButton.GetComponent<WordButton>().id = 2;
-        wordButtonList.Add(einfachButton);
+        NormalButton.GetComponentInChildren<TextMeshProUGUI>().text = "Normal";
+        NormalButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
+        NormalButton.GetComponent<WordButton>().setPromt(prompt);
+        NormalButton.GetComponent<WordButton>().setPromptSentence(Normal);
+        NormalButton.GetComponent<WordButton>().id = 2;
+        wordButtonList.Add(NormalButton);
 
         
-        fuerKinderButton.GetComponentInChildren<TextMeshProUGUI>().text = "For children";
-        fuerKinderButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
-        fuerKinderButton.GetComponent<WordButton>().setPromt(prompt);
-        fuerKinderButton.GetComponent<WordButton>().setPromptSentence(fuerKinder);
-        fuerKinderButton.GetComponent<WordButton>().id = 3;
-        wordButtonList.Add(fuerKinderButton);
+        forChildrenButton.GetComponentInChildren<TextMeshProUGUI>().text = "For children";
+        forChildrenButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
+        forChildrenButton.GetComponent<WordButton>().setPromt(prompt);
+        forChildrenButton.GetComponent<WordButton>().setPromptSentence(forChildren);
+        forChildrenButton.GetComponent<WordButton>().id = 3;
+        wordButtonList.Add(forChildrenButton);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
