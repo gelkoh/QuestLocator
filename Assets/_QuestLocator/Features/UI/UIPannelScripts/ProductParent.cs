@@ -341,13 +341,13 @@ public class ProductParent : MonoBehaviour
                 Debug.LogError("update footprintTheme");
                 UpdateTheme();
                 footprintPannelInstance.GetComponent<Footprint>().FillInfo();
-                
-                
+                UpdateTheme();
             }
         }
         catch (Exception ex)
         {
             Debug.LogError("Error instancing TestPanel: " + ex.Message);
+            UpdateTheme();
         }
     }
 

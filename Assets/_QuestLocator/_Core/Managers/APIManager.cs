@@ -10,7 +10,7 @@ public class APIManager : MonoBehaviour
 
     public void GetAiResponse(string promptWord, string promptSentence, System.Action<string> callback)
     {
-        string prompt = "Erkläre das Wort " + promptWord + promptSentence;
+        string prompt = "Explain the ingredient " + promptWord + promptSentence;
         StartCoroutine(SendDataToGAS(prompt, callback));
     }
     private IEnumerator SendDataToGAS(string prompt, System.Action<string> callback)

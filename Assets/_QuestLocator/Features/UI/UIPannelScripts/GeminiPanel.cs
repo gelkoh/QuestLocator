@@ -39,14 +39,14 @@ public class GeminiPanel : MonoBehaviour
     public void SetButtons(string prompt)
     {
 
-        wissenschaftlichButton.GetComponentInChildren<TextMeshProUGUI>().text = "Wissenschaftlich";
+        wissenschaftlichButton.GetComponentInChildren<TextMeshProUGUI>().text = "Scientific";
         wissenschaftlichButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         wissenschaftlichButton.GetComponent<WordButton>().setPromt(prompt);
         wissenschaftlichButton.GetComponent<WordButton>().setPromptSentence(wissenschaftlich);
         wissenschaftlichButton.GetComponent<WordButton>().id = 1;
         wordButtonList.Add(wissenschaftlichButton);
         
-        einfachButton.GetComponentInChildren<TextMeshProUGUI>().text = "Einfach";
+        einfachButton.GetComponentInChildren<TextMeshProUGUI>().text = "Normal";
         einfachButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         einfachButton.GetComponent<WordButton>().setPromt(prompt);
         einfachButton.GetComponent<WordButton>().setPromptSentence(einfach);
@@ -54,7 +54,7 @@ public class GeminiPanel : MonoBehaviour
         wordButtonList.Add(einfachButton);
 
         
-        fuerKinderButton.GetComponentInChildren<TextMeshProUGUI>().text = "Für Kinder";
+        fuerKinderButton.GetComponentInChildren<TextMeshProUGUI>().text = "For children";
         fuerKinderButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         fuerKinderButton.GetComponent<WordButton>().setPromt(prompt);
         fuerKinderButton.GetComponent<WordButton>().setPromptSentence(fuerKinder);
