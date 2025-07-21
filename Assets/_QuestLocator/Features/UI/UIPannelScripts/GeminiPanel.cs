@@ -16,7 +16,7 @@ public class GeminiPanel : MonoBehaviour
     private string TTSText = "Welcome to the tutorial!";
 
     // Reference to the TTSSpeaker component in this panel
-    [SerializeField] private TTSSpeaker ttsSpeaker;
+    private TTSSpeaker ttsSpeaker;
     private String prompt;
     GameObject ScientificButton;
     String Scientific = " precisely and scientifically correct with a maximum of 434 characters. Use the terminology of the respective discipline. The text should be unstyled";
@@ -38,28 +38,33 @@ public class GeminiPanel : MonoBehaviour
 
     public void SetButtons(string prompt)
     {
+        int lastSelectedTranslationStyleIndex = PlayerPrefs.GetInt("TranslationStyleIndex");
 
         ScientificButton.GetComponentInChildren<TextMeshProUGUI>().text = "Scientific";
         ScientificButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         ScientificButton.GetComponent<WordButton>().setPromt(prompt);
         ScientificButton.GetComponent<WordButton>().setPromptSentence(Scientific);
         ScientificButton.GetComponent<WordButton>().id = 1;
+        if (lastSelectedTranslationStyleIndex == 1) ScientificButton.GetComponent<WordButton>().setActiveIndicator(true);
         wordButtonList.Add(ScientificButton);
-        
+
         NormalButton.GetComponentInChildren<TextMeshProUGUI>().text = "Normal";
         NormalButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         NormalButton.GetComponent<WordButton>().setPromt(prompt);
         NormalButton.GetComponent<WordButton>().setPromptSentence(Normal);
         NormalButton.GetComponent<WordButton>().id = 2;
+        if (lastSelectedTranslationStyleIndex == 2) NormalButton.GetComponent<WordButton>().setActiveIndicator(true);
         wordButtonList.Add(NormalButton);
 
-        
+
         forChildrenButton.GetComponentInChildren<TextMeshProUGUI>().text = "Simplified";
         forChildrenButton.GetComponent<WordButton>().SetParentPanel(this.GetComponent<Panel>());
         forChildrenButton.GetComponent<WordButton>().setPromt(prompt);
         forChildrenButton.GetComponent<WordButton>().setPromptSentence(forChildren);
         forChildrenButton.GetComponent<WordButton>().id = 3;
+        if (lastSelectedTranslationStyleIndex == 3) forChildrenButton.GetComponent<WordButton>().setActiveIndicator(true);
         wordButtonList.Add(forChildrenButton);
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

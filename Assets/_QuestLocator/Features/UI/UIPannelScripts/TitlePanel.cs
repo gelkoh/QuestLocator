@@ -17,9 +17,9 @@ public class TitlePanel : MonoBehaviour
     [SerializeField] Image umweltIcon;
     [SerializeField] Sprite uOpen;
     [SerializeField] Sprite uClose;
-    bool toggleNutrients = true;
-    bool toggleZutaten = false;
-    bool toggleUmwelt = false;
+    public bool NutrientsIsActive = true;
+    public bool ZutatenIsActive = false;
+    public bool UmweltIsACtive = false;
     void Start()
     {
         parentPanel = GetComponent<Panel>().GetProductParent();
@@ -54,50 +54,54 @@ public class TitlePanel : MonoBehaviour
     }
     public void spawnNutrientsPanel()
     {
-        if (toggleNutrients == false)
+        if (NutrientsIsActive == false)
         {
+            Debug.LogError("create");
             nutrientsIcon.sprite = nClose;
             parentPanel.SetUpNutritionPanel();
-            toggleNutrients = true;
+            NutrientsIsActive = true;
+            Debug.LogError("after");
         }
         else
         {
+            Debug.LogError("close");
             nutrientsIcon.sprite = nOpen;
             parentPanel.GetNutriPanel().DestroySafely();
-            toggleNutrients = false;
+            NutrientsIsActive = false;
+            Debug.LogError("after");
         }
     }
 
     public void spawnZutatenPanel()
     {
-        if (toggleZutaten == false)
+        if (ZutatenIsActive == false)
         {
             zutantenIcon.sprite = zClose;
             parentPanel.SetUpZutatenPanel();
-            toggleZutaten = true;
+            ZutatenIsActive = true;
         }
         else
         {
             zutantenIcon.sprite = zOpen;
             parentPanel.GetZutantenPanel().DestroySafely();
-            toggleZutaten = false;
+            ZutatenIsActive = false;
         }
-        
+
     }
 
     public void spawnUmweltPanel()
     {
-        if (toggleUmwelt == false)
+        if (UmweltIsACtive == false)
         {
             umweltIcon.sprite = uClose;
             parentPanel.SetUpFootprintPanel();
-            toggleUmwelt = true;
+            UmweltIsACtive = true;
         }
         else
         {
             umweltIcon.sprite = uOpen;
             parentPanel.GetUmweltPanel().DestroySafely();
-            toggleUmwelt = false;
+            UmweltIsACtive = false;
         }
     }
 

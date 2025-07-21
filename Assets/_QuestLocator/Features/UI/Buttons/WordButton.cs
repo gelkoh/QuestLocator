@@ -66,6 +66,7 @@ public class WordButton : MonoBehaviour
 
     public void setActiveIndicator(bool activeIndicator)
     {
+        Debug.LogError(activeIndicator + " id:"+id+" promt:" + promptWord);
         Gap.SetActive(activeIndicator);
         ActiveIndicator.SetActive(activeIndicator);
     }

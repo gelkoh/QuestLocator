@@ -10,6 +10,12 @@ public class Panel : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    public void pannelDelete(int pannel)
+    {
+        if (pannel == 1) productparent.GetComponentInChildren<TitlePanel>().spawnNutrientsPanel();
+        else if (pannel == 2) productparent.GetComponentInChildren<TitlePanel>().spawnZutatenPanel();
+        else if (pannel == 3) productparent.GetComponentInChildren<TitlePanel>().spawnUmweltPanel();
+    }
     public void DestroyAll()
     {
         Destroy(productparent.gameObject);
