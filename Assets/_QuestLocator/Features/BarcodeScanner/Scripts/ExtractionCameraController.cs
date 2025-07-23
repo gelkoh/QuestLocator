@@ -200,7 +200,7 @@ public class ExtractionCameraController : MonoBehaviour
     public HandRelativePositionCalculator handPositionCalculator;
 
     // Keep extractionAreaSize as it's now how you define the size on the quad
-    private Vector2 extractionAreaSize = new Vector2(1f, 1f);
+    private Vector2 extractionAreaSize = new Vector2(2f, 2f);
     public bool followHandPosition = true;
 
     private Renderer quadRenderer;
