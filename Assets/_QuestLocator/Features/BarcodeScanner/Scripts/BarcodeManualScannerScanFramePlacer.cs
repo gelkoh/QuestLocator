@@ -10,12 +10,12 @@ public class BarcodeScannerHandGesture : MonoBehaviour
     private XRHandSubsystem _handSubsystem;
     private RectTransform _scanFrameRect;
 
-    private float _lateralOffset = 0.012f;
-    private float _verticalOffset = 0f;
-    private float _depthOffset = 0.06f;
+    private float _offsetX = 0.018f;
+    private float _offsetY = 0f;
+    private float _offsetZ = 0.1f;
 
     private float _baseRollAngle = 10f;
-    private Vector3 _finalLocalRotationOffset = new Vector3(0, 0, 90); 
+    private Vector3 _finalLocalRotationOffset = new Vector3(0, 0, 90);
 
     void Awake()
     {
@@ -23,7 +23,7 @@ public class BarcodeScannerHandGesture : MonoBehaviour
 
         if (_scanFrameRect == null)
         {
-            Debug.LogError("BarcodeManualScannerScanFramePlacer: RectTransform not found on this GameObject.");
+            Debug.LogError("BarcodeScannerHandGesture: RectTransform not found on this GameObject.");
             enabled = false;
             return;
         }
@@ -37,58 +37,50 @@ public class BarcodeScannerHandGesture : MonoBehaviour
         }
         else
         {
-            Debug.LogError("BarcodeScannBarcodeManualScannerScanFramePlacererHandGesture: No XRHandSubsystem found. Hand tracking not possible.");
+            Debug.LogError("BarcodeScannerHandGesture: No XRHandSubsystem found. Hand tracking not possible.");
             enabled = false;
         }
     }
 
     void Update()
     {
-        if (BarcodeScannerStatusManagerInstance == null)
-        {
-            Debug.LogWarning("[BarcodeScannerHandGesture] BarcodeScannerStatusManagerInstance is null.");
-            return;
-        }
-        if (BarcodeScannerStatusManagerInstance.ActiveScannerType != BarcodeScannerType.MANUAL)
+        if (BarcodeScannerStatusManagerInstance == null || BarcodeScannerStatusManagerInstance.ActiveScannerType != BarcodeScannerType.MANUAL)
         {
             return;
         }
 
         if (_handSubsystem == null)
         {
-            Debug.LogWarning("[BarcodeScannerHandGesture] _handSubsystem is null in Update.");
+            Debug.LogWarning("[BarcodeScannerHandGesture] _handSubsystem is null in Update. Skipping hand tracking.");
             return;
         }
 
         if (BarcodeScannerGestureControllerInstance == null)
         {
-            Debug.LogError("[BarcodeScannerHandGesture] BarcodeScannerGestureControllerInstance is null! Cannot determine active hand.");
+            Debug.LogError("[BarcodeScannerHandGesture] BarcodeScannerGestureControllerInstance is null! Cannot determine active hand. Skipping.");
             return;
         }
 
         XRHand currentHand;
-        string activeHand;
+        bool isLeftHandActive = BarcodeScannerGestureControllerInstance.isLeftHandManualScanner;
+        bool isHandTracked = false;
 
-        bool isLeftHandTracked = _handSubsystem.leftHand.isTracked;
-        bool isRightHandTracked = _handSubsystem.rightHand.isTracked;
-
-        if (isLeftHandTracked && BarcodeScannerGestureControllerInstance.isLeftHandManualScanner == true)
+        if (isLeftHandActive && _handSubsystem.leftHand.isTracked)
         {
             currentHand = _handSubsystem.leftHand;
-            activeHand = "left";
+            isHandTracked = true;
         }
-        else if (isRightHandTracked && BarcodeScannerGestureControllerInstance.isLeftHandManualScanner == false)
+        else if (!isLeftHandActive && _handSubsystem.rightHand.isTracked)
         {
             currentHand = _handSubsystem.rightHand;
-            activeHand = "right";
+            isHandTracked = true;
         }
         else
         {
+            Debug.Log("[BarcodeScannerHandGesture] No active or tracked hand for manual scanner.");
             return;
         }
-
-        Debug.Log($"[BarcodeScannerHandGesture] Active Hand: {activeHand}. Is Tracked: {currentHand.isTracked}");
-
+        
         Pose thumbMetacarpalPose, thumbTipPose, thumbProximalPose, indexTipPose, indexIntermediatePose, indexMetacarpalPose, wristPose;
 
         bool success = true;
@@ -102,7 +94,7 @@ public class BarcodeScannerHandGesture : MonoBehaviour
 
         if (!success)
         {
-            Debug.LogWarning($"[BarcodeScannerHandGesture] Could not retrieve all necessary joint poses for {activeHand} hand. Returning.");
+            Debug.LogWarning("[BarcodeScannerHandGesture] Could not retrieve all necessary joint poses for active hand. Skipping frame.");
             return;
         }
 
@@ -123,46 +115,37 @@ public class BarcodeScannerHandGesture : MonoBehaviour
 
         Quaternion handBaseRotationForPosition = wristPose.rotation;
 
-        Vector3 currentLocalOffset;
+        Vector3 localOffset = new Vector3(_offsetX, _offsetY, _offsetZ);
 
-        if (activeHand == "left")
+        if (!isLeftHandActive)
         {
-            currentLocalOffset = new Vector3(_lateralOffset, _verticalOffset, _depthOffset);
-        }
-        else
-        {
-            currentLocalOffset = new Vector3(_lateralOffset / 2, _verticalOffset, _depthOffset * 2);
+            localOffset.x *= -1;
         }
 
-        if (activeHand == "right")
-        {
-            currentLocalOffset.x *= -1;
-        }
-
-        Vector3 finalFramePosition = gestureCenter + (handBaseRotationForPosition * currentLocalOffset);
+        Vector3 finalFramePosition = gestureCenter + (handBaseRotationForPosition * localOffset);
         _scanFrameRect.position = finalFramePosition;
 
         Vector3 thumbDirection = (thumbTipPos - thumbMetacarpalPos).normalized;
         Vector3 indexDirection = (indexTipPos - indexMetacarpalPos).normalized;
-
         Vector3 potentialScanFrameForward = Vector3.Cross(thumbDirection, indexDirection).normalized;
 
-        Vector3 handForwardDirection = wristPose.forward;
-
-        if (Vector3.Dot(potentialScanFrameForward, handForwardDirection) < 0)
-        {
-            potentialScanFrameForward = -potentialScanFrameForward;
-            Debug.Log($"[BarcodeScannerHandGesture] Scan Frame Forward corrected (flipped): {potentialScanFrameForward}");
-        }
-
+        Vector3 thumbIndexVector = (indexMetacarpalPos - thumbMetacarpalPos).normalized;
+        Vector3 handPalmNormal = Vector3.Cross(thumbIndexVector, (wristPose.up)).normalized;
+        
         Vector3 scanFrameForward = potentialScanFrameForward;
+
+        if (Vector3.Dot(scanFrameForward, wristPose.forward) < 0)
+        {
+            scanFrameForward = -scanFrameForward;
+            Debug.Log($"[BarcodeScannerHandGesture] Scan Frame Forward corrected (flipped) for dot product: {scanFrameForward}");
+        }
 
         Vector3 projectedIndexUp = Vector3.ProjectOnPlane(indexDirection, scanFrameForward).normalized;
 
         Vector3 scanFrameUp;
         if (projectedIndexUp.sqrMagnitude < 0.001f)
         {
-            Debug.LogWarning("[BarcodeScannerHandGesture] Projected Index Up is near zero. Using fallback.");
+            Debug.LogWarning("[BarcodeScannerHandGesture] Projected Index Up is near zero. Using wrist up as fallback.");
             Vector3 projectedWristUp = Vector3.ProjectOnPlane(wristPose.up, scanFrameForward).normalized;
             if (projectedWristUp.sqrMagnitude < 0.001f)
             {
@@ -178,28 +161,29 @@ public class BarcodeScannerHandGesture : MonoBehaviour
             scanFrameUp = projectedIndexUp;
         }
 
-        if (currentHand == _handSubsystem.rightHand)
+        if (!isLeftHandActive)
         {
             scanFrameUp = -scanFrameUp;
+            Debug.Log($"[BarcodeScannerHandGesture] Scan Frame Up inverted for Right Hand: {scanFrameUp}");
         }
 
         Quaternion baseRotation = Quaternion.LookRotation(scanFrameForward, scanFrameUp);
 
         Quaternion rollCorrection;
-
-        if (activeHand == "left")
+        if (isLeftHandActive)
         {
             rollCorrection = Quaternion.Euler(0, 0, -_baseRollAngle);
-            Debug.Log($"[BarcodeScannerHandGesture] Left Hand Roll Correction: {rollCorrection.eulerAngles}");
         }
         else
         {
             rollCorrection = Quaternion.Euler(0, 0, _baseRollAngle);
-            Debug.Log($"[BarcodeScannerHandGesture] Right Hand Roll Correction: {rollCorrection.eulerAngles}");
         }
 
         Quaternion finalLocalCorrection = Quaternion.Euler(_finalLocalRotationOffset);
 
         _scanFrameRect.rotation = baseRotation * rollCorrection * finalLocalCorrection;
+
+        Debug.Log($"[BarcodeScannerHandGesture] Final Scan Frame Position: {_scanFrameRect.position}");
+        Debug.Log($"[BarcodeScannerHandGesture] Final Scan Frame Rotation (Euler): {_scanFrameRect.rotation.eulerAngles}");
     }
 }

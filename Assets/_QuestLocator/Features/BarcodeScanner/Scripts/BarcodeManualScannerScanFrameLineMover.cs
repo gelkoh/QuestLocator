@@ -8,10 +8,8 @@ enum Direction {
 public class BarcodeManualScannerScanFrameLineMover : MonoBehaviour
 {
     [SerializeField] private float speed = 1.0f;
-    // private float topY = 0.35f;
-    // private float bottomY = -0.35f;
-    private float topY = 0.85f;
-    private float bottomY = 0.15f;
+    private float topY = 0.35f;
+    private float bottomY = -0.35f;
 
     private Vector3 startPosition;
     private Direction currentDirection = Direction.DOWN;
