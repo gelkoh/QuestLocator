@@ -29,28 +29,33 @@ public class TitlePanel : MonoBehaviour
     {
         if (parentPanel.GetZutantenPanel() != null)
         {
-            parentPanel.GetZutantenPanel().GetComponent<Panel>().setCanvasPosition(Vector3.zero);
-            parentPanel.GetZutantenPanel().GetComponent<Panel>().setCanvasRotation(parentPanel.GetContainer().eulerAngles);
+            parentPanel.GetZutantenPanel().transform.SetParent(parentPanel.GetZutatenSpawn());
+            parentPanel.GetZutantenPanel().transform.localPosition = Vector3.zero;
+            parentPanel.GetZutantenPanel().transform.localRotation = Quaternion.identity;
         }
 
         if (parentPanel.GetUmweltPanel() != null)
         {
-            parentPanel.GetUmweltPanel().GetComponent<Panel>().setCanvasPosition(Vector3.zero);
-            parentPanel.GetUmweltPanel().GetComponent<Panel>().setCanvasRotation(parentPanel.GetContainer().eulerAngles);
+            parentPanel.GetUmweltPanel().transform.SetParent(parentPanel.GetUmweltSpawn());
+            parentPanel.GetUmweltPanel().transform.localPosition = Vector3.zero;
+            parentPanel.GetUmweltPanel().transform.localRotation = Quaternion.identity;
         }
 
         if (parentPanel.GetNutriPanel() != null)
         {
-            parentPanel.GetNutriPanel().GetComponent<Panel>().setCanvasPosition(Vector3.zero);
-            parentPanel.GetNutriPanel().GetComponent<Panel>().setCanvasRotation(parentPanel.GetContainer().eulerAngles);
+            parentPanel.GetNutriPanel().transform.SetParent(parentPanel.GetNutritionSpawn());
+            parentPanel.GetNutriPanel().transform.localPosition = Vector3.zero;
+            parentPanel.GetNutriPanel().transform.localRotation = Quaternion.identity;
         }
         if (parentPanel.GetGeminiPanel() != null)
         {
-            parentPanel.GetGeminiPanel().GetComponent<Panel>().setCanvasPosition(Vector3.zero);
-            parentPanel.GetGeminiPanel().GetComponent<Panel>().setCanvasRotation(parentPanel.GetContainer().eulerAngles);
+            parentPanel.GetGeminiPanel().transform.SetParent(parentPanel.GetGeminiSpawn());
+            parentPanel.GetGeminiPanel().transform.localPosition = Vector3.zero;
+            parentPanel.GetGeminiPanel().transform.localRotation = Quaternion.identity;
         }
-        this.GetComponent<Panel>().setCanvasPosition(Vector3.zero);
-        this.GetComponent<Panel>().setCanvasRotation(parentPanel.GetContainer().eulerAngles);
+            this.transform.SetParent(parentPanel.GetTitleSpawn());
+            this.transform.localPosition = Vector3.zero;
+            this.transform.localRotation = Quaternion.identity;
     }
     public void spawnNutrientsPanel()
     {
