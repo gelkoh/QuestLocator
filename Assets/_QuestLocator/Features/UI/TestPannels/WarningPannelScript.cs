@@ -1,13 +1,10 @@
 using UnityEngine;
-using System;
 using TMPro;
-
 
 public class WarningPannelScript : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TextField;
     private PanelPositioner WarningPanelPositioner;
-    
 
     public void SetUpWarning(string warningText)
     {
@@ -15,6 +12,5 @@ public class WarningPannelScript : MonoBehaviour
         TextField.text = warningText;
         WarningPanelPositioner = GetComponent<PanelPositioner>();
         WarningPanelPositioner.PositionPanelInFrontOfCamera();
-        
     }
 }

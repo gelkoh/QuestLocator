@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Meta.WitAi.TTS.Utilities;
-using Meta.XR.ImmersiveDebugger.UserInterface.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -25,6 +24,7 @@ public class GeminiPanel : MonoBehaviour
     GameObject forChildrenButton;
     String forChildren = " in a normal, short but precise way so that a child understands the basic function or meaning. In a maximum of 434 characters. The text should be unstyled";
     List<GameObject> wordButtonList = new List<GameObject>();
+
     void Start()
     {
         ProductParent parentPanel = GetComponent<Panel>().GetProductParent();
@@ -64,7 +64,7 @@ public class GeminiPanel : MonoBehaviour
         forChildrenButton.GetComponent<WordButton>().id = 3;
         if (lastSelectedTranslationStyleIndex == 3) forChildrenButton.GetComponent<WordButton>().setActiveIndicator(true);
         wordButtonList.Add(forChildrenButton);
-        
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -121,12 +121,12 @@ public class GeminiPanel : MonoBehaviour
         List<string> chunks = new List<string>();
         string[] words = text.Split(' ');
         string currentChunk = "";
-        
+
         foreach (string word in words)
         {
             // Check if adding this word would exceed the limit
             string testChunk = string.IsNullOrEmpty(currentChunk) ? word : currentChunk + " " + word;
-            
+
             if (testChunk.Length <= maxChunkSize)
             {
                 currentChunk = testChunk;
@@ -139,7 +139,7 @@ public class GeminiPanel : MonoBehaviour
                     chunks.Add(currentChunk);
                 }
                 currentChunk = word;
-                
+
                 // Handle words longer than chunk size
                 if (word.Length > maxChunkSize)
                 {
@@ -148,14 +148,13 @@ public class GeminiPanel : MonoBehaviour
                 }
             }
         }
-        
+
         // Add the last chunk if it exists
         if (!string.IsNullOrEmpty(currentChunk))
         {
             chunks.Add(currentChunk);
         }
-        
+
         return chunks;
     }
-    
 }

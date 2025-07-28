@@ -1,6 +1,7 @@
 using UnityEngine;
 
-enum Direction {
+enum Direction
+{
     UP,
     DOWN
 }

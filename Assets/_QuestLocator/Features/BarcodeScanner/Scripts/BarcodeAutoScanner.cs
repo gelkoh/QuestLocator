@@ -134,7 +134,7 @@ public class BarcodeAutoScanner : MonoBehaviour, BarcodeScannerInterface
                 lock (_pixelLock)
                 {
                     _latestPixels = _webCamTextureManager.WebCamTexture.GetPixels32();
-    
+
                     _latestWidth = _webCamTextureManager.WebCamTexture.width;
                     _latestHeight = _webCamTextureManager.WebCamTexture.height;
                 }

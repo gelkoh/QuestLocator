@@ -9,7 +9,6 @@ public class HandRelativePositionCalculator : MonoBehaviour
 
     public GameObject webCamDisplayQuad;
 
-
     [Header("Debug")]
     public bool showDebugInfo = true;
 
@@ -24,18 +23,6 @@ public class HandRelativePositionCalculator : MonoBehaviour
             enabled = false;
         }
     }
-
-    // void Update()
-    // {
-    // if (showDebugInfo && scanFrameRect != null)
-    // {
-    // Vector3 relativePos = GetHandRelativePosition();
-    // if (Time.frameCount % 30 == 0)
-    // {
-    // _handRelativePositionDisplay.SetText($"({relativePos.x:F3}, {relativePos.y:F3}, {relativePos.z:F3})");
-    // }
-    // }
-    // }
 
     public Vector2 GetHandScreenPosition()
     {
@@ -78,7 +65,7 @@ public class HandRelativePositionCalculator : MonoBehaviour
 
         return relativePosition;
     }
-    
+
     private float Skew(float value, float power)
     {
         if (value < 0.5f)

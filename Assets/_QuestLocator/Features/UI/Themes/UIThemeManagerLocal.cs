@@ -21,7 +21,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Serialization;
 using System;
 
 namespace Oculus.Interaction
@@ -41,17 +40,6 @@ namespace Oculus.Interaction
 
         public event Action OnThemeApplied;
 
-
-        // private bool _isInitialized = false;
-        // private int _lastThemeIndex;
-
-        // void Awake()
-        // {
-        //     _lastThemeIndex = PlayerPrefs.GetInt("LastThemeIndex", 0);
-        //     Debug.Log($"[UIThemeManagerLocal] Start: Loading last theme index from PlayerPrefs: {_lastThemeIndex}.");
-        //     _isInitialized = true;
-        // }
-
         void Start()
         {
             // ApplyTheme(_lastThemeIndex);
@@ -65,10 +53,6 @@ namespace Oculus.Interaction
 
         public void ApplyTheme(int index)
         {
-            // if (!_isInitialized) return;
-
-            //Debug.LogError("Apply theme " + index);
-            // Check for out of range error ("index" is the parameter passed in, not the current theme index
             if (index < 0 || index >= _themes.Length)
             {
                 Debug.LogError("Theme index out of range.");
@@ -76,9 +60,6 @@ namespace Oculus.Interaction
             }
 
             _currentThemeIndex = index;
-            // PlayerPrefs.SetInt("LastThemeIndex", _currentThemeIndex); // Speichere den neuen Index sofort
-            // PlayerPrefs.Save(); // WICHTIG: Speichern erzwingen, besonders vor App-Ende
-            // Debug.Log($"[UIThemeManagerLocal] Theme changed to {index} and saved to PlayerPrefs.");
 
             UITheme selectedTheme = _themes[index];
 
@@ -126,10 +107,7 @@ namespace Oculus.Interaction
                 animator.Update(0);
             }
 
-            // Apply color to all image objects under the canvas. For interactable elements, updates default normal state for editor view.
-            // Image[] images = GetComponentsInChildren<Image>();
-
-            Image[] images = GetComponentsInChildren<Image>(true); // Füge (true) hinzu, um auch inaktive Kinder zu finden
+            Image[] images = GetComponentsInChildren<Image>(true);
 
 
             foreach (var image in images)
@@ -179,33 +157,17 @@ namespace Oculus.Interaction
                     // v2 visual design, optional: Apply the gradient material to the backplate
                     if (image.CompareTag("QDSUIBackplateGradient"))
                     {
-                        // image.color = selectedTheme.backplateColor;
-                        // image.material = selectedTheme.backplateGradientMaterial;
-
-                        // WICHTIG: Erstelle eine INSTANZ des Materials, bevor du es zuweist
-                        // Dadurch wird sichergestellt, dass Änderungen an diesem Material
-                        // NUR DIESE EINE INSTANZ betreffen und nicht das Original-Asset
-                        // oder andere Panels, die es verwenden.
-                        if (image.material != selectedTheme.backplateGradientMaterial) // Nur instanziieren, wenn es nicht schon dieses Material ist
+                        if (image.material != selectedTheme.backplateGradientMaterial)
                         {
-                            // Wenn das aktuelle Material des Image nicht bereits eine Instanz des Theme-Materials ist,
-                            // oder wenn es das Shared Material ist, dann instanziere es.
-                            // Wenn image.material bereits eine Instanz ist, aber von einem ANDEREN Theme,
-                            // dann wollen wir es auch aktualisieren.
-                            // Die sicherste Methode ist, immer eine neue Instanz zu erstellen, wenn sich das zugrundeliegende Material ändert.
-
-                            // Wenn das Image bereits eine Materialinstanz hat, die nicht das gewünschte Theme-Material ist,
-                            // zerstöre die alte Instanz, um Memory Leaks zu vermeiden.
                             if (image.material != null && image.material.name.EndsWith("(Instance)") && image.material != selectedTheme.backplateGradientMaterial)
                             {
-                                Destroy(image.material); // Zerstöre die alte Materialinstanz
+                                Destroy(image.material);
                             }
 
-                            // Instanziiere das Theme-Material und weise es zu
                             image.material = Instantiate(selectedTheme.backplateGradientMaterial);
                             Debug.Log($"[UIThemeManagerLocal] Instantiated and assigned new material instance for {image.name} (Tag: QDSUIBackplateGradient).");
                         }
-                        image.color = selectedTheme.backplateColor; // Setze die Farbe auf der Instan
+                        image.color = selectedTheme.backplateColor;
                     }
 
                     // v2 visual design, handle inverted colors on images
@@ -258,7 +220,7 @@ namespace Oculus.Interaction
                     }
                 }
             }
-            
+
             OnThemeApplied?.Invoke();
         }
     }

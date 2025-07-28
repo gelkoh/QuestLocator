@@ -1,25 +1,15 @@
 using System;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+
 public class Footprint : MonoBehaviour
 {
     private ProductParent productDisplayScript;
     [SerializeField] TextMeshProUGUI title;
-    
     [SerializeField] TextMeshProUGUI EcoGradeTF;
     [SerializeField] TextMeshProUGUI EcoScoreTF;
     [SerializeField] TextMeshProUGUI Co2TF;
     [SerializeField] GameObject PackagingSection;
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        //productDisplayScript = GetComponentInParent<ProductParent>();
-        //FillInfo();
-        
-    }
 
     public void FillInfo()
     {
@@ -37,6 +27,7 @@ public class Footprint : MonoBehaviour
         }
 
         Debug.Log("score: " + productDisplayScript.productData.Product.EcoscoreData.Score);
+
         if (productDisplayScript.productData.Product.EcoscoreData?.Score != null)
         {
             EcoScoreTF.text = productDisplayScript.productData.Product.EcoscoreData.Score.ToString();
@@ -47,6 +38,7 @@ public class Footprint : MonoBehaviour
         }
 
         Debug.Log("co2: " + productDisplayScript.productData.Product.EcoscoreData.Agribalyse.Co2Total);
+
         if (productDisplayScript.productData.Product.EcoscoreData?.Agribalyse?.Co2Total != null)
         {
             double co2Value = productDisplayScript.productData.Product.EcoscoreData.Agribalyse.Co2Total.Value;
@@ -87,8 +79,5 @@ public class Footprint : MonoBehaviour
             var tmp = textObj.AddComponent<TextMeshProUGUI>();
             tmp.text = "No packaging information available.";
         }
-        
-
-        
     }
 }

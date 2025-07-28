@@ -5,7 +5,6 @@ using static BarcodeScannerEventManager;
 public class BarcodeScannerStatusManager : MonoBehaviour
 {
     public static BarcodeScannerStatusManager BarcodeScannerStatusManagerInstance { get; private set; }
-
     public bool IsScannerActive { get; private set; } = false;
     public BarcodeScannerType ActiveScannerType { get; private set; } = BarcodeScannerType.NONE;
 

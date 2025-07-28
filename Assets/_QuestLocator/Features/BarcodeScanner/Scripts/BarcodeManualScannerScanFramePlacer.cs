@@ -80,7 +80,7 @@ public class BarcodeScannerHandGesture : MonoBehaviour
             Debug.Log("[BarcodeScannerHandGesture] No active or tracked hand for manual scanner.");
             return;
         }
-        
+
         Pose thumbMetacarpalPose, thumbTipPose, thumbProximalPose, indexTipPose, indexIntermediatePose, indexMetacarpalPose, wristPose;
 
         bool success = true;
@@ -131,7 +131,7 @@ public class BarcodeScannerHandGesture : MonoBehaviour
 
         Vector3 thumbIndexVector = (indexMetacarpalPos - thumbMetacarpalPos).normalized;
         Vector3 handPalmNormal = Vector3.Cross(thumbIndexVector, (wristPose.up)).normalized;
-        
+
         Vector3 scanFrameForward = potentialScanFrameForward;
 
         if (Vector3.Dot(scanFrameForward, wristPose.forward) < 0)
@@ -143,13 +143,14 @@ public class BarcodeScannerHandGesture : MonoBehaviour
         Vector3 projectedIndexUp = Vector3.ProjectOnPlane(indexDirection, scanFrameForward).normalized;
 
         Vector3 scanFrameUp;
+
         if (projectedIndexUp.sqrMagnitude < 0.001f)
         {
             Debug.LogWarning("[BarcodeScannerHandGesture] Projected Index Up is near zero. Using wrist up as fallback.");
             Vector3 projectedWristUp = Vector3.ProjectOnPlane(wristPose.up, scanFrameForward).normalized;
             if (projectedWristUp.sqrMagnitude < 0.001f)
             {
-                scanFrameUp = Vector3.up; 
+                scanFrameUp = Vector3.up;
             }
             else
             {
@@ -170,6 +171,7 @@ public class BarcodeScannerHandGesture : MonoBehaviour
         Quaternion baseRotation = Quaternion.LookRotation(scanFrameForward, scanFrameUp);
 
         Quaternion rollCorrection;
+
         if (isLeftHandActive)
         {
             rollCorrection = Quaternion.Euler(0, 0, -_baseRollAngle);

@@ -10,6 +10,7 @@ public class ScalePanel : MonoBehaviour
         orgSize = this.GetComponent<RectTransform>().sizeDelta;
 
     }
+
     public void reduceSize(GameObject obj)
     {
         if (obj != null && obj.GetComponent<RectTransform>() != null)
@@ -23,6 +24,7 @@ public class ScalePanel : MonoBehaviour
             Debug.LogWarning("NO RectTransform Connected");
         }
     }
+
     public void expandSize()
     {
         this.GetComponent<RectTransform>().sizeDelta = orgSize;

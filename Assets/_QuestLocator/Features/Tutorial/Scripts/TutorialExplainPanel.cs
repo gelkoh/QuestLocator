@@ -76,7 +76,7 @@ public class TutorialExplainPanel : BaseTutorialPanel
 
         if (previousButton != null)
             previousButton.onClick.AddListener(OnPreviousButton); // From base TutorialPanel 
-       
+
         if (closeButton != null)
         {
             closeButton.onClick.AddListener(OnSkipButton); // Calls base panel skip logic

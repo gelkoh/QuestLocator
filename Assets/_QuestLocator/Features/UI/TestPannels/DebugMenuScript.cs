@@ -14,12 +14,14 @@ public class DebugMenuScript : MonoBehaviour
         Application.logMessageReceived += HandleLog;
         Debug.LogError("Debug Menu aktiviert");
     }
+
     private void OnDisable()
     {
         Application.logMessageReceived -= HandleLog;
         ClearLog();
 
     }
+
     void HandleLog(string logString, string stackTrace, LogType type)
     {
         if (type == LogType.Error)
@@ -29,7 +31,7 @@ public class DebugMenuScript : MonoBehaviour
         ErrorTF.text = output;
 
     }
-    
+
     public void CreateError()
     {
         Debug.LogError("errorButton");

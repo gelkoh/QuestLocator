@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using static NutritionCalculator;
 using static DisplayModeManager;
-using Oculus.Interaction;
 
 public class NutrientsPannelScript : MonoBehaviour
 {
@@ -35,7 +34,6 @@ public class NutrientsPannelScript : MonoBehaviour
         productDisplayScript = GetComponentInParent<ProductParent>();
         TryFillBars(NutritionCalculatorInstance.CurrentNutritionRecommendation);
 
-        // activeModeText.SetText(DisplayModeManagerInstance.GetTextForMode(DisplayMode.Per100gVsNeed));
         activeModeText.SetText(DisplayModeManagerInstance.GetTextForMode(DisplayModeManagerInstance.CurrentMode));
     }
 
@@ -58,9 +56,8 @@ public class NutrientsPannelScript : MonoBehaviour
         {
             productName.text = productDisplayScript.productData.Product.ProductName;
         }
-        // Fülle die Balken mit dem aktiven Modus
+
         nutrientBarFiller.FillBars(productDisplayScript.productData.Product, nutritionRecommendation);
-        
     }
 
     private void HandleNutritionRecommendationCalculated(NutritionRecommendation nutritionRecommendation)

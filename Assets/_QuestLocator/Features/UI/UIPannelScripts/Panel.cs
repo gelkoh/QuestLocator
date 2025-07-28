@@ -10,16 +10,19 @@ public class Panel : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
     public void pannelDelete(int pannel)
     {
         if (pannel == 1) productparent.GetComponentInChildren<TitlePanel>().spawnNutrientsPanel();
         else if (pannel == 2) productparent.GetComponentInChildren<TitlePanel>().spawnZutatenPanel();
         else if (pannel == 3) productparent.GetComponentInChildren<TitlePanel>().spawnUmweltPanel();
     }
+
     public void DestroyAll()
     {
         Destroy(productparent.gameObject);
     }
+
     public void SetProductParent(ProductParent productparent)
     {
         this.productparent = productparent;
@@ -32,11 +35,12 @@ public class Panel : MonoBehaviour
 
     public void setCanvasPosition(Vector3 newPos)
     {
-        Debug.Log("spawn"+spawn);
+        Debug.Log("spawn" + spawn);
         this.transform.SetParent(spawn);
-        Debug.Log("child"+this.gameObject.transform.GetChild(0));
+        Debug.Log("child" + this.gameObject.transform.GetChild(0));
         this.gameObject.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition3D = newPos;
     }
+
     public void setCanvasRotation(Vector3 newRotation)
     {
         Debug.Log("Angle " + this.gameObject.transform.GetChild(0).GetComponent<RectTransform>().eulerAngles);
@@ -47,7 +51,9 @@ public class Panel : MonoBehaviour
     {
         this.transform.SetParent(productparent.transform);
     }
-    public void SetSpawn(Transform spawn){
+
+    public void SetSpawn(Transform spawn)
+    {
         this.spawn = spawn;
     }
 }

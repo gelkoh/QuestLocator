@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogWarning("TTSSpeaker not found on IntroPanel. Please add a TTSSpeaker component as a child.");
         }
+
         // Set "persistant" panels inactive instead of destroying them (because they will never exist multiple times in the scene anyways)
         if (_persitantPanels != null)
         {
@@ -69,12 +70,13 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
         WarningPannelParentScript warningPannelParentScript = WarningPannelManager.GetComponent<WarningPannelParentScript>();
 
         if (WarningPannelManager != null)
         {
             warningPannelParentScript.ClearWarningPannels();
         }
-        
+
     }
 }

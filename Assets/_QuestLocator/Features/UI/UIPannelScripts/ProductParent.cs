@@ -38,7 +38,7 @@ public class ProductParent : MonoBehaviour
     private Color _productBorderColorB;
 
     private List<Color> _availableBorderColorsA = new() { Color.blue, Color.green, Color.yellow, Color.magenta, new Color(255, 255, 0), Color.cyan };
-    private List<Color> _availableBorderColorsB = new() { Color.blue * 0.5f, Color.green * 0.5f, Color.yellow * 0.5f, Color.magenta * 0.5f, new Color(255, 255, 0) * 0.5f, Color.cyan * 0.5f }; 
+    private List<Color> _availableBorderColorsB = new() { Color.blue * 0.5f, Color.green * 0.5f, Color.yellow * 0.5f, Color.magenta * 0.5f, new Color(255, 255, 0) * 0.5f, Color.cyan * 0.5f };
 
     private static int _nextColorIndex = 0;
 
@@ -54,16 +54,16 @@ public class ProductParent : MonoBehaviour
         }
         else
         {
-            themeManager.OnThemeApplied += ApplyBorderColorToAllPanels;      
+            themeManager.OnThemeApplied += ApplyBorderColorToAllPanels;
         }
 
         UpdateTheme();
         Debug.Log("ProductParent Start method called.");
     }
-    
+
     void OnDestroy()
     {
-        themeManager.OnThemeApplied -= ApplyBorderColorToAllPanels;  
+        themeManager.OnThemeApplied -= ApplyBorderColorToAllPanels;
     }
 
     public void SetProductData(Root productRoot)
@@ -142,14 +142,6 @@ public class ProductParent : MonoBehaviour
             Debug.LogWarning($"[ProductParent PanelMover] Panel instance is null. Cannot apply border color.");
             return;
         }
-
-        // Transform canvasRootTransform = panelInstance.transform.Find("CanvasRoot");
-
-        // if (canvasRootTransform == null)
-        // {
-        //     Debug.LogWarning($"[ProductParent PanelMover] No 'CanvasRoot' child found on {panelInstance.name}. Cannot apply border color.");
-        //     return;
-        // }
 
         Transform uiBackplateTransform = panelInstance.transform.Find("UIBackplate");
 
@@ -240,8 +232,8 @@ public class ProductParent : MonoBehaviour
         {
             Debug.LogError("Error instancing TitlePannel: " + ex.Message);
         }
-
     }
+
     public GameObject GetTitlePanel()
     {
         return titlePanelInstance;
@@ -266,7 +258,6 @@ public class ProductParent : MonoBehaviour
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetTextSection().text = response;
                 geminiPanelInstance.GetComponent<GeminiPanel>().SetPrompt(prompt);
                 geminiPanelInstance.GetComponent<GeminiPanel>().GetPanelTitle().text = prompt + " Explained";
-                //geminiPanelInstance.GetComponent<GeminiPanel>().SetButtons(prompt);
                 Debug.LogError("update Theme gemini");
                 UpdateTheme();
                 geminiPanelInstance.GetComponent<GeminiPanel>().StopTtsSpeaker();

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System;
 using Unity.XR.CoreUtils;
 
-
 public class WarningPannelParentScript : MonoBehaviour
 {
     [SerializeField] GameObject WarnigPannelPrefab;
@@ -13,7 +12,6 @@ public class WarningPannelParentScript : MonoBehaviour
 
     private UIThemeManagerLocal themeManager;
 
-    //private GameObject[] warningPanels;
     private List<GameObject> warningPanels = new List<GameObject>();
 
     private String lastErrorMessage;
@@ -38,22 +36,21 @@ public class WarningPannelParentScript : MonoBehaviour
             warningPanels.Clear();
             gameObject.GetChildGameObjects(warningPanels);
 
-            //Debug.LogError(warningPanels.Count);
-            if (warningPanels.Count > maxPannelCount) //if the pannel count is bigger than the max allowed, destroy the first one
+            if (warningPanels.Count > maxPannelCount) // if the pannel count is bigger than the max allowed, destroy the first one
             {
-                Destroy(warningPanels[0]); //destroy first pannel
+                Destroy(warningPanels[0]); // destroy first pannel
                 Debug.LogError("destroyed");
             }
 
             themeManager.ApplyCurrentTheme();
         }
-
     }
 
     public void ClearWarningPannels()
     {
         warningPanels.Clear();
         gameObject.GetChildGameObjects(warningPanels);
+
         foreach (GameObject panel in warningPanels)
         {
             Destroy(panel);

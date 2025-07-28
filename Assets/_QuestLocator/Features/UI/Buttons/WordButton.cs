@@ -10,17 +10,19 @@ public class WordButton : MonoBehaviour
     [SerializeField] GameObject loadingPrefab;
     [SerializeField] GameObject ActiveIndicator;
     [SerializeField] GameObject Gap;
-    public int id { get; set; } 
+    public int id { get; set; }
     string promptWord;
     string promptSentence;
     List<GameObject> list;
+
     void Start()
     {
         aPI_Manager = GameObject.FindWithTag("API_Manager").GetComponent<APIManager>();
         if (parentPanel.gameObject.GetComponent<IngredientPannel>() != null)
         {
             list = parentPanel.gameObject.GetComponent<IngredientPannel>().GetWordList();
-        }else if(parentPanel.gameObject.GetComponent<GeminiPanel>() != null)
+        }
+        else if (parentPanel.gameObject.GetComponent<GeminiPanel>() != null)
         {
             list = parentPanel.gameObject.GetComponent<GeminiPanel>().GetWordList();
         }
@@ -66,7 +68,7 @@ public class WordButton : MonoBehaviour
 
     public void setActiveIndicator(bool activeIndicator)
     {
-        Debug.LogError(activeIndicator + " id:"+id+" promt:" + promptWord);
+        Debug.LogError(activeIndicator + " id:" + id + " promt:" + promptWord);
         Gap.SetActive(activeIndicator);
         ActiveIndicator.SetActive(activeIndicator);
     }

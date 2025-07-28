@@ -151,7 +151,7 @@ public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
                         float webcamHeight = _webCamTextureManager.WebCamTexture.height;
                         float webcamAspectRatio = webcamWidth / webcamHeight;
 
-                        float quadWorldZDistance = 1f; 
+                        float quadWorldZDistance = 1f;
 
                         float mainCamFOV_rad = _mainCamera.fieldOfView * Mathf.Deg2Rad;
                         float quadHeightInWorld = 2f * quadWorldZDistance * Mathf.Tan(mainCamFOV_rad / 2f);
@@ -163,7 +163,7 @@ public class BarcodeManualScanner : MonoBehaviour, BarcodeScannerInterface
                         _webCamDisplayQuad.transform.rotation = _mainCamera.transform.rotation;
                         // _webCamDisplayQuad.transform.position = _mainCamera.transform.position + _mainCamera.transform.forward * quadWorldZDistance;
 
-            
+
 
                         Debug.Log($"[BarcodeManualScanner] Quad Setup: Scale={_webCamDisplayQuad.transform.localScale}, Pos={_webCamDisplayQuad.transform.position}, Rot={_webCamDisplayQuad.transform.rotation}");
                     }

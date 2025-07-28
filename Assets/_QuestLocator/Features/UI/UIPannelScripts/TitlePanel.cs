@@ -1,6 +1,5 @@
 using Meta.WitAi;
 using TMPro;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +19,7 @@ public class TitlePanel : MonoBehaviour
     public bool NutrientsIsActive = true;
     public bool ZutatenIsActive = false;
     public bool UmweltIsACtive = false;
+
     void Start()
     {
         parentPanel = GetComponent<Panel>().GetProductParent();
@@ -47,15 +47,17 @@ public class TitlePanel : MonoBehaviour
             parentPanel.GetNutriPanel().transform.localPosition = Vector3.zero;
             parentPanel.GetNutriPanel().transform.localRotation = Quaternion.identity;
         }
+
         if (parentPanel.GetGeminiPanel() != null)
         {
             parentPanel.GetGeminiPanel().transform.SetParent(parentPanel.GetGeminiSpawn());
             parentPanel.GetGeminiPanel().transform.localPosition = Vector3.zero;
             parentPanel.GetGeminiPanel().transform.localRotation = Quaternion.identity;
         }
-            this.transform.SetParent(parentPanel.GetTitleSpawn());
-            this.transform.localPosition = Vector3.zero;
-            this.transform.localRotation = Quaternion.identity;
+
+        this.transform.SetParent(parentPanel.GetTitleSpawn());
+        this.transform.localPosition = Vector3.zero;
+        this.transform.localRotation = Quaternion.identity;
     }
     public void spawnNutrientsPanel()
     {

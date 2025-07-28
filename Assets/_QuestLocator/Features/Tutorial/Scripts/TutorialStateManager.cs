@@ -212,7 +212,6 @@ public class TutorialStateManager : MonoBehaviour
                     _currentPanelPositioner.PositionPanelInFrontOfCamera();
                 }
 
-                // panelInstance.transform.Find("CanvasRoot");
                 firstPanelPosition = currentPanel.transform.Find("CanvasRoot").transform.position;
                 firstPanelRotation = currentPanel.transform.Find("CanvasRoot").transform.rotation;
                 firstPanelWasPositioned = true;
@@ -221,7 +220,6 @@ public class TutorialStateManager : MonoBehaviour
             {
                 currentPanel.transform.Find("CanvasRoot").transform.position = firstPanelPosition;
                 currentPanel.transform.Find("CanvasRoot").transform.rotation = firstPanelRotation;
-                // currentPanel.gameObject.transform.position = firstPanelPosition;currentPanel.transform.Find("CanvasRoot").transform.position;
             }
 
             Debug.Log($"[TutorialStateManager]: firstPanelWasPosition: {firstPanelWasPositioned}");
@@ -233,7 +231,7 @@ public class TutorialStateManager : MonoBehaviour
         {
             Debug.LogWarning($"[TutorialStateManager] prefab at index {currentPanelIndex} is null!");
         }
-        
+
         // Update theme so pannel has correct colors
         if (themeManager != null)
         {

@@ -4,15 +4,15 @@ using UnityEngine.Networking;
 
 public class APIManager : MonoBehaviour
 {
-    [SerializeField] private string gasURL; //Google App Script URL
-
-     private string response = "";
+    [SerializeField] private string gasURL; // Google App Script URL
+    private string response = "";
 
     public void GetAiResponse(string promptWord, string promptSentence, System.Action<string> callback)
     {
-        string prompt = "Explain the ingredient -" + promptWord +"- of a food product"+ promptSentence;
+        string prompt = "Explain the ingredient -" + promptWord + "- of a food product" + promptSentence;
         StartCoroutine(SendDataToGAS(prompt, callback));
     }
+
     private IEnumerator SendDataToGAS(string prompt, System.Action<string> callback)
     {
         WWWForm form = new WWWForm();

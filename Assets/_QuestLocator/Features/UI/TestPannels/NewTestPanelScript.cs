@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -8,6 +7,7 @@ public class NewTestPanelScript : MonoBehaviour
     private ProductParent productDisplayScript;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] GameObject IngredientsSection;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

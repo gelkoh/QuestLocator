@@ -1,17 +1,15 @@
 using System;
 using UnityEngine;
 using static BarcodeProcessor;
-using TMPro;
 using static NutritionCalculator;
-using static DisplayModeManager;
 
 public class ProductDisplayManager : MonoBehaviour
 {
     [SerializeField] private GameObject productPrefab;
     [SerializeField] private Transform productPrefabParent;
-    
+
     [Header("Product Display Positioning")]
-    [SerializeField] private float distanceFromCamera = 2.0f; 
+    [SerializeField] private float distanceFromCamera = 2.0f;
     [SerializeField] private Vector3 displayOffset = new Vector3(0, 0, 0);
 
     private Camera mainCamera;
@@ -75,11 +73,13 @@ public class ProductDisplayManager : MonoBehaviour
     public void InstantiateAndFillProductPrefab(Root productRoot)
     {
         Debug.LogError("inInstancingAndFill---");
+
         if (productPrefab == null)
         {
             Debug.LogError("Product Prefab is not assigned in the Inspector of ProductDisplayManager!");
             return;
         }
+
         if (mainCamera == null)
         {
             Debug.LogError("Main Camera is null! Cannot spawn product prefab.");
@@ -109,35 +109,13 @@ public class ProductDisplayManager : MonoBehaviour
                 newProductGO.name = $"ProductDisplay_Unknown";
             }
 
-            // THIS IS NOT OPTIMAL AND IN FACT DOESN'T WORK
-            // TMP_Text modeText = newProductGO.transform.Find("CanvasRoot/UIBackplate/Content/Content/ActiveModeText")?.GetComponent<TMP_Text>();
-
-            // if (modeText != null)
-            // {
-            //     DisplayModeManagerInstance.SetActiveModeText(modeText);
-            // }
-            // else
-            // {
-            //     Debug.LogWarning("ActiveModeText nicht gefunden im neuen Produkt-UI!");
-            // }
-
             ProductParent productDisplayScript = newProductGO.GetComponent<ProductParent>();
 
-
-            // if (productDisplayScript != null)
-            // {
-            //     productDisplayScript.SetProductData(productRoot);
-            // }
-            // else
-            // {
-            //     Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
-            // }
             if (productDisplayScript != null)
             {
                 productDisplayScript.SetProductData(productRoot);
-
-                // Jetzt sicherstellen, dass NutrientsPannelScript korrekt gefüllt wird
                 NutrientsPannelScript panelScript = newProductGO.GetComponentInChildren<NutrientsPannelScript>();
+
                 if (panelScript != null)
                 {
                     panelScript.InitAfterDataAvailable(NutritionCalculatorInstance.CurrentNutritionRecommendation);
@@ -147,8 +125,6 @@ public class ProductDisplayManager : MonoBehaviour
             {
                 Debug.LogWarning("Product Prefab does not have a 'ProductDisplay' script attached!");
             }
-
- 
         }
         catch (Exception ex)
         {

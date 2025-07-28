@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private OVRInput.Button inputAction;
     [SerializeField] private GameObject infoDisplay;
     [SerializeField] private string promptWord = "Nutella";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -23,8 +24,9 @@ public class GameManager : MonoBehaviour
         HandleInputs(OVRInput.Hand.HandLeft);
     }
 
-    private void HandleInputs(OVRInput.Hand hand){ 
-        
+    private void HandleInputs(OVRInput.Hand hand)
+    {
+
     }
 
     private void SelectAction() //
@@ -32,4 +34,3 @@ public class GameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 }
- 

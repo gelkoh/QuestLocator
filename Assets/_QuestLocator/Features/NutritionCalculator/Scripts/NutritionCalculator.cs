@@ -25,7 +25,7 @@ public class NutritionCalculator : MonoBehaviour
     public float CurrentPhysicalActivityLevel => _physicalActivityLevel;
 
     private readonly List<NutritionData> nutritionDataList = new();
-    
+
     private SavedBodyMetrics _savedBodyMetrics = new();
     private string _saveFilePath = "";
 
@@ -48,7 +48,7 @@ public class NutritionCalculator : MonoBehaviour
         }
 
         _saveFilePath = Path.Combine(Application.persistentDataPath, "saved-body-metrics.json");
-        
+
         if (File.Exists(_saveFilePath))
         {
             try
@@ -135,7 +135,7 @@ public class NutritionCalculator : MonoBehaviour
             1 => "Weiblich",
             _ => throw new NotImplementedException()
         };
-        
+
         UpdateAndScheduleSave();
     }
 
@@ -153,14 +153,14 @@ public class NutritionCalculator : MonoBehaviour
 
     public void OnPhysicalActivityLevelValueChanged(float pal)
     {
-        _physicalActivityLevel = pal / 10f; 
+        _physicalActivityLevel = pal / 10f;
         UpdateAndScheduleSave();
     }
 
     private void UpdateAndScheduleSave()
     {
         UpdateNutritionRecommendation();
-        
+
         if (_saveCoroutine != null)
         {
             StopCoroutine(_saveCoroutine);
@@ -290,23 +290,4 @@ public class NutritionCalculator : MonoBehaviour
             Debug.LogError($"[NutritionCalculator] Error saving body metrics: {ex.Message}");
         }
     }
-
-    // private void ClearSavedBodyMetrics()
-    // {
-    //     if (File.Exists(_saveFilePath))
-    //     {
-    //         File.Delete(_saveFilePath);
-    //         Debug.Log("[NutritionCalculator] Saved body metrics file deleted.");
-    //     }
-       
-    //     _sex = "Männlich";
-    //     _age = 25;
-    //     _weight = 70;
-    //     _physicalActivityLevel = 1.8f;
-
-    //     SaveBodyMetricsInstant();
-
-    //     Debug.Log("[NutritionCalculator] Body metrics cleared and reset to defaults.");
-    //     UpdateNutritionRecommendation();
-    // }
 }

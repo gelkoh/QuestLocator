@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ColliderResizer : MonoBehaviour
 {
@@ -8,12 +7,12 @@ public class ColliderResizer : MonoBehaviour
     private RectTransform cubeRect;
     private RectTransform cube2Rect;
     private BoxCollider boxCollider;
-
     private RectTransform selfRect;
 
     void Start()
     {
         backplate = transform.Find("UIBackplate");
+
         if (backplate == null)
         {
             Debug.LogError("UIBackplate not found!");
@@ -21,17 +20,20 @@ public class ColliderResizer : MonoBehaviour
         }
 
         rectTransform = backplate.GetComponent<RectTransform>();
+
         if (rectTransform == null)
         {
             Debug.LogError("RectTransform not found on UIBackplate!");
             return;
         }
+
         boxCollider = GetComponent<BoxCollider>();
 
         selfRect = GetComponent<RectTransform>();
-
     }
+
     int a = 0;
+
     void Update()
     {
 
@@ -46,6 +48,7 @@ public class ColliderResizer : MonoBehaviour
             a++;
         }
     }
+
     public void UpdateCollider()
     {
         if (rectTransform == null || cubeRect == null) return;
@@ -70,11 +73,10 @@ public class ColliderResizer : MonoBehaviour
 
         Debug.Log("Collider size: " + boxCollider.size + ", center: " + boxCollider.center);
     }
-    
+
     public void UpdateCanvas()
     {
         Vector2 childSize = rectTransform.rect.size;
         selfRect.sizeDelta = new Vector2(childSize.x, childSize.y);
     }
-    
 }

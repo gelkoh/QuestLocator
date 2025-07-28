@@ -10,6 +10,7 @@ public class ToggleTTS : MonoBehaviour
     [SerializeField] private Sprite unmuteSprite;
     [SerializeField] private TextMeshProUGUI text;
     private bool muted = false;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

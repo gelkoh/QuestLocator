@@ -11,10 +11,11 @@ public class DisplayModeButtonInitializer : MonoBehaviour
     {
         if (button != null)
         {
-            button.onClick.AddListener(() => {
+            button.onClick.AddListener(() =>
+            {
                 if (DisplayModeManagerInstance != null)
                     Debug.Log($"[DisplayModeButtonInitializer]: Setting mode to {modeToSet}");
-                    DisplayModeManagerInstance.SetMode(modeToSet);
+                DisplayModeManagerInstance.SetMode(modeToSet);
             });
         }
     }

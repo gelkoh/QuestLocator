@@ -81,6 +81,5 @@ public class TutorialGenericPanel : BaseTutorialPanel
         {
             closeButton.onClick.AddListener(OnSkipButton); // Calls base panel skip logic
         }
-
     }
 }

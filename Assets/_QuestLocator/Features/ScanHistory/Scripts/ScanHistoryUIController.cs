@@ -15,10 +15,8 @@ public class ProductHistoryUIController : MonoBehaviour
 
     [SerializeField] private UIThemeManagerLocal _themeManager;
 
-
     private Camera mainCamera;
     private PanelPositioner _scanHistoryPanelPositioner;
-
 
     void OnEnable()
     {
@@ -64,16 +62,6 @@ public class ProductHistoryUIController : MonoBehaviour
 
     void Start()
     {
-        // if (ScanHistoryManagerInstance != null)
-        // {
-        //     ScanHistoryManagerInstance.OnHistoryChanged += HandleHistoryChanged;
-        //     Debug.Log("ScanHistoryUIController: Subscribed to history changed event.");
-        // }
-        // else
-        // {
-        //     Debug.LogWarning("ScanHistoryUIController: ScanHistoryManagerInstance not yet available. Subscription deferred.");
-        // }
-
         UpdateUI();
     }
 
@@ -112,7 +100,6 @@ public class ProductHistoryUIController : MonoBehaviour
     {
         Debug.Log("ScanHistoryUIController: Handling view button click");
         ProductDisplayManagerInstance.InstantiateAndFillProductPrefab(productRoot);
-        // InstantiateProduct(productRoot);
     }
 
     private void HandleRemoveButtonClick(Root productRoot)

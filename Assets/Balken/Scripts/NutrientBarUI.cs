@@ -62,8 +62,8 @@ public class NutrientBarUI : MonoBehaviour
 
         float prozent = Mathf.Clamp01(aktuellerWert / tagesMax);
 
-        if (nameText != null) nameText.text = naehrstoffName +"  "+ $"{aktuellerWert:F1} {einheit}";
-        
+        if (nameText != null) nameText.text = naehrstoffName + "  " + $"{aktuellerWert:F1} {einheit}";
+
         if (slider != null)
         {
             slider.maxValue = 1f;
@@ -82,7 +82,8 @@ public class NutrientBarUI : MonoBehaviour
         {
             if (slider != null)
             {
-                DOTween.To(() => slider.value, x => {
+                DOTween.To(() => slider.value, x =>
+                {
                     slider.value = x;
                     UpdateFarbe(x);
                 }, prozent, 1.5f).SetEase(Ease.InOutQuad);

@@ -8,13 +8,9 @@ public class ScanHistoryManager : MonoBehaviour
 {
     // Singleton
     public static ScanHistoryManager ScanHistoryManagerInstance { get; private set; }
-
     public event Action OnHistoryChanged;
-
     [SerializeField] private int _maxSavedProductsAmount = 100;
-
     private SavedProductsData _savedProductsData = new SavedProductsData();
-
     private string _saveFilePath = "";
 
     void Awake()
@@ -30,7 +26,7 @@ public class ScanHistoryManager : MonoBehaviour
 
         _saveFilePath = Path.Combine(Application.persistentDataPath, "scanned-products.json");
         Debug.Log($"ScanHistoryManager: Save File Path: {_saveFilePath}");
-        LoadProducts();   
+        LoadProducts();
     }
 
     public void AddProductAndSave(Root productRoot)

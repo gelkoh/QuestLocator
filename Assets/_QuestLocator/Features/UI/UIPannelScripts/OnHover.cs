@@ -9,17 +9,17 @@ public class OnHover : MonoBehaviour
     [SerializeField] GameObject icon;
     [SerializeField] HorizontalLayoutGroup horizontalLayoutGroup;
     bool hovering = false;
-   
+
     IEnumerator expand()
     {
         yield return new WaitForSeconds(1);
+
         if (hovering)
         {
             text.SetActive(true);
             icon.SetActive(false);
             horizontalLayoutGroup.childAlignment = TextAnchor.MiddleLeft;
         }
-        
     }
 
     void collaps()
@@ -27,7 +27,6 @@ public class OnHover : MonoBehaviour
         text.SetActive(false);
         icon.gameObject.SetActive(true);
         horizontalLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
-
     }
 
     public void isHovering(bool hovering)
